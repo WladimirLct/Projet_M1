@@ -29,6 +29,7 @@ Vous pouvez donc modifier les valeurs binaires pour effectuer ou non les tâches
 Pour mettre des WSI en input, il faut créer le chemin suivant `./Data/Dataset/WSI`. On peut maintenant déposer dans ce dossier toutes les WSI souhaitées.
 
 Afin d'exécuter `./run_wsi_tif.py` sans problème, nous allons modifier le fichier `./mescnn/detection/qupath/config.py` pour automatiser la configuration de tous les WSI en input.
+*Fichier modifié dans la branche segmentation*
 On remplace donc les parties de code suivantes :
 
 ``` 
@@ -84,6 +85,7 @@ Après ces modifications dans le fichier, vous pouvez lancer `./run_wsi_tif.py` 
 ### Séparations de glomérules de résolution 256x256 sans masque
 
 Le code est normalement fait pour avoir des séparations de glomérules en résolution 256x256 avec un masque noir. Pour notre projet, nous avons besoin d'images de même résolution mais sans ce masque. Nous avons donc modifié le code du fichier`./mescnn/detection/qupath/json2exp.py`.
+*Fichier modifié dans la branche segmentation*
 
 ```
 #.....
