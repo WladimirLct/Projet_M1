@@ -1,4 +1,4 @@
-# MESCnn Installation And Modification
+# MESCnn Installation et Modification
 
 Pour la segmentation de nos glomérules, nous allons utiliser la technologie que le Docteur Gibier nous a conseillée : [MESCnn](https://github.com/Nicolik/MESCnn)
 
