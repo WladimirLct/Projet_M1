@@ -24,7 +24,7 @@ test_qu2json = True
 test_json2exp = True
 test_classify = False
 ```
-Vous pouvez donc modifier les valeurs binaires pour effectuer ou non la tâche. Afin d'améliorer les performances, je vous conseille d'utiliser le paramétrage ci-dessus.
+Vous pouvez donc modifier les valeurs binaires pour effectuer ou non les tâches. Afin d'améliorer les performances, je vous conseille d'utiliser le paramétrage ci-dessus.
 
 Pour mettre des WSI en input, il faut créer le chemin suivant `./Data/Dataset/WSI`. On peut maintenant déposer dans ce dossier toutes les WSI souhaitées.
 
