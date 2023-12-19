@@ -24,11 +24,11 @@ test_qu2json = True
 test_json2exp = True
 test_classify = False
 ```
-Vous pouvez donc modifier la valeur binaire pour effectuer ou non la tâche. Afin d'améliorer les performances, je vous conseille d'utiliser le paramétrage ci-dessus.
+Vous pouvez donc modifier les valeurs binaires pour effectuer ou non les tâches. Afin d'améliorer les performances, je vous conseille d'utiliser le paramétrage ci-dessus.
 
 Pour mettre des WSI en input, il faut créer le chemin suivant `./Data/Dataset/WSI`. On peut maintenant déposer dans ce dossier toutes les WSI souhaitées.
 
-Afin d'exécuter `./run_wsi_tif.py` sans problème de configuration, nous allons modifier le fichier `./mescnn/detection/qupath/config.py` afin d'automatiser la configuration pour tous les WSI en input.
+Afin d'exécuter `./run_wsi_tif.py` sans problème, nous allons modifier le fichier `./mescnn/detection/qupath/config.py` pour automatiser la configuration de tous les WSI en input.
 On remplace donc les parties de code suivantes :
 
 ``` 
@@ -81,7 +81,7 @@ def get_test_wsis():
 
 Après ces modifications dans le fichier, vous pouvez lancer `./run_wsi_tif.py` sans plus jamais vous inquiéter des configurations.
 
-### Séparations de glomérules de résolution 256x256 sans mask.
+### Séparations de glomérules de résolution 256x256 sans masque
 
 Le code est normalement fait pour avoir des séparations de glomérules en résolution 256x256 avec un masque noir. Pour notre projet, nous avons besoin d'images de même résolution mais sans ce masque. Nous avons donc modifié le code du fichier`./mescnn/detection/qupath/json2exp.py`.
 
