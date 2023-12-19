@@ -29,7 +29,7 @@ Vous pouvez donc modifier les valeurs binaires pour effectuer ou non les tâches
 Pour mettre des WSI en input, il faut créer le chemin suivant `./Data/Dataset/WSI`. On peut maintenant déposer dans ce dossier toutes les WSI souhaitées.
 
 Afin d'exécuter `./run_wsi_tif.py` sans problème, nous allons modifier le fichier `./mescnn/detection/qupath/config.py` pour automatiser la configuration de tous les WSI en input.
-*(Fichier modifié dans la branche segmentation)* On remplace donc les parties de code suivantes :
+On remplace donc les parties de code suivantes *(Fichier modifié dans la branche segmentation)* :
 
 ``` 
 Class PathWSI:
