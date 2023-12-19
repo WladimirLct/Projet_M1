@@ -81,7 +81,7 @@ def get_test_wsis():
 
 Après ces modifications dans le fichier, vous pouvez lancer `./run_wsi_tif.py` sans plus jamais vous inquiéter des configurations.
 
-### Séparations de glomérules de résolution 256x256 sans mask.
+### Séparations de glomérules de résolution 256x256 sans masque
 
 Le code est normalement fait pour avoir des séparations de glomérules en résolution 256x256 avec un masque noir. Pour notre projet, nous avons besoin d'images de même résolution mais sans ce masque. Nous avons donc modifié le code du fichier`./mescnn/detection/qupath/json2exp.py`.
 
