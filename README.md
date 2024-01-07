@@ -5,7 +5,7 @@
 * **Models/**: Contains models saved after execution of a notebook or the shell file.
 * **Predictions/**: Stores CSV predictions generated after execution of a notebook or the shell file.
 * **Classify/**: Should contain the data for model predictions. We used segmented glomeruli from the WSI provided by Dr. Gibier. Files are available [on the Nextcloud](https://nextcloud.dobial.com/s/YEFbFN3NyFnegiA) and on Teams.
-* **DataClassification/**: Includes a `Dataset_glomeruli` subdirectory with data categorized (sclerosed or not) for creating splits, and a `Split_dataset` subdirectory with the split dataset (Train - Test - Validation). Currently empty; download the folder from [Nextcloud](https://nextcloud.dobial.com/s/qd2QGrw7dZAJw7p) or Teams.
+* **DataClassification/**: Includes a `Dataset_glomeruli` subdirectory with data categorized (sclerosed or not) for creating splits, and a `Split_dataset` subdirectory with the split dataset (Train - Test - Validation). Files are available [n the Nextcloud](https://nextcloud.dobial.com/s/qd2QGrw7dZAJw7p) or on Teams.
 
 ## Automation
 
