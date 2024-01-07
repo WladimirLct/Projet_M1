@@ -1,4 +1,14 @@
-# Project M1: Machine Learning Model Management
+# Project M1: Glomeruli segmentation and classification
+
+## Branches
+
+We have two branches, the main one and the segmentation one. 
+You'll find indications on how to use and modify MESCnn in the segmentation branch.
+As you might already know, when adding a new feature or changing code, it's the norm to branch first. 
+Therefore you __**MUST**__ create a branch, code there, then merge it in the main. **This isn't an option, it's a necessity !**
+
+This approach ensures that the main branch remains stable and that all new changes are properly reviewed and tested before being integrated. 
+It's a best practice in software development for maintaining code quality and facilitating collaborative development.
 
 ## Folders
 
