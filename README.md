@@ -12,7 +12,7 @@ We will make some changes to the code to automate the use of new Whole Slide Ima
 
 ### Automating the Use of New WSIs
 
-For segmentation, run the ./run_wsi_tif.py file, which replicates the pipeline for a WSI input. This file automatically downloads WSIs and trained model weights.
+For segmentation, run the `./run_wsi_tif.py` file, which replicates the pipeline for a WSI input. This file automatically downloads WSIs and trained model weights.
 
 In this file, you'll find the following code:
 ```
@@ -25,9 +25,9 @@ test_classify = False
 ```
 Modify these boolean values to perform or skip tasks. The above settings are recommended for improved performance.
 
-To input WSIs, create the path ./Data/Dataset/WSI and place all desired WSIs in this folder.
+To input WSIs, create the path `./Data/Dataset/WSI` and place all desired WSIs in this folder.
 
-Modify ./mescnn/detection/qupath/config.py to automate the configuration for all input WSIs. Replace the following code sections (File modified in the segmentation branch):
+Modify `./mescnn/detection/qupath/config.py` to automate the configuration for all input WSIs. Replace the following code sections (File modified in the segmentation branch):
 
 ``` 
 Class PathWSI:
@@ -77,11 +77,11 @@ def get_test_wsis():
     ]
 ```
 
-After these modifications, you can run ./run_wsi_tif.py without further configuration concerns.
+After these modifications, you can run `./run_wsi_tif.py` without further configuration concerns.
 
 ### 256x256 Glomeruli Separations Without Mask
 
-The code is originally designed to produce 256x256 resolution glomeruli separations with a black mask. For our project, we need images of the same resolution but without this mask. We modified the ./mescnn/detection/qupath/json2exp.py file accordingly.
+The code is originally designed to produce 256x256 resolution glomeruli separations with a black mask. For our project, we need images of the same resolution but without this mask. We modified the `./mescnn/detection/qupath/json2exp.py` file accordingly.
 (File modified in the segmentation branch)
 
 ```
