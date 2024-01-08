@@ -1,21 +1,20 @@
-# MESCnn Installation et Modification
+# MESCnn Installation and Modification Guide
 
-Pour la segmentation de nos glomérules, nous allons utiliser la technologie que le Docteur Gibier nous a conseillée : [MESCnn](https://github.com/Nicolik/MESCnn)
+For segmenting our glomeruli, we will use the [MESCnn](https://github.com/Nicolik/MESCnn) technology recommended by Dr. Gibier.
 
 ## Installation 
 
-Pour l'installation vous pouvez suivre l'excellent [document](https://github.com/Nicolik/MESCnn/blob/main/INSTALL.md) prévu à cet effet sur GitHub.
+Follow the detailed instructions in the [installation document](https://github.com/Nicolik/MESCnn/blob/main/INSTALL.md) on GitHub.
 
-## Modification 
+## Modifications
 
-Nous allons apporter quelques modifications au code afin d'automatiser l'utilisation de nouvelles WSI, mais aussi d'avoir des séparations de glomérules de résolution 256x256 sans masque.
+We will make some changes to the code to automate the use of new Whole Slide Images (WSIs) and to obtain 256x256 resolution glomeruli separations without a mask.
 
-### Automatiser l'utilisation de nouvelles wsi
+### Automating the Use of New WSIs
 
-Pour la segmentation, nous allons exécuter le fichier `./run_wsi_tif.py` qui réplique le pipeline à partir de l'entrée d'un WSI.
-Il faut savoir que ce fichier effectue un téléchargement de WSI et des poids des modèles entraînés automatiquement.
+For segmentation, run the ./run_wsi_tif.py file, which replicates the pipeline for a WSI input. This file automatically downloads WSIs and trained model weights.
 
-Dans ce fichier, on peut retrouver le code suivant :
+In this file, you'll find the following code:
 ```
 download_slides = False
 test_tile = True
@@ -24,12 +23,11 @@ test_qu2json = True
 test_json2exp = True
 test_classify = False
 ```
-Vous pouvez donc modifier les valeurs binaires pour effectuer ou non les tâches. Afin d'améliorer les performances, je vous conseille d'utiliser le paramétrage ci-dessus.
+Modify these boolean values to perform or skip tasks. The above settings are recommended for improved performance.
 
-Pour mettre des WSI en input, il faut créer le chemin suivant `./Data/Dataset/WSI`. On peut maintenant déposer dans ce dossier toutes les WSI souhaitées.
+To input WSIs, create the path ./Data/Dataset/WSI and place all desired WSIs in this folder.
 
-Afin d'exécuter `./run_wsi_tif.py` sans problème, nous allons modifier le fichier `./mescnn/detection/qupath/config.py` pour automatiser la configuration de tous les WSI en input.
-On remplace donc les parties de code suivantes *(Fichier modifié dans la branche segmentation)* :
+Modify ./mescnn/detection/qupath/config.py to automate the configuration for all input WSIs. Replace the following code sections (File modified in the segmentation branch):
 
 ``` 
 Class PathWSI:
@@ -42,7 +40,7 @@ Class PathWSI:
     MESCnn_WSI_COLOGNE_2 = os.path.join(MESCnn_WSI, 'cologne_sample_slide_2.ome.tif')
     MESCnn_WSI_SZEGED = os.path.join(MESCnn_WSI, 'szeged_sample_slide.ome.tif')
 ```
-par 
+with 
 ```
 Class PathWSI:
     #.....
@@ -58,7 +56,7 @@ Class PathWSI:
         globals()['MESCnn_WSI_' + name] = os.path.join(MESCnn_WSI, f)
 
 ```
-Et ensuite :
+And then replace:
 
 ```
 def get_test_wsis():
@@ -70,7 +68,7 @@ def get_test_wsis():
         PathWSI.MESCnn_WSI_SZEGED
     ]
 ```
-par 
+with
 ```
 def get_test_wsis():
     return [
@@ -79,12 +77,12 @@ def get_test_wsis():
     ]
 ```
 
-Après ces modifications dans le fichier, vous pouvez lancer `./run_wsi_tif.py` sans plus jamais vous inquiéter des configurations.
+After these modifications, you can run ./run_wsi_tif.py without further configuration concerns.
 
-### Séparations de glomérules de résolution 256x256 sans masque
+### 256x256 Glomeruli Separations Without Mask
 
-Le code est normalement fait pour avoir des séparations de glomérules en résolution 256x256 avec un masque noir. Pour notre projet, nous avons besoin d'images de même résolution mais sans ce masque. Nous avons donc modifié le code du fichier`./mescnn/detection/qupath/json2exp.py`.
-*(Fichier modifié dans la branche segmentation)*
+The code is originally designed to produce 256x256 resolution glomeruli separations with a black mask. For our project, we need images of the same resolution but without this mask. We modified the ./mescnn/detection/qupath/json2exp.py file accordingly.
+(File modified in the segmentation branch)
 
 ```
 #.....
@@ -107,6 +105,6 @@ orig_resized = cv2.resize(orig, (256, 256), interpolation=cv2.INTER_LINEAR)
 cv2.imwrite(cmask256_no_mask_file, orig_resized)
 ```
 
-## Problèmes
+## Issues
 
-Tous les problèmes que vous pourriez avoir en exécutant sont expliqués dans le fichier d'[installation](https://github.com/Nicolik/MESCnn/blob/main/INSTALL.md). Cependant, si vous souhaitez exécuter le code sans GPU Nvidia, vous risquez d'avoir une erreur lors de l'exécution du code.
+Any issues encountered during execution are addressed in the [installation file](https://github.com/Nicolik/MESCnn/blob/main/INSTALL.md). However, if you plan to run the code without an Nvidia GPU, you might encounter errors.
