@@ -3,70 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    
     <title>Project M1</title>
-    <style>
-        /* Ajout de styles ici si nécessaire */
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="flex">
+<body>
+
     <!-- Sidebar -->
-    <div class="w-1/4 bg-gray-200 h-screen">
-        <div class="p-4">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Menu</button>
-            <button class="bg-blue-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Détail</button>
-        </div>
-        <div id="date-time" class="text-center text-sm text-gray-600"></div>
-    </div>
-
-    <!-- Contenu principal -->
-    <div class="w-3/4 p-4">
-        <div class="mb-2 text-sm dark:text-gray-400">
-            <h1> MESCnn Segmentation and Classification</h1>
-            <h2>Welcome back</h2>
-            <p> This is the MESCnn segmentation and classification tool. You can upload your images and download the results after the segmentation and classification.</p>
-        </div>
-
-        <div class="flex items-center justify-center w-full">
-            <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600" style="background-color: rgb(6, 182, 212);">
-                <div class="flex flex-col items-center justify-center pt-5 pb-6" style="background-color: rgb(6, 182, 212);">
-                    <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+    <div class="flex ">
+        <div class="w-1/6 bg-blue-100">
+            <div class="p-4">
+                <img src="server/templates/KidneyAI.jpeg">
+                <button class="relative overflow-hidden hover:bg-blue-400 text-white font-bold py-2 px-2 rounded-full mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" class="text-white">
+                        <g id="Iconly/Regular/Broken/Home">
+                            <g id="Home">
+                                <path id="Home_2" fill-rule="evenodd" clip-rule="evenodd" d="M20.1522 7.59135C20.8642 8.164 21.2822 9.02551 21.2913 9.93918L21.2826 17.9131C21.2826 20.079 19.5268 21.8348 17.3609 21.8348H15.6217C14.5734 21.8348 13.7222 20.9875 13.7174 19.9392V16.3392C13.7174 16.0606 13.4916 15.8348 13.213 15.8348H10.6043C10.4691 15.8348 10.3394 15.8891 10.2446 15.9856C10.1498 16.0821 10.0977 16.2126 10.1 16.3479V17.7218C10.1 18.154 9.74961 18.5044 9.31739 18.5044C8.88517 18.5044 8.53478 18.154 8.53478 17.7218V16.3479C8.53478 15.7967 8.75374 15.2681 9.14349 14.8783C9.53324 14.4886 10.0619 14.2696 10.613 14.2696H13.2217C14.3661 14.2744 15.2913 15.2035 15.2913 16.3479V19.9392C15.2913 20.1217 15.4392 20.2696 15.6217 20.2696H17.4043C18.701 20.2696 19.7522 19.2185 19.7522 17.9218V9.95657C19.7458 9.51531 19.5415 9.10027 19.1957 8.82613L13.187 4.03483C12.4293 3.41103 11.336 3.41103 10.5783 4.03483L8.64783 5.47831C8.29004 5.73524 7.79172 5.65348 7.53478 5.2957C7.27785 4.93791 7.35961 4.43959 7.71739 4.18266L9.62174 2.80005C10.9421 1.73869 12.8231 1.73869 14.1435 2.80005L20.1522 7.59135ZM6.42174 20.2609H10.4217V20.2783C10.854 20.2783 11.2043 20.6287 11.2043 21.0609C11.2043 21.4931 10.854 21.8435 10.4217 21.8435H6.42174C4.25781 21.8387 2.50478 20.0857 2.5 17.9218V9.95657C2.51384 9.03615 2.94588 8.17206 3.67391 7.60874L4.39565 7.06961C4.73552 6.90939 5.14129 7.01332 5.36229 7.3172C5.58329 7.62107 5.55714 8.03912 5.3 8.31309L4.59565 8.83483C4.26191 9.1121 4.06776 9.52268 4.06522 9.95657V17.9131C4.07474 19.2092 5.12562 20.2562 6.42174 20.2609Z" fill="white"/>
+                            </g>
+                        </g>
                     </svg>
-                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">TIFF , TIF, PNG, JPEG ( Either a CROP or WSI)</p>
-                    <div class="w-full">
-                        <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freseniuskidneycare.com%2Fthrive-central%2Fpolycystic-kidney-disease&psig=AOvVaw3G14J2sLm7NudHD1M_khRP&ust=1712217206449000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCICrvaLIpYUDFQAAAAAdAAAAABAE" class="w-full h-auto object-cover" alt="Image" />
-                    </div>ps après segmentation</label>
-                </div>
-                <input id="dropzone-file" type="file" class="hidden" />
-            </label>
+                </button>
+                <button class="relative overflow-hidden hover:bg-blue-400 text-white font-bold py-2 px-2 rounded-full mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none">
+                    <g id="Iconly/Regular/Broken/Graph">
+                    <g id="Graph">
+                    <path id="Graph_2" fill-rule="evenodd" clip-rule="evenodd" d="M21.9887 9.93749C21.3016 5.74419 17.7166 2.62467 13.442 2.50041C13.0141 2.49058 12.6014 2.65775 12.3024 2.96196C12.0136 3.25955 11.8641 3.6641 11.8904 4.07665L12.3287 10.6167C12.3971 11.4422 13.0904 12.078 13.9241 12.0798H14.0293L20.6037 11.6444C20.9985 11.622 21.3679 11.4438 21.6297 11.1493C21.8914 10.8549 22.0239 10.4688 21.9975 10.0768V9.93749H21.9887ZM13.9241 10.5122L13.4858 4.08536C16.9251 4.224 19.8051 6.71929 20.4109 10.0855L13.9241 10.5122ZM16.7993 14.9884C16.9225 14.5712 17.3582 14.3277 17.7811 14.4398C17.9885 14.489 18.1671 14.6195 18.2761 14.8016C18.3851 14.9837 18.4152 15.2019 18.3597 15.4064C17.7643 17.5651 16.3122 19.3911 14.3361 20.4661C11.9113 21.8013 8.97567 21.8458 6.51098 20.5848C4.04629 19.3238 2.37792 16.9237 2.06387 14.1872C2.01293 13.8677 1.99238 13.544 2.00251 13.2206C1.99827 9.29931 4.76558 5.91373 8.62952 5.11297C9.06523 5.02639 9.48909 5.30712 9.57623 5.73998C9.66338 6.17284 9.3808 6.59393 8.94509 6.6805C5.82643 7.33954 3.59908 10.0792 3.60667 13.2467C3.5994 13.4943 3.61407 13.742 3.6505 13.9869C4.03513 17.1495 6.61427 19.6021 9.81143 19.8456C13.0086 20.0891 15.9339 18.0558 16.7993 14.9884Z" fill="white"/>
+                    </g>
+                    </g>
+                    </svg>
+            </div>
         </div>
 
-        <div class="text-align">
-            <input type="checkbox" id="myCheckbox1" name="myCheckbox1">
-            <label for="myCheckbox1">Télécharger les cro
+        <!-- Main Content -->
+        <div class="w-3/4">
+            <div class="flex items-center justify-center w-full">
+                <div class="mb-2 text-sm  dark:text-gray-400">
+                    <h1> MESCnn Segmentation and Classification</h1>
+                    <h2>Welcome back</h2>
+                    <p> This is the MESCnn segmentation and classification tool. You can upload your images and download the results after the segmentation and classification.</p>
+                </div>
+            </div>
 
-            <input type="checkbox" id="myCheckbox2" name="myCheckbox2">
-            <label for="myCheckbox2">Télécharger les crops après segmentation</label>
+            <!-- Image Upload -->
+            <div class="flex items-center justify-center w-full">
+                <label for="dropzone-file" class="relative flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600" style="background-color: rgb(59 130 246);">
+                    <div class="absolute inset-0">
+                        <img src="https://cdn-icons-png.freepik.com/512/4138/4138946.png" class="w-25 h-full" alt="Image" />
+                    </div>
+                    <div class="flex flex-col items-center justify-center pt-5 pb-6" style="margin-left: 150px;"> <!-- Décalage manuel de 50px vers la droite -->
+                        <svg class="w-8 h-8 mb-4 text-white dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                        </svg>
+                        <p class="mb-2 text-sm text-white dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                        <p class="text-xs text-white dark:text-gray-400">TIFF , TIF, PNG, JPEG ( Either a CROP or WSI)</p>
+                    </div>
+                    <input id="dropzone-file" type="file" class="hidden" />
+                </label>
+            </div>
+
+            <!-- Texts -->
+            <div class="flex justify-center">
+                <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md mt-5 mr-5 ml-5 mb-5" style="background-color: rgb(224 242 254);">
+                    <div class="flex items-center">
+                        <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">M</h1>
+                        <div class="flex flex-col">
+                            <h1 class="text-blue-500">Sclerosed lesion</h1>
+                            <p class="text-blue-500">Model : EffocientNetV2</p>
+                            <p class="text-blue-500">Accuracy: 0.98</p>
+                            <p class="text-blue-500">Date of release : 2018</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md mt-5 mr-5 ml-5 mb-5" style="background-color: rgb(224 242 254);">
+                    <div class="flex items-center">
+                        <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">E</h1>
+                        <div class="flex flex-col">
+                            <h1 class="text-blue-500">Sclerosed lesion</h1>
+                            <p class="text-blue-500">Model : EffocientNetV2</p>
+                            <p class="text-blue-500">Accuracy: 0.98</p>
+                            <p class="text-blue-500">Date of release : 2018</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-center">
+                <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md mt-5 mr-5 ml-5 mb-5" style="background-color: rgb(224 242 254);">
+                    <div class="flex items-center">
+                        <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">S</h1>
+                        <div class="flex flex-col">
+                            <h1 class="text-blue-500">Sclerosed lesion</h1>
+                            <p class="text-blue-500">Model : EffocientNetV2</p>
+                            <p class="text-blue-500">Accuracy: 0.98</p>
+                            <p class="text-blue-500">Date of release : 2018</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md mt-5 mr-5 ml-5 mb-5" style="background-color: rgb(224 242 254);">
+                    <div class="flex items-center">
+                        <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">C</h1>
+                        <div class="flex flex-col">
+                            <h1 class="text-blue-500">Sclerosed lesion</h1>
+                            <p class="text-blue-500">Model : EffocientNetV2</p>
+                            <p class="text-blue-500">Accuracy: 0.98</p>
+                            <p class="text-blue-500">Date of release : 2018</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script>
-        // Fonction pour obtenir la date et l'heure actuelles
-        function getCurrentDateTime() {
-            var currentDate = new Date();
-            var dateString = currentDate.toLocaleDateString('fr-FR');
-            var timeString = currentDate.toLocaleTimeString('fr-FR');
-            return dateString + ' ' + timeString;
-        }
-
-        // Mettre à jour la date et l'heure dans l'élément approprié
-        var dateTimeElement = document.getElementById('date-time');
-        if (dateTimeElement) {
-            dateTimeElement.textContent = getCurrentDateTime();
-        }
-    </script>
 </body>
 </html>
