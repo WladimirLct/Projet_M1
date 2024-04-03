@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shrek plus détaillé en Tailwind CSS</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-blue-200 flex justify-center items-center h-screen">
+    <div class="text-center">
+        <!-- Tête -->
+        <div class="w-60 h-60 bg-green-700 rounded-full mx-auto relative mb-6">
+            <!-- Oreilles -->
+            <div class="absolute w-14 h-36 bg-green-700 left-0 top-6 rounded-full transform -translate-x-1/2 rotate-12"></div>
+            <div class="absolute w-14 h-36 bg-green-700 right-0 top-6 rounded-full transform translate-x-1/2 -rotate-12"></div>
+            <!-- Yeux -->
+            <div class="absolute top-20 left-14">
+                <div class="w-12 h-20 bg-white rounded-t-3xl"></div>
+                <div class="w-8 h-8 bg-black rounded-full mx-auto mt-2 relative">
+                    <div class="w-3 h-3 bg-white rounded-full absolute left-1 top-1"></div>
+                </div>
+            </div>
+            <div class="absolute top-20 right-14">
+                <div class="w-12 h-20 bg-white rounded-t-3xl"></div>
+                <div class="w-8 h-8 bg-black rounded-full mx-auto mt-2 relative">
+                    <div class="w-3 h-3 bg-white rounded-full absolute left-1 top-1"></div>
+                </div>
+            </div>
+            <!-- Sourcils -->
+            <div class="absolute w-16 h-3 bg-black rounded-full top-16 left-10 transform -rotate-12"></div>
+            <div class="absolute w-16 h-3 bg-black rounded-full top-16 right-10 transform rotate-12"></div>
+            <!-- Nez -->
+            <div class="w-12 h-8 bg-green-800 rounded-full mx-auto absolute top-28 left-24"></div>
+            <!-- Bouche -->
+            <div class="w-24 h-12 bg-red-600 rounded-3xl mx-auto absolute top-36 left-18"></div>
+        </div>
+        <!-- Corps -->
+        <div class="w-72 h-48 bg-green-800 rounded-lg mx-auto relative">
+            <!-- Vêtements -->
+            <div class="w-full h-1/2 bg-brown-900 rounded-b-lg"></div>
+        </div>
+    </div>
+</body>
+</html>
