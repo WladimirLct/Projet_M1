@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-
+    
     
     <title>Project M1</title>
     <style>
@@ -15,38 +15,82 @@
 </head>
 <body>
 
-    <div class="test">
+    <div class="mb-2 text-sm  dark:text-gray-400">
         <h1> MESCnn Segmentation and Classification</h1>
+        <h2>Welcome back</h2>
+        <p> This is the MESCnn segmentation and classification tool. You can upload your images and download the results after the segmentation and classification.</p>
     </div><!DOCTYPE html>
   
     
-    <div>
-      <div class="flex items-center justify-center w-full">
-        <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+    <div class="flex items-center justify-center w-full">
+        <label for="dropzone-file" class="relative flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600" style="background-color: rgb(59 130 246);">
+            <div class="absolute inset-0">
+                
+                <img src="https://cdn-icons-png.freepik.com/512/4138/4138946.png" class="w-25 h-full" alt="Image" />
+            </div>
+            <div class="flex flex-col items-center justify-center pt-5 pb-6" style="margin-left: 150px;"> <!-- Décalage manuel de 50px vers la droite -->
+                
+                <svg class="w-8 h-8 mb-4 text-white dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                 </svg>
-                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">TIFF , TIF, PNG, JPEG ( Either a CROP or WSI)</p>
+                <p class="mb-2 text-sm text-white dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                <p class="text-xs text-white dark:text-gray-400">TIFF , TIF, PNG, JPEG ( Either a CROP or WSI)</p>
             </div>
             <input id="dropzone-file" type="file" class="hidden" />
         </label>
-    </div> 
-
-    <div class="text-align">
-    <input type="checkbox" id="myCheckbox" name="myCheckbox">
-    <label for="myCheckbox">Télécharger les crops après segmentation</label>
-
-    <input type="checkbox" id="myCheckbox" name="myCheckbox">
-    <label for="myCheckbox">Télécharger les crops après segmentation</label>
-    </div>
-
-
+</div>
     
+<div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md mt-5 mr-5 ml-5 mb-5" style="background-color: rgb(224 242 254);">
+    <div class="flex items-center">
+        <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">M</h1>
+        <div class="flex flex-col">
+            <h1 class="text-blue-500">Sclerosed lesion</h1>
+            <p class="text-blue-500">Model : EffocientNetV2</p>
+            <p class="text-blue-500">Accuracy: 0.98</p>
+            <p class="text-blue-500">Date of release : 2018</p>
+        </div>
     </div>
-    <br>
-   
+</div>
+<div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md mt-5 mr-5 ml-5 mb-5" style="background-color: rgb(224 242 254);">
+    <div class="flex items-center">
+        <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">E</h1>
+        <div class="flex flex-col">
+            <h1 class="text-blue-500">Sclerosed lesion</h1>
+            <p class="text-blue-500">Model : EffocientNetV2</p>
+            <p class="text-blue-500">Accuracy: 0.98</p>
+            <p class="text-blue-500">Date of release : 2018</p>
+        </div>
+    </div>
+</div>
+<div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md mt-5 mr-5 ml-5 mb-5" style="background-color: rgb(224 242 254);">
+    <div class="flex items-center">
+        <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">S</h1>
+        <div class="flex flex-col">
+            <h1 class="text-blue-500">Sclerosed lesion</h1>
+            <p class="text-blue-500">Model : EffocientNetV2</p>
+            <p class="text-blue-500">Accuracy: 0.98</p>
+            <p class="text-blue-500">Date of release : 2018</p>
+        </div>
+    </div>
+</div>
+<div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md mt-5 mr-5 ml-5 mb-5" style="background-color: rgb(224 242 254);">
+    <div class="flex items-center">
+        <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">C</h1>
+        <div class="flex flex-col">
+            <h1 class="text-blue-500">Sclerosed lesion</h1>
+            <p class="text-blue-500">Model : EffocientNetV2</p>
+            <p class="text-blue-500">Accuracy: 0.98</p>
+            <p class="text-blue-500">Date of release : 2018</p>
+        </div>
+    </div>
+</div>
 
+
+
+
+
+
+
+   
 </body>
 </html>

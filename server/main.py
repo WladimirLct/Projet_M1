@@ -5,7 +5,7 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     # Utilisez render_template pour servir votre fichier HTML
-    return render_template('index.html')
+    return render_template('IG_MESCnn.html')
 
 
 
