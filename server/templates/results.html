@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sample HTML Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tailwindcss.com" rel="stylesheet"></script>
 </head>
 
@@ -96,7 +97,19 @@
                 </div>
             </div>
         </div>
+        
+        <h1>Graphique des lésions</h1>
+        <!-- Div pour afficher le graphique -->
+        <div class="flex flex-row">
+            <canvas id="GraphLesion" width="400" height="300"></canvas>
+            <canvas id="GraphAccuracy" width="400" height="300"></canvas>
+        </div>
+        <!-- Inclure le script JavaScript pour créer et afficher le graphique -->
     </div>
+        
+    </div>
+
+    
 
     <!-- Right Bar -->
     <div class="rounded-lg shadow-lg bg-blue-100 mb-8 flex-grow h-screen">
@@ -153,8 +166,9 @@
                 </div>
             </div>
         </div>
+        
     </div>
-
+    <script src="utils.js"></script>
 </body>
 
 </html>
