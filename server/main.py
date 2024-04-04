@@ -11,8 +11,7 @@ def home():
     return render_template('index.html')
 
 @app.route('/mescnn')
-def run_mescnn():
-    path = "/home/antoine/Documents/GitHub/MESCnn/Data/Dataset/WSI/C2321120-1-A-PAS(1).svs"
+def run_mescnn(path=None):
     mescnn_function(path)
     return 'MESCnn run complete!'
 
@@ -34,7 +33,9 @@ def analyze():
 
         filename = secure_filename(file.filename)
         file.save(os.path.join('./current-file/', filename))
-        # process the file here
+        
+        # Run the MESCnn function
+        run_mescnn('./current-file/' + filename)
         return 'File uploaded and processed successfully'
     return 'Error processing file', 400
     
