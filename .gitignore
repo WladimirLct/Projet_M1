@@ -2,11 +2,10 @@
 current-file/
 
 # For the crops
-Tiles/
+Export/
 
 # For the models
 *.pth
-
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
