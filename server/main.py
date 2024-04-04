@@ -12,7 +12,8 @@ def home():
 
 @app.route('/mescnn')
 def run_mescnn():
-    mescnn_function()
+    path = "/home/antoine/Documents/GitHub/MESCnn/Data/Dataset/WSI/C2321120-1-A-PAS(1).svs"
+    mescnn_function(path)
     return 'MESCnn run complete!'
 
 @app.route('/analyze', methods=['POST'])

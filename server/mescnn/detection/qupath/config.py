@@ -22,6 +22,8 @@ class PathMESCnn:
 
 
 class PathWSI:
+    
+    #/home/antoine/Documents/GitHub/MESCnn/Data/Dataset/WSI/C2321120-1-A-PAS(1).svs
     BASE_MESCnn = os.path.join(ROOT_DIR, 'Data')
     MESCnn_EXPORT = os.path.join(BASE_MESCnn, 'Export')
 
@@ -29,21 +31,33 @@ class PathWSI:
     QUPATH_MESCnn_DIR_NOANN = os.path.join(MESCnn_DATASET, 'QuPathProject-NoAnnotations')
 
     MESCnn_WSI = os.path.join(MESCnn_DATASET, 'WSI')
-    MESCnn_WSI_BARI = os.path.join(MESCnn_WSI, 'bari_sample_slide.ome.tif')
-    MESCnn_WSI_BARI_OPENSLIDE = os.path.join(MESCnn_WSI, 'bari-example-test-slide.tif')
-    MESCnn_WSI_COLOGNE = os.path.join(MESCnn_WSI, 'cologne_sample_slide.ome.tif')
-    MESCnn_WSI_COLOGNE_2 = os.path.join(MESCnn_WSI, 'cologne_sample_slide_2.ome.tif')
-    MESCnn_WSI_SZEGED = os.path.join(MESCnn_WSI, 'szeged_sample_slide.ome.tif')
+    # MESCnn_WSI_BARI = os.path.join(MESCnn_WSI, 'bari_sample_slide.ome.tif')
+    # MESCnn_WSI_BARI_OPENSLIDE = os.path.join(MESCnn_WSI, 'bari-example-test-slide.tif')
+    # MESCnn_WSI_COLOGNE = os.path.join(MESCnn_WSI, 'cologne_sample_slide.ome.tif')
+    # MESCnn_WSI_COLOGNE_2 = os.path.join(MESCnn_WSI, 'cologne_sample_slide_2.ome.tif')
+    # MESCnn_WSI_SZEGED = os.path.join(MESCnn_WSI, 'szeged_sample_slide.ome.tif')
 
+def get_test_wsis(path):
+    # Liste des extensions de fichier valides
+    valid_extensions = ('.ndpi', '.svs', '.mrxs', '.tif', '.tiff', '.scn', '.ome.tiff', '.ome.tif')
 
-def get_test_wsis():
-    return [
-        PathWSI.MESCnn_WSI_BARI,
-        # PathWSI.MESCnn_WSI_BARI_OPENSLIDE,
-        PathWSI.MESCnn_WSI_COLOGNE,
-        PathWSI.MESCnn_WSI_COLOGNE_2,
-        PathWSI.MESCnn_WSI_SZEGED
-    ]
+    if path:
+        # Vérification que le chemin pointe vers un fichier existant
+        if os.path.isfile(path):
+            # Extraction de l'extension du fichier à partir du chemin
+            _, ext = os.path.splitext(path)
+
+            # Vérification que l'extension du fichier est valide
+            if ext in valid_extensions:
+                return [path]
+            else:
+                print("L'extension du fichier n'est pas valide.")
+                return [False]
+        else:
+            print("Le fichier n'existe pas.")
+            return [False]
+    else:
+        return [False] 
 
 
 class GlomerulusDetection(IntEnum):
