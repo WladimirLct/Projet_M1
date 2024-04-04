@@ -1,3 +1,11 @@
+const socket = io(); //socketio connection to server//
+
+socket.on('connect', function() {
+    socket.emit('ass', {
+        data: 'User connected'
+    });
+});
+
 let form = document.getElementById('dropzone-form');
 
 form.addEventListener('submit', function(event) {
@@ -13,6 +21,8 @@ form.addEventListener('submit', function(event) {
         body: formData
     })
     .then(response => response.text())
-    .then(data => console.log(data))
+    .then(data => {
+        window.location.href = `/waiting?sid=${socket.id}`
+    })
     .catch(error => console.error('Error:', error));
 });
