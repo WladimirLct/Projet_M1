@@ -1,6 +1,8 @@
 import os
 import cv2
+import time
 import shutil
+import threading
 from mescnn.detection.qupath.utils import tile_region, is_foreground, is_black
 
 
@@ -22,7 +24,6 @@ class BaseTiler(object):
     def tile_image(self, desired_op, tile_size, tile_stride):
         pass
 
-
 class WholeTilerOpenslide(BaseTiler):
     def __init__(self, reader, out_dir, tile_ext='jpeg'):
         super().__init__(reader, out_dir, tile_ext=tile_ext)
@@ -30,7 +31,8 @@ class WholeTilerOpenslide(BaseTiler):
     def tile_image(self, desired_op, tile_size, tile_stride, check_fg=True):
         roi = (0, 0, *self.reader.dimensions)
         tile_coords = tile_region(roi, tile_size, tile_stride)
-        for tile_coord in tile_coords:
+
+        def process_tile(tile_coord):
             x, y, h, w = tile_coord
             tile_image = self.reader.read_resolution(x, y, h, w, desired_op, do_rescale=True, read_bgr=True)
             tile_name = f"{self.reader.name}__OP_{desired_op}__ROI_{x}_{y}_{h}_{w}.{self.tile_ext}"
@@ -39,6 +41,22 @@ class WholeTilerOpenslide(BaseTiler):
                     tile_path = os.path.join(self.out_dir, tile_name)
                     print(f"Writing to {tile_path}")
                     cv2.imwrite(tile_path, tile_image)
+
+        start = time.time()
+
+        # for coord in tile_coords:
+        #     process_tile(coord)
+
+        threads = [threading.Thread(target=process_tile, args=(coord,)) for coord in tile_coords]
+
+        print(f"Starting {len(threads)} threads...")
+        
+        for thread in threads:
+            thread.start()
+        for thread in threads:
+            thread.join()
+
+        print(f"Time taken: {time.time() - start:.2f}s")
 
 
 class WholeTilerBioformats(BaseTiler):

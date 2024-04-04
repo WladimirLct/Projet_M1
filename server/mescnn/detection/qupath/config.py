@@ -22,8 +22,6 @@ class PathMESCnn:
 
 
 class PathWSI:
-    
-    #/home/antoine/Documents/GitHub/MESCnn/Data/Dataset/WSI/C2321120-1-A-PAS(1).svs
     BASE_MESCnn = os.path.join(ROOT_DIR, 'Data')
     MESCnn_EXPORT = os.path.join(BASE_MESCnn, 'Export')
 
