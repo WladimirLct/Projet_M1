@@ -11,7 +11,6 @@ from mescnn.detection.qupath.download import download_slide
 from flask_socketio import emit
 
 def mescnn_function(socketio, room_id):
-    socketio.emit('message', 'Processing image...', room=room_id)
 
     # Find files in the folder "current-file"
     files = os.listdir('./current-file/')
@@ -20,7 +19,7 @@ def mescnn_function(socketio, room_id):
     wsis = get_test_wsis(path)
 
     # Tests
-    test_tile = False
+    test_tile = True
     test_segment = True
     test_qu2json = True
     test_json2exp = True
@@ -33,6 +32,7 @@ def mescnn_function(socketio, room_id):
 
     #! Loading effectué
     socketio.emit('message', 'Loading complete!', room=room_id)
+    socketio.emit('message', 'Processing image...', room=room_id)
 
     if test_tile:
         if wsis[0] is False:
@@ -83,7 +83,7 @@ def mescnn_function(socketio, room_id):
         logging.info(f"Skipping run of {PathMESCnn.JSON2EXP}")
 
     #! Exportation des glomérules effectuée
-    socketio.emit('message', 'JSON applied on crops!', room=room_id)
+    socketio.emit('message', 'JSON applied, crops generated!', room=room_id)
 
     if test_classify:
         net_M = OxfordModelNameCNN.EfficientNet_V2_M
