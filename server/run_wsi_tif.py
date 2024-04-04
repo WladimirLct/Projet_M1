@@ -11,6 +11,7 @@ from mescnn.detection.qupath.download import download_slide
 
 
 def mescnn_function(path):
+    print(path)
     wsis = get_test_wsis(path)
 
     # Tests
