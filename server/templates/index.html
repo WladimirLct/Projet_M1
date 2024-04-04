@@ -7,11 +7,12 @@
     <title>KidneyAI</title>
     <style>
         /* Styles pour les boutons sélectionnés */
-        .peer:checked + label {
-            background-color: rgb(70 130 246); /* Couleur de fond du bouton sélectionné */
-            color: rgb(255,255,255); /* Couleur du texte du bouton sélectionné */
+        .peer:checked+label {
+            background-color: rgb(70 130 246);
+            /* Couleur de fond du bouton sélectionné */
+            color: rgb(255, 255, 255);
+            /* Couleur du texte du bouton sélectionné */
         }
-
     </style>
     <script src="https://cdn.tailwindcss.com" rel="stylesheet"></script>
 </head>
@@ -19,13 +20,14 @@
 <body class="flex h-auto overflow-hidden">
 
     <!-- Side Bar -->
-    <div >
+    <div>
         <div class="bg-white p-3 rounded-lg ">
             <img src="C:\Users\theoh\Documents\Projet_M1\server\static\logo.png" />
             <div class="w-3/4 p-4 flex flex-col justify-center items-center h-screen">
 
                 <button
-                    class="overflow-hidden border-4 border-transparent hover:shadow-lg hover:border-gray-300 hover:border-4 text-[#0b1d3e] font-bold py-2 px-2 rounded-full mb-4 flex flex-row items-center justify-left">
+                    class="overflow-hidden border-4 border-transparent hover:shadow-lg hover:border-gray-300 hover:border-4 text-[#0b1d3e] font-bold py-2 px-2 rounded-full mb-4 flex flex-row items-center justify-left"
+                    onclick="window.location.href='index.html'">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
                         class="text-white">
                         <g id="Iconly/Regular/Broken/Home">
@@ -40,7 +42,8 @@
                 </button>
 
                 <button
-                    class="relative overflow-hidden border-4 border-transparent hover:shadow-lg hover:border-gray-300 hover:border-4 text-[#0b1d3e] font-bold py-2 px-2 rounded-full mb-4 flex flex-row items-center justify-left">
+                    class="relative overflow-hidden border-4 border-transparent hover:shadow-lg hover:border-gray-300 hover:border-4 text-[#0b1d3e] font-bold py-2 px-2 rounded-full mb-4 flex flex-row items-center justify-left"
+                    onclick="window.location.href='results.html'">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none">
                         <g id="Iconly/Regular/Broken/Graph">
                             <g id="Graph">
@@ -58,10 +61,10 @@
 
     <!-- Main Content -->
     <div class="flex flex-col w-4/6 bg-[#f1f5ff]">
-        <!-- <div class="flex mt-10 ml-12 text-4xl">Bienvenue sur KidneyAI</div> -->
-        <div class="rounded-lg ml-6 mr-6 h-3/5">
+        <div class="flex mt-10 ml-12 text-4xl">Bienvenue sur KidneyAI</div>
+        <div class="rounded-lg ml-6 mr-6 ">
             <!-- Image Drop -->
-            <div class="flex items-center justify-center w-full mt-10">
+            <div class="flex items-center justify-center w-full mt-12">
                 <label for="dropzone-file"
                     class="relative flex flex-col items-center justify-center w-full h-80 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                     style="background-color: rgb(59 130 246);">
@@ -69,41 +72,37 @@
                         <img src="https://cdn-icons-png.freepik.com/512/4138/4138946.png" class="w-25 h-full"
                             alt="Image" />
                     </div>
-                    <div class="flex flex-col items-center justify-center pt-5 pb-6" style="margin-left: 250px;">
-                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                    <div class="flex flex-col items-center justify-center pt-5 pb-6" style="margin-left: 150px;">
+                        <svg class="w-8 h-8 mb-4 text-white dark:text-gray-400" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                            <path stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                         </svg>
-                        <p class="mb-2 text-sm text-white dark:text-gray-400"><span class="font-semibold">Click to
-                                upload</span> or drag and drop</p>
-                        <p class="text-xs text-white dark:text-gray-400">TIFF , TIF, PNG, JPEG ( Either a CROP or
-                            WSI)</p>
+                        <p id="file-name" class="mb-2 text-sm text-white dark:text-gray-400"><span
+                                class="font-semibold">Click to upload</span> or drag and drop</p>
+                        <p id="file-type" class="text-xs text-white dark:text-gray-400">TIFF , TIF, PNG, JPEG ( Either a
+                            CROP or WSI)</p>
                     </div>
-                    <input id="dropzone-file" type="file" class="hidden" />
+                    <input id="dropzone-file" type="file" class="hidden" onchange="updateFileName(this)" />
                 </label>
             </div>
 
             <!--Buttons-->
 
-            <div class="flex flex-row justify-evenly">
+            <div class="flex flex-row justify-evenly mt-11">
                 <input type="checkbox" id="react-option" value="" class="hidden peer" required="">
-                <label for="react-option" class="inline-flex items-center justify-between p-5 text-blue-500 bg-blue-100 border-2 border-blue-200 rounded-lg cursor-pointer dark:hover:text-blue-300 dark:border-blue-700 hover:text-blue-600 dark:hover:bg-blue-700 dark:bg-blue-800 transition-colors duration-200">
+                <label for="react-option"
+                    class="inline-flex items-center justify-between p-5 text-blue-500 bg-blue-100 border-2 border-blue-200 rounded-lg cursor-pointer dark:hover:text-blue-300 dark:border-blue-700 hover:text-blue-600 dark:hover:bg-blue-700 dark:bg-blue-800 transition-colors duration-200">
                     <div class="block">
-                        <div class="w-full text-lg font-semibold dark\:text-blue-400">Télécharger les crops après segmentation</div>
-                    </div>
-                </label>
-                        
-                <input type="checkbox" id="flowbite-option" value="" class="hidden peer">
-                <label for="flowbite-option" class="inline-flex items-center justify-between p-5 text-blue-500 bg-blue-100 border-2 border-blue-200 rounded-lg cursor-pointer dark:hover:text-blue-300 dark:border-blue-700 hover:text-blue-600 dark:hover:bg-blue-700 dark:bg-blue-800 transition-colors duration-200">
-                    <div class="block">
-                        <div class="w-full text-lg font-semibold dark\:text-blue-400">Télécharger les crops après segmentation</div>
+                        <div class="w-full text-lg font-semibold dark\:text-blue-400">Télécharger les crops après
+                            segmentation</div>
                     </div>
                 </label>
             </div>
- 
+                
+
             <div class="flex items-center justify-center mb-5 mt-5">
-                <button class="flex items-center rounded-full bg-blue-500 p-2 text-white" onclick="window.location.href='results.html'">
+                <button id="analyzeButton" class="flex items-center rounded-full bg-blue-500 p-2 text-white cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white">
                         <g id="Iconly/Regular/Broken/Search">
                             <g id="Search">
@@ -116,152 +115,169 @@
                     <span class="ml-2">Start analyzing</span>
                 </button>
             </div>
+            <!-- Loading Bar Structure -->
+            <div id="loadingBarContainer" class="mt-4 w-3/4 mx-auto bg-gray-300 rounded-full overflow-hidden h-2 hidden">
+                <div id="loadingBar" class="h-full bg-gradient-to-r from-blue-500 to-purple-500" style="width: 0%; transition: width 2s ease-in-out;"></div>
+            </div>            
         </div>
 
-      <!-- Models Info -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md" style="background-color: rgb(224, 242, 254);">
-            <div class="flex items-center">
-                <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">M</h1>
-                <div class="flex flex-col">
-                    <h1 class="text-blue-500">Sclerosed lesion</h1>
-                    <p class="text-blue-500">Model : EfficientNetV2</p>
-                    <p class="text-blue-500">Accuracy: 0.98</p>
-                    <p class="text-blue-500">Date of release : 2018</p>
+        <!-- Models Info -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md" style="background-color: rgb(224, 242, 254);">
+                <div class="flex items-center">
+                    <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">M</h1>
+                    <div class="flex flex-col">
+                        <h1 class="text-blue-500">Sclerosed lesion</h1>
+                        <p class="text-blue-500">Model : EfficientNetV2</p>
+                        <p class="text-blue-500">Accuracy: 0.98</p>
+                        <p class="text-blue-500">Date of release : 2018</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md" style="background-color: rgb(224, 242, 254);">
-            <div class="flex items-center">
-                <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">E</h1>
-                <div class="flex flex-col">
-                    <h1 class="text-blue-500">Sclerosed lesion</h1>
-                    <p class="text-blue-500">Model : EfficientNetV2</p>
-                    <p class="text-blue-500">Accuracy: 0.98</p>
-                    <p class="text-blue-500">Date of release : 2018</p>
+            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md" style="background-color: rgb(224, 242, 254);">
+                <div class="flex items-center">
+                    <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">E</h1>
+                    <div class="flex flex-col">
+                        <h1 class="text-blue-500">Sclerosed lesion</h1>
+                        <p class="text-blue-500">Model : EfficientNetV2</p>
+                        <p class="text-blue-500">Accuracy: 0.98</p>
+                        <p class="text-blue-500">Date of release : 2018</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md" style="background-color: rgb(224, 242, 254);">
-            <div class="flex items-center">
-                <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">S</h1>
-                <div class="flex flex-col">
-                    <h1 class="text-blue-500">Sclerosed lesion</h1>
-                    <p class="text-blue-500">Model : EfficientNetV2</p>
-                    <p class="text-blue-500">Accuracy: 0.98</p>
-                    <p class="text-blue-500">Date of release : 2018</p>
+            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md" style="background-color: rgb(224, 242, 254);">
+                <div class="flex items-center">
+                    <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">S</h1>
+                    <div class="flex flex-col">
+                        <h1 class="text-blue-500">Sclerosed lesion</h1>
+                        <p class="text-blue-500">Model : EfficientNetV2</p>
+                        <p class="text-blue-500">Accuracy: 0.98</p>
+                        <p class="text-blue-500">Date of release : 2018</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md" style="background-color: rgb(224, 242, 254);">
-            <div class="flex items-center">
-                <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">C</h1>
-                <div class="flex flex-col">
-                    <h1 class="text-blue-500">Sclerosed lesion</h1>
-                    <p class="text-blue-500">Model : EfficientNetV2</p>
-                    <p class="text-blue-500">Accuracy: 0.98</p>
-                    <p class="text-blue-500">Date of release : 2018</p>
+            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md" style="background-color: rgb(224, 242, 254);">
+                <div class="flex items-center">
+                    <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">C</h1>
+                    <div class="flex flex-col">
+                        <h1 class="text-blue-500">Sclerosed lesion</h1>
+                        <p class="text-blue-500">Model : EfficientNetV2</p>
+                        <p class="text-blue-500">Accuracy: 0.98</p>
+                        <p class="text-blue-500">Date of release : 2018</p>
+                    </div>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
-</div>
 
 
-
+    <!-- Right Bar -->
     <div class="rounded-lg shadow-lg bg-blue-100 mb-8 flex flex-col flex-grow h-screen">
-       
-            <h2 class="text-2xl font-semibold text-gray-800 text-center mb-6">Last WSI Analysis Report</h2>
-           
 
-                <div class="bg-blue-600 p-4 rounded-lg shadow flex justify-between items-center">
-                    <div class="space-y-1">
-                        <span class="block text-lg font-semibold text-white">Patient ID: #1234</span>
-                        <span class="block text-sm text-blue-200">File Size: 2.3 MB</span>
-                        <span class="block text-sm text-blue-200">Date: 2024-04-01</span>
-                    </div>
-                    <span class="text-green-300 font-bold">Score: 92%</span>
+        <h2 class="text-2xl font-semibold text-gray-800 text-center mb-6 mt-6">Last WSI Analysis Report</h2>
+
+
+        <div class="bg-blue-600 p-4 rounded-lg shadow flex justify-between items-center">
+            <div class="space-y-1">
+                <span class="block text-lg font-semibold text-white">Patient ID: #1234</span>
+                <span class="block text-sm text-blue-200">File Size: 2.3 MB</span>
+                <span class="block text-sm text-blue-200">Date: 2024-04-01</span>
+            </div>
+            <span class="text-green-300 font-bold">Score: 92%</span>
+        </div>
+        <!-- Previous Reports Section -->
+        <h2 class="text-xl font-semibold text-gray-800 text-center mb-6 mt-5">Previous Reports</h2>
+
+        <!-- Scrollable Container for Previous Reports -->
+        <div class="sticky space-y-4 h-screen overflow-y-auto">
+
+            <!-- Example of a Repeat Report-->
+
+            <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
+                <div class="space-y-1">
+                    <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
+                    <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
+                    <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
                 </div>
-                <!-- Previous Reports Section -->
-                <h2 class="text-xl font-semibold text-gray-800 text-center mb-6 mt-5">Previous Reports</h2>
-
-                <!-- Scrollable Container for Previous Reports -->
-                <div class="sticky space-y-4 h-screen overflow-y-auto">
-
-                    <!-- Example of a Repeat Report-->
-                   
-                    <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
-                        <div class="space-y-1">
-                            <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
-                            <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
-                            <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
-                        </div>
-                        <span class="text-green-600 font-bold">Score: 89%</span>
-                    </div>
-                    <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
-                        <div class="space-y-1">
-                            <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
-                            <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
-                            <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
-                        </div>
-                        <span class="text-green-600 font-bold">Score: 89%</span>
-                    </div>
-                   
-                    <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
-                        <div class="space-y-1">
-                            <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
-                            <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
-                            <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
-                        </div>
-                        <span class="text-green-600 font-bold">Score: 89%</span>
-                    </div>
-                    <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
-                        <div class="space-y-1">
-                            <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
-                            <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
-                            <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
-                        </div>
-                        <span class="text-green-600 font-bold">Score: 89%</span>
-                    </div>
-                    <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
-                        <div class="space-y-1">
-                            <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
-                            <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
-                            <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
-                        </div>
-                        <span class="text-green-600 font-bold">Score: 89%</span>
-                    </div>
-                    <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
-                        <div class="space-y-1">
-                            <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
-                            <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
-                            <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
-                        </div>
-                        <span class="text-green-600 font-bold">Score: 89%</span>
-                    </div>
-                    <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
-                        <div class="space-y-1">
-                            <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
-                            <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
-                            <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
-                        </div>
-                        <span class="text-green-600 font-bold">Score: 85%</span>
-                    </div>
-                    <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
-                        <div class="space-y-1">
-                            <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
-                            <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
-                            <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
-                        </div>
-                        <span class="text-green-600 font-bold">Score: NEW%</span>
-                    </div>
+                <span class="text-green-600 font-bold">Score: 89%</span>
+            </div>
+            <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
+                <div class="space-y-1">
+                    <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
+                    <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
+                    <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
                 </div>
-        
-   
-</div>  
+                <span class="text-green-600 font-bold">Score: 89%</span>
+            </div>
+
+            <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
+                <div class="space-y-1">
+                    <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
+                    <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
+                    <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
+                </div>
+                <span class="text-green-600 font-bold">Score: 89%</span>
+            </div>
+            <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
+                <div class="space-y-1">
+                    <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
+                    <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
+                    <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
+                </div>
+                <span class="text-green-600 font-bold">Score: 89%</span>
+            </div>
+            <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
+                <div class="space-y-1">
+                    <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
+                    <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
+                    <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
+                </div>
+                <span class="text-green-600 font-bold">Score: 89%</span>
+            </div>
+            <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
+                <div class="space-y-1">
+                    <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
+                    <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
+                    <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
+                </div>
+                <span class="text-green-600 font-bold">Score: 89%</span>
+            </div>
+            <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
+                <div class="space-y-1">
+                    <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
+                    <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
+                    <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
+                </div>
+                <span class="text-green-600 font-bold">Score: 85%</span>
+            </div>
+            <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
+                <div class="space-y-1">
+                    <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
+                    <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
+                    <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
+                </div>
+                <span class="text-green-600 font-bold">Score: NEW%</span>
+            </div>
+        </div>
+
+
+    </div>
 </body>
 
-<!-- LOAD LES FICHIERS JS ICI -->
+<!-- LOAD LES FICHIERS JS ICI
 <script type="module" src="{{ url_for('static', filename='js/test.js')}}"></script>
+
+<script>
+    function updateFileName(input) {
+        const fileNameElement = document.getElementById('file-name');
+        const fileTypeElement = document.getElementById('file-type');
+        if (input.files.length > 0) {
+            fileNameElement.textContent = 'Charged File: ' + input.files[0].name;
+            fileTypeElement.style.display = 'none';
+        } else {
+            fileNameElement.textContent = 'Click to upload or drag and drop';
+        }
+    }
+</script>
 
 </html>
