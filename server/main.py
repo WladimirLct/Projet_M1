@@ -1,9 +1,14 @@
 import os
+import threading
 from flask import Flask, render_template, request, jsonify
 from werkzeug.utils import secure_filename
 from run_wsi_tif import mescnn_function
 
 app = Flask(__name__)
+
+# Set the static folder to the 'client' folder
+app._static_folder = os.path.abspath("./static/")
+print(os.path.abspath("./static/"))
 
 @app.route('/')
 def home():
@@ -33,11 +38,11 @@ def analyze():
 
         filename = secure_filename(file.filename)
         file.save(os.path.join('./current-file/', filename))
-        
+
         # Run the MESCnn function
-        run_mescnn('./current-file/' + filename)
-        return 'File uploaded and processed successfully'
-    return 'Error processing file', 400
+        threading.Thread(target=run_mescnn, args=('./current-file/' + filename,)).start()
+        return 200
+    return 400
     
     
 if __name__ == '__main__':

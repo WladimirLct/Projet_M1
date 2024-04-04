@@ -13,7 +13,6 @@
     <!-- Side Bar -->
     <div class="flex ">
         <div class="bg-white p-3 rounded-lg">
-            <img src="C:\Users\theoh\Documents\Projet_M1\server\static\logo.png" />
             <div class="w-3/4 p-4 flex flex-col justify-center items-center h-screen">
 
                 <button
@@ -52,7 +51,7 @@
     <div class="flex flex-col w-4/6 bg-[#f1f5ff]">
         <div class="flex mt-10 ml-12 text-4xl">Bienvenue sur KidneyAI</div>
         <div class="rounded-lg ml-6 mr-6 h-3/5">
-            <form action="/analyze" method="POST" enctype="multipart/form-data">
+            <form id="dropzone-form">
                 <!-- Image Drop -->
                 <div class="flex items-center justify-center w-full mt-10">
                     <input id="dropzone-file" type="file" class="hidden" name="file"/>
@@ -96,11 +95,11 @@
             </form>
 
             <div class="space-x-4">
-                <input type="checkbox" id="myCheckbox" name="myCheckbox">
+                <input type="checkbox" id="myCheckbox1" name="myCheckbox">
                 <label for="myCheckbox">Télécharger les crops après segmentation</label>
 
 
-                <input type="checkbox" id="myCheckbox" name="myCheckbox">
+                <input type="checkbox" id="myCheckbox2" name="myCheckbox">
                 <label for="myCheckbox">Télécharger les crops après segmentation</label>
             </div>
         </div>
