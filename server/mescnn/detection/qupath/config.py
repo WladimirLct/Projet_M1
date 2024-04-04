@@ -30,7 +30,8 @@ class PathWSI:
     MESCnn_DATASET = os.path.join(BASE_MESCnn, 'Dataset')
     QUPATH_MESCnn_DIR_NOANN = os.path.join(MESCnn_DATASET, 'QuPathProject-NoAnnotations')
 
-    MESCnn_WSI = os.path.join(MESCnn_DATASET, 'WSI')
+    MESCnn_WSI = os.path.join(ROOT_DIR, 'current-file')
+    
     # MESCnn_WSI_BARI = os.path.join(MESCnn_WSI, 'bari_sample_slide.ome.tif')
     # MESCnn_WSI_BARI_OPENSLIDE = os.path.join(MESCnn_WSI, 'bari-example-test-slide.tif')
     # MESCnn_WSI_COLOGNE = os.path.join(MESCnn_WSI, 'cologne_sample_slide.ome.tif')

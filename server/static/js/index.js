@@ -1,3 +1,5 @@
+const socket = io(); //socketio connection to server//
+
 let form = document.getElementById('dropzone-form');
 
 form.addEventListener('submit', function(event) {
@@ -13,6 +15,8 @@ form.addEventListener('submit', function(event) {
         body: formData
     })
     .then(response => response.text())
-    .then(data => console.log(data))
+    .then(data => {
+        window.location.replace('/waiting');
+    })
     .catch(error => console.error('Error:', error));
 });

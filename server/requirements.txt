@@ -8,6 +8,7 @@ click==8.1.7
 dynaconf==3.2.5
 filelock==3.13.3
 Flask==3.0.2
+flask-socketio
 fsspec==2024.3.1
 future==1.0.0
 huggingface-hub==0.22.2
