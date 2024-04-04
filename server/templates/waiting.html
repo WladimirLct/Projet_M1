@@ -8,7 +8,20 @@
 </head>
 
 <body>
-    <h1 id="msg"></h1>
+    <div class="container mx-auto">
+        <div class="flex flex-col justify-center h-screen">
+
+                
+
+                <ul class="flex justify-center flex-col" id="log">
+                    <li class="text-[#0b1d3e] text-2xl font-bold" id="msg"></li>
+                    
+                </ul>
+                <img src="https://gist.github.com/dc5e2180f3f28742619f72b26f956417.git" alt="image" class="w-1/2 mx-auto">
+
+        </div>
+    
+    </div>
 </body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js" integrity="sha512-luMnTJZ7oEchNDZAtQhgjomP1eZefnl82ruTH/3Oj/Yu5qYtwL7+dVRccACS/Snp1lFXq188XFipHKYE75IaQQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -22,9 +35,37 @@
         socket.emit('process_img');
     });
 
+    
     socket.on('message', (data) => {
         console.log(data);
-        document.getElementById('msg').innerText = data;
+    
+        // Créer un nouvel élément de liste pour le message entrant
+        var ul = document.getElementById("log");
+        var li = document.createElement("li");
+        li.appendChild(document.createTextNode(data));
+    
+        // Insérer le nouveau message en haut de la liste
+        ul.insertBefore(li, ul.firstChild);
+    
+        // Appliquer les styles au nouveau message
+        li.classList.add("text-[#0b1d3e]", "text-4xl", "font-bold");
+    
+        // Appliquer différents styles aux autres messages et ajuster l'opacité
+        var otherLis = ul.getElementsByTagName("li");
+        for (var i = 1; i < otherLis.length; i++) { // Commencer à 1 pour ignorer le premier élément
+            otherLis[i].classList.remove("text-4xl", "font-bold"); // Supprimer les styles spécifiques au premier élément
+            otherLis[i].classList.add("text-xl"); // Ajouter le style de taille de texte pour les autres éléments
+    
+            // Calculer et appliquer une opacité qui diminue avec la position de l'élément dans la liste
+            var opacity = Math.max(1 - i * 0.2, 0.1); // Assure une opacité minimale de 0.1
+            otherLis[i].style.opacity = opacity.toString();
+        }
     });
+    
+    
+
+
+
+
 </script>
 </html>
