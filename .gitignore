@@ -1,3 +1,13 @@
+# For the WSIs
+current-file/
+
+# For the crops
+Tiles/
+
+# For the models
+*.pth
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
