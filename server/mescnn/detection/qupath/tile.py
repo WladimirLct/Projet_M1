@@ -31,6 +31,7 @@ if __name__ == '__main__':
     if path_to_wsi.endswith(('.scn', '.ome.tiff', '.ome.tif')):
         reader = BioformatsReader(path_to_wsi)
         tiler = WholeTilerBioformats(reader, path_to_tiled)
+        
     elif path_to_wsi.endswith(('.ndpi', '.svs', '.mrxs', '.tif', '.tiff')):
         reader = OpenslideReader(path_to_wsi)
         tiler = WholeTilerOpenslide(reader, path_to_tiled)
