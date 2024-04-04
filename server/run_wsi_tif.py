@@ -10,11 +10,11 @@ from mescnn.detection.qupath.download import download_slide
 
 
 
-def mescnn_function():
-    wsis = get_test_wsis()
+def mescnn_function(path):
+    wsis = get_test_wsis(path)
 
     # Tests
-    download_slides = True
+    # download_slides = False
     test_tile = True
     test_segment = True
     test_qu2json = True
@@ -26,20 +26,25 @@ def mescnn_function():
     path_to_export = os.path.join(PathWSI.MESCnn_EXPORT, detection_model)
     qupath_segm_dir = os.path.join(path_to_export, 'QuPathProject')
 
-    if download_slides:
-        for wsi in wsis:
-            if not os.path.exists(wsi):
-                print(f"Downloading {wsi}...")
-                slide_name = os.path.basename(wsi)
-                slide_path = download_slide(slide_name, PathWSI.MESCnn_DATASET)
-                print(f"Downloaded: {slide_path}!")
+    # if download_slides:
+    #     for wsi in wsis:
+    #         if not os.path.exists(wsi):
+    #             print(f"Downloading {wsi}...")
+    #             slide_name = os.path.basename(wsi)
+    #             slide_path = download_slide(slide_name, PathWSI.MESCnn_DATASET)
+    #             print(f"Downloaded: {slide_path}!")
 
     if test_tile:
-        for wsi in wsis:
-            logging.info(f"{PathMESCnn.TILE} running on {wsi}...")
-            subprocess.run(["python", PathMESCnn.TILE,
-                            "--wsi", wsi,
-                            "--export", path_to_export])
+        if wsis[0] is False:
+            logging.info("No WSIs found for testing!")
+            return
+        else:
+            for wsi in wsis:
+                logging.info(f"{PathMESCnn.TILE} running on {wsi}...")
+                subprocess.run(["python", PathMESCnn.TILE,
+                                "--wsi", wsi,
+                                "--export", path_to_export])
+        
 
     if test_segment:
         for wsi in wsis:
