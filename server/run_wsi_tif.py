@@ -8,14 +8,18 @@ from mescnn.detection.model.config import SegmentationModelName
 from mescnn.detection.qupath.config import PathMESCnn, PathWSI, get_test_wsis
 from mescnn.detection.qupath.download import download_slide
 
+from flask_socketio import emit
 
+def mescnn_function(socketio, room_id):
+    socketio.emit('message', 'Processing image...', room=room_id)
 
-def mescnn_function(path):
-    print(path)
+    # Find files in the folder "current-file"
+    files = os.listdir('./current-file/')
+    path = './current-file/' + files[0]
+
     wsis = get_test_wsis(path)
 
     # Tests
-    # download_slides = False
     test_tile = True
     test_segment = True
     test_qu2json = True
@@ -27,13 +31,8 @@ def mescnn_function(path):
     path_to_export = os.path.join(PathWSI.MESCnn_EXPORT, detection_model)
     qupath_segm_dir = os.path.join(path_to_export, 'QuPathProject')
 
-    # if download_slides:
-    #     for wsi in wsis:
-    #         if not os.path.exists(wsi):
-    #             print(f"Downloading {wsi}...")
-    #             slide_name = os.path.basename(wsi)
-    #             slide_path = download_slide(slide_name, PathWSI.MESCnn_DATASET)
-    #             print(f"Downloaded: {slide_path}!")
+    #! Loading effectué
+    socketio.emit('message', 'Loading complete!', room=room_id)
 
     if test_tile:
         if wsis[0] is False:
@@ -45,7 +44,9 @@ def mescnn_function(path):
                 subprocess.run(["python", PathMESCnn.TILE,
                                 "--wsi", wsi,
                                 "--export", path_to_export])
-        
+                
+    #! Tiling effectué
+    socketio.emit('message', 'Tiling complete!', room=room_id)
 
     if test_segment:
         for wsi in wsis:
@@ -58,6 +59,9 @@ def mescnn_function(path):
     else:
         logging.info(f"Skipping run of {PathMESCnn.SEGMENT}!")
 
+    #! Masques de segmentation effectués
+    socketio.emit('message', 'Masks generated!', room=room_id)
+
     if test_qu2json:
         logging.info(f"Running {PathMESCnn.QU2JSON}")
         subprocess.run(["python", PathMESCnn.QU2JSON,
@@ -67,6 +71,9 @@ def mescnn_function(path):
     else:
         logging.info(f"Skipping run of {PathMESCnn.QU2JSON}")
 
+    #! Conversion QuPath -> JSON effectuée
+    socketio.emit('message', 'Masks converted to JSON!', room=room_id)
+
     if test_json2exp:
         logging.info(f"Running {PathMESCnn.JSON2EXP}")
         subprocess.run(["python", PathMESCnn.JSON2EXP,
@@ -74,6 +81,9 @@ def mescnn_function(path):
                         "--wsi-dir", wsi_tiff_dir])
     else:
         logging.info(f"Skipping run of {PathMESCnn.JSON2EXP}")
+
+    #! Exportation des glomérules effectuée
+    socketio.emit('message', 'JSON applied on crops!', room=room_id)
 
     if test_classify:
         net_M = OxfordModelNameCNN.EfficientNet_V2_M
@@ -93,3 +103,6 @@ def mescnn_function(path):
                         "--netC", net_C, "--vitC", str(use_vit_C)])
     else:
         logging.info(f"Skipping run of {PathMESCnn.CLASSIFY}")
+
+    #! Fin, changer de page avec un délai de 3 sec
+    socketio.emit('message', 'Score determined!', room=room_id)
