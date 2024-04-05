@@ -37,12 +37,16 @@ def mescnn_function(socketio, room_id):
         if wsis[0] is False:
             logging.info("No WSIs found for testing!")
             return
-        else:
+        elif wsis[1] == 'wsi':
             for wsi in wsis:
                 logging.info(f"{PathMESCnn.TILE} running on {wsi}...")
                 subprocess.run(["python", PathMESCnn.TILE,
                                 "--wsi", wsi,
                                 "--export", path_to_export])
+        else:
+            print("The file is not a WSI but an image")
+            return
+            
                 
     #! Tiling effectué
     socketio.emit('message', {"text": 'Tiling complete!', "step": 0}, room=room_id)
