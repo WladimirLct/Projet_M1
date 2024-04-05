@@ -51,8 +51,11 @@ class WholeTilerOpenslide(BaseTiler):
 
         print(f"Starting {len(threads)} threads...")
 
-        # Set max threads to 10
-        max_threads = 10
+        # Check the amount of threads on the CPU
+        cpu_threads = os.cpu_count()
+
+        # Set max threads to the number of threads on the CPU minus 2
+        max_threads = cpu_threads - 2 if cpu_threads > 2 else 1
 
         for i in range(0, len(threads), max_threads):
             threads_batch = threads[i:i+max_threads]
@@ -60,6 +63,7 @@ class WholeTilerOpenslide(BaseTiler):
                 thread.start()
             for thread in threads_batch:
                 thread.join()
+            print(f"Batch {i//max_threads+1} done!")
 
         print(f"Time taken: {time.time() - start:.2f}s")
 
