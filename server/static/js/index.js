@@ -27,7 +27,7 @@ form.addEventListener('submit', function(event) {
         if (progress >= 100) {
             clearInterval(interval);
         }
-    }, 50); // Adjust speed for a more gradual progress
+    }, 200); // Adjust speed for a more gradual progress
 
     fetch('/analyze', {
         method: 'POST',
@@ -35,6 +35,7 @@ form.addEventListener('submit', function(event) {
     })
     .then(response => response.text())
     .then(data => {
+        clearInterval(interval);
         loadingBar.style.width = '100%';
         // Redirect to /waiting after 3 seconds
         setTimeout(() => {

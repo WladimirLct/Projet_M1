@@ -42,9 +42,12 @@ def home():
 def results():
     return render_template('results.html')
 
+
+tiles_dir = './Data/Export/cascade_R_50_FPN_3x/Temp/tiler-output/Tiles/'
 @app.route('/tiles')
 def send_tiles():
-    tiles = os.listdir('./Data/Export/cascade_R_50_FPN_3x/Temp/tiler-output/Tiles/C2321120-1-A-PAS/')
+    wsi_path = os.listdir(tiles_dir)[0] + '/'
+    tiles = os.listdir(tiles_dir + wsi_path)
 
     random.shuffle(tiles)
     tiles = tiles[:10]
@@ -55,12 +58,15 @@ def send_tiles():
 
 @app.route('/get_tile/<tile>')
 def get_tile(tile):
-    return send_file('./Data/Export/cascade_R_50_FPN_3x/Temp/tiler-output/Tiles/C2321120-1-A-PAS/' + tile)
+    wsi_path = os.listdir(tiles_dir)[0] + '/'
+    return send_file(tiles_dir + wsi_path + tile)
 
 
+masks_dir = './Data/Export/cascade_R_50_FPN_3x/Temp/segment-output/Masks/'
 @app.route('/masks')
 def send_masks():
-    masks = os.listdir('./Data/Export/cascade_R_50_FPN_3x/Temp/segment-output/Masks/C2321120-1-A-PAS/')
+    wsi_path = os.listdir(masks_dir)[0] + '/'
+    masks = os.listdir(masks_dir + wsi_path)
 
     random.shuffle(masks)
     masks = masks[:10]
@@ -71,12 +77,14 @@ def send_masks():
 
 @app.route('/get_mask/<mask>')
 def get_mask(mask):
-    return send_file('./Data/Export/cascade_R_50_FPN_3x/Temp/segment-output/Masks/C2321120-1-A-PAS/' + mask)
+    wsi_path = os.listdir(masks_dir)[0] + '/'
+    return send_file(masks_dir + wsi_path + mask)
 
-
+crops_dir = './Data/Export/cascade_R_50_FPN_3x/Temp/json2exp-output/Crop-256/'
 @app.route('/crops')
 def send_crops():
-    crops = os.listdir('./Data/Export/cascade_R_50_FPN_3x/Temp/json2exp-output/Crop-256/C2321120-1-A-PAS/')
+    wsi_path = os.listdir(crops_dir)[0] + '/'
+    crops = os.listdir(crops_dir + wsi_path)
 
     random.shuffle(crops)
     crops = crops[:10]
@@ -87,7 +95,8 @@ def send_crops():
 
 @app.route('/get_crop/<crop>')
 def get_crop(crop):
-    return send_file('./Data/Export/cascade_R_50_FPN_3x/Temp/json2exp-output/Crop-256/C2321120-1-A-PAS/' + crop)
+    wsi_path = os.listdir(crops_dir)[0] + '/'
+    return send_file(crops_dir + wsi_path + crop)
 
 
 @app.route('/mescnn')
