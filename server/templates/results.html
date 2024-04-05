@@ -14,10 +14,9 @@
     <div class="bg-white p-3 rounded-lg ">
         <img src="C:\Users\theoh\Documents\Projet_M1\server\static\logo.png" />
         <div class="w-3/4 p-4 flex flex-col justify-center items-center h-screen">
-
             <button
                 class="overflow-hidden border-4 border-transparent hover:shadow-lg hover:border-gray-300 hover:border-4 text-[#0b1d3e] font-bold py-2 px-2 rounded-full mb-4 flex flex-row items-center justify-left"
-                onclick="window.location.href='index.html'">
+                onclick="window.location.replace('/')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
                     class="text-white">
                     <g id="Iconly/Regular/Broken/Home">
@@ -33,7 +32,7 @@
 
             <button
                 class="relative overflow-hidden border-4 border-transparent hover:shadow-lg hover:border-gray-300 hover:border-4 text-[#0b1d3e] font-bold py-2 px-2 rounded-full mb-4 flex flex-row items-center justify-left"
-                onclick="window.location.href='results.html'">
+                onclick="window.location.replace('/results')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none">
                     <g id="Iconly/Regular/Broken/Graph">
                         <g id="Graph">
@@ -168,7 +167,7 @@
         </div>
         
     </div>
-    <script src="utils.js"></script>
+    <script type="module" src="{{ url_for('static', filename='js/utils.js')}}"></script>
 </body>
 
 </html>
