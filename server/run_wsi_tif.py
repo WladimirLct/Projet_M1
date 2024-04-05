@@ -31,6 +31,7 @@ def mescnn_function(socketio, room_id):
     #! Loading effectué
     socketio.emit('message', {"text": 'Loading complete!', "step": -1}, room=room_id)
     socketio.emit('message', {"text": 'Processing image...', "step": -1}, room=room_id)
+    socketio.sleep(1)
 
     if test_tile:
         if wsis[0] is False:
@@ -45,6 +46,7 @@ def mescnn_function(socketio, room_id):
                 
     #! Tiling effectué
     socketio.emit('message', {"text": 'Tiling complete!', "step": 0}, room=room_id)
+    socketio.sleep(0.2)
 
     if test_segment:
         for wsi in wsis:
@@ -60,6 +62,7 @@ def mescnn_function(socketio, room_id):
 
     #! Masques de segmentation effectués
     socketio.emit('message', {"text": 'Masks generated!', "step": 1}, room=room_id)
+    socketio.sleep(0.2)
 
     if test_qu2json:
         socketio.emit('message', {"text": 'Annotation conversion in progress...', "step": -1}, room=room_id)
@@ -73,6 +76,7 @@ def mescnn_function(socketio, room_id):
 
     #! Conversion QuPath -> JSON effectuée
     socketio.emit('message', {"text": 'Masks converted to JSON!', "step": -1}, room=room_id)
+    socketio.sleep(0.2)
 
     if test_json2exp:
         socketio.emit('message', {"text": 'Annotation export in progress...', "step": -1}, room=room_id)
@@ -85,6 +89,7 @@ def mescnn_function(socketio, room_id):
 
     #! Exportation des glomérules effectuée
     socketio.emit('message', {"text": 'Crops generated!', "step": 2}, room=room_id)
+    socketio.sleep(0.2)
 
     if test_classify:
         net_M = OxfordModelNameCNN.EfficientNet_V2_M
@@ -108,4 +113,5 @@ def mescnn_function(socketio, room_id):
 
     #! Fin
     socketio.emit('message', {"text": 'Score determined!', "step": 3}, room=room_id)
+    socketio.sleep(2)
     socketio.emit('message', {"text": '', "step": 4}, room=room_id)
