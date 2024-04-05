@@ -50,11 +50,16 @@ class WholeTilerOpenslide(BaseTiler):
         threads = [threading.Thread(target=process_tile, args=(coord,)) for coord in tile_coords]
 
         print(f"Starting {len(threads)} threads...")
-        
-        for thread in threads:
-            thread.start()
-        for thread in threads:
-            thread.join()
+
+        # Set max threads to 10
+        max_threads = 10
+
+        for i in range(0, len(threads), max_threads):
+            threads_batch = threads[i:i+max_threads]
+            for thread in threads_batch:
+                thread.start()
+            for thread in threads_batch:
+                thread.join()
 
         print(f"Time taken: {time.time() - start:.2f}s")
 
