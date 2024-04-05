@@ -5,29 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KidneyAI</title>
-    <style>
-        /* Styles pour les boutons sélectionnés */
-        .peer:checked+label {
-            background-color: rgb(70 130 246);
-            /* Couleur de fond du bouton sélectionné */
-            color: rgb(255, 255, 255);
-            /* Couleur du texte du bouton sélectionné */
-        }
-    </style>
     <script src="https://cdn.tailwindcss.com" rel="stylesheet"></script>
 </head>
 
-<body class="flex h-auto overflow-hidden">
+<body class="flex">
 
     <!-- Side Bar -->
-    <div>
-        <div class="bg-white p-3 rounded-lg ">
-            <img src="C:\Users\theoh\Documents\Projet_M1\server\static\logo.png" />
+    <div class="flex ">
+        <div class="bg-white p-3 rounded-lg">
             <div class="w-3/4 p-4 flex flex-col justify-center items-center h-screen">
 
                 <button
-                    class="overflow-hidden border-4 border-transparent hover:shadow-lg hover:border-gray-300 hover:border-4 text-[#0b1d3e] font-bold py-2 px-2 rounded-full mb-4 flex flex-row items-center justify-left"
-                    onclick="window.location.href='index.html'">
+                    class="overflow-hidden hover:bg-blue-400 text-[#0b1d3e] font-bold py-2 px-2 rounded-full mb-4 flex flex-row items-center justify-left">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
                         class="text-white">
                         <g id="Iconly/Regular/Broken/Home">
@@ -42,8 +31,7 @@
                 </button>
 
                 <button
-                    class="relative overflow-hidden border-4 border-transparent hover:shadow-lg hover:border-gray-300 hover:border-4 text-[#0b1d3e] font-bold py-2 px-2 rounded-full mb-4 flex flex-row items-center justify-left"
-                    onclick="window.location.href='results.html'">
+                    class="relative overflow-hidden hover:bg-blue-400 text-[#0b1d3e] font-bold py-2 px-2 rounded-full mb-4 flex flex-row items-center justify-left">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none">
                         <g id="Iconly/Regular/Broken/Graph">
                             <g id="Graph">
@@ -88,97 +76,92 @@
                     </label>
                 </div>
 
-                        </svg>
-                        <p class="mb-2 text-sm text-white dark:text-gray-400"><span class="font-semibold">Click to
-                                upload</span> or drag and drop</p>
-                        <p class="text-xs text-white dark:text-gray-400">TIFF , TIF, PNG, JPEG ( Either a CROP or
-                            WSI)</p>
-                    </div>
-                    <input id="dropzone-file" type="file" class="hidden" />
-                </label>
-            </div>
-
-            <!--Buttons-->
-
-            <div class="flex flex-row justify-evenly mt-11">
-                <input type="checkbox" id="react-option" value="" class="hidden peer" required="">
-                <label for="react-option"
-                    class="inline-flex items-center justify-between p-5 text-blue-500 bg-blue-100 border-2 border-blue-200 rounded-lg cursor-pointer dark:hover:text-blue-300 dark:border-blue-700 hover:text-blue-600 dark:hover:bg-blue-700 dark:bg-blue-800 transition-colors duration-200">
-                    <div class="block">
-                        <div class="w-full text-lg font-semibold dark\:text-blue-400">Télécharger les crops après
-                            segmentation</div>
-                    </div>
-                </label>
-            </div>
-                
-
-            <div class="flex items-center justify-center mb-5 mt-5">
-                <button id="analyzeButton" class="flex items-center rounded-full bg-blue-500 p-2 text-white cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white">
-                        <g id="Iconly/Regular/Broken/Search">
-                            <g id="Search">
-                                <path id="Search_2"
-                                    d="M21.7555 20.6065L18.3182 17.2458L18.2376 17.1233C18.0878 16.9742 17.883 16.8902 17.6692 16.8902C17.4554 16.8902 17.2505 16.9742 17.1007 17.1233C14.1795 19.8033 9.67815 19.949 6.58201 17.4637C3.48586 14.9784 2.75567 10.6334 4.87568 7.31017C6.9957 3.98697 11.3081 2.71685 14.9528 4.34214C18.5976 5.96743 20.4438 9.98379 19.267 13.7276C19.1823 13.9981 19.2515 14.2922 19.4487 14.4992C19.6459 14.7062 19.9411 14.7946 20.223 14.7311C20.505 14.6676 20.7309 14.4619 20.8156 14.1914C22.2224 9.74864 20.0977 4.96755 15.8161 2.94106C11.5345 0.914562 6.38084 2.25082 3.68905 6.08542C0.99727 9.92001 1.57518 15.1021 5.04893 18.2795C8.52268 21.4569 13.8498 21.6759 17.5841 18.7949L20.6277 21.7705C20.942 22.0765 21.4502 22.0765 21.7645 21.7705C22.0785 21.4602 22.0785 20.9606 21.7645 20.6503L21.7555 20.6065Z"
-                                    fill="currentColor" />
+                <!--Buttons-->
+                <div class="flex items-center justify-center mb-5 mt-5">
+                    <button id="analyze-btn" class="flex items-center rounded-full bg-blue-500 p-2 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            class="text-white">
+                            <g id="Iconly/Regular/Broken/Search">
+                                <g id="Search">
+                                    <path id="Search_2"
+                                        d="M21.7555 20.6065L18.3182 17.2458L18.2376 17.1233C18.0878 16.9742 17.883 16.8902 17.6692 16.8902C17.4554 16.8902 17.2505 16.9742 17.1007 17.1233C14.1795 19.8033 9.67815 19.949 6.58201 17.4637C3.48586 14.9784 2.75567 10.6334 4.87568 7.31017C6.9957 3.98697 11.3081 2.71685 14.9528 4.34214C18.5976 5.96743 20.4438 9.98379 19.267 13.7276C19.1823 13.9981 19.2515 14.2922 19.4487 14.4992C19.6459 14.7062 19.9411 14.7946 20.223 14.7311C20.505 14.6676 20.7309 14.4619 20.8156 14.1914C22.2224 9.74864 20.0977 4.96755 15.8161 2.94106C11.5345 0.914562 6.38084 2.25082 3.68905 6.08542C0.99727 9.92001 1.57518 15.1021 5.04893 18.2795C8.52268 21.4569 13.8498 21.6759 17.5841 18.7949L20.6277 21.7705C20.942 22.0765 21.4502 22.0765 21.7645 21.7705C22.0785 21.4602 22.0785 20.9606 21.7645 20.6503L21.7555 20.6065Z"
+                                        fill="currentColor" />
+                                </g>
                             </g>
-                        </g>
-                    </svg>
-                    <span class="ml-2">Start analyzing</span>
-                </button>
+                        </svg>
+                        <span class="ml-2">Start analyzing</span>
+                    </button>
+                </div>
+            </form>
+
+            <div class="space-x-4">
+                <input type="checkbox" id="myCheckbox1" name="myCheckbox">
+                <label for="myCheckbox">Télécharger les crops après segmentation</label>
+
+
+                <input type="checkbox" id="myCheckbox2" name="myCheckbox">
+                <label for="myCheckbox">Télécharger les crops après segmentation</label>
             </div>
-            <!-- Loading Bar Structure -->
-            <div id="loadingBarContainer" class="mt-4 w-3/4 mx-auto bg-gray-300 rounded-full overflow-hidden h-2 hidden">
-                <div id="loadingBar" class="h-full bg-gradient-to-r from-blue-500 to-purple-500" style="width: 0%; transition: width 2s ease-in-out;"></div>
-            </div>            
         </div>
 
         <!-- Models Info -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md" style="background-color: rgb(224, 242, 254);">
+
+        <div class="flex flex-row flex-wrap justify-evenly w-full h-50">
+
+            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md mt-5 mr-5 ml-5 mb-5"
+                style="background-color: rgb(224 242 254);">
                 <div class="flex items-center">
                     <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">M</h1>
                     <div class="flex flex-col">
                         <h1 class="text-blue-500">Sclerosed lesion</h1>
-                        <p class="text-blue-500">Model : EfficientNetV2</p>
+                        <p class="text-blue-500">Model : EffocientNetV2</p>
                         <p class="text-blue-500">Accuracy: 0.98</p>
                         <p class="text-blue-500">Date of release : 2018</p>
                     </div>
                 </div>
             </div>
-            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md" style="background-color: rgb(224, 242, 254);">
+            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md mt-5 mr-5 ml-5 mb-5"
+                style="background-color: rgb(224 242 254);">
                 <div class="flex items-center">
                     <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">E</h1>
                     <div class="flex flex-col">
                         <h1 class="text-blue-500">Sclerosed lesion</h1>
-                        <p class="text-blue-500">Model : EfficientNetV2</p>
+                        <p class="text-blue-500">Model : EffocientNetV2</p>
                         <p class="text-blue-500">Accuracy: 0.98</p>
                         <p class="text-blue-500">Date of release : 2018</p>
                     </div>
                 </div>
             </div>
-            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md" style="background-color: rgb(224, 242, 254);">
+
+            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md mt-5 mr-5 ml-5 mb-5"
+                style="background-color: rgb(224 242 254);">
                 <div class="flex items-center">
                     <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">S</h1>
                     <div class="flex flex-col">
                         <h1 class="text-blue-500">Sclerosed lesion</h1>
-                        <p class="text-blue-500">Model : EfficientNetV2</p>
+                        <p class="text-blue-500">Model : EffocientNetV2</p>
                         <p class="text-blue-500">Accuracy: 0.98</p>
                         <p class="text-blue-500">Date of release : 2018</p>
                     </div>
                 </div>
             </div>
-            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md" style="background-color: rgb(224, 242, 254);">
+
+            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md mt-5 mr-5 ml-5 mb-5"
+                style="background-color: rgb(224 242 254);">
                 <div class="flex items-center">
                     <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">C</h1>
                     <div class="flex flex-col">
                         <h1 class="text-blue-500">Sclerosed lesion</h1>
-                        <p class="text-blue-500">Model : EfficientNetV2</p>
+                        <p class="text-blue-500">Model : EffocientNetV2</p>
                         <p class="text-blue-500">Accuracy: 0.98</p>
                         <p class="text-blue-500">Date of release : 2018</p>
                     </div>
                 </div>
             </div>
+
         </div>
+
+
     </div>
 
     <!-- Right Content -->
@@ -238,28 +221,13 @@
                 </div>
             </div>
         </div>
-
-
     </div>
-    
- <script type="module" src="/server/static/js/test.js"></script>  
+
+
 </body>
 
 <!-- LOAD LES FICHIERS JS ICI -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js" integrity="sha512-luMnTJZ7oEchNDZAtQhgjomP1eZefnl82ruTH/3Oj/Yu5qYtwL7+dVRccACS/Snp1lFXq188XFipHKYE75IaQQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="module" src="{{ url_for('static', filename='js/test.js')}}"></script>
-
-<script>
-    function updateFileName(input) {
-        const fileNameElement = document.getElementById('file-name');
-        const fileTypeElement = document.getElementById('file-type');
-        if (input.files.length > 0) {
-            fileNameElement.textContent = 'Charged File: ' + input.files[0].name;
-            fileTypeElement.style.display = 'none';
-        } else {
-            fileNameElement.textContent = 'Click to upload or drag and drop';
-        }
-    }
-</script>
+<script type="module" src="{{ url_for('static', filename='js/index.js')}}"></script>
 
 </html>
