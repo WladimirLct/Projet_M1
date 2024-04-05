@@ -95,7 +95,6 @@ def run_mescnn(path=None):
     mescnn_function(path)
     return 'MESCnn run complete!'
 
-
 @app.route('/analyze', methods=['POST'])
 def analyze():
     if 'file' not in request.files:
