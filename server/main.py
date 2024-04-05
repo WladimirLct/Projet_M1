@@ -123,6 +123,5 @@ def analyze():
 def waiting():
     return render_template('waiting.html')
 
-
 if __name__ == '__main__':
     socketio.run(app)
