@@ -6,7 +6,10 @@ from flask import Flask, render_template, request, send_file
 from flask_socketio import SocketIO, join_room, leave_room
 
 from werkzeug.utils import secure_filename
-from run_wsi_tif import mescnn_function
+
+# from run_wsi_tif import mescnn_function
+def mescnn_function(socketio, sid):
+    return 0
 
 app = Flask(__name__)
 socketio = SocketIO(app, debug=True, cors_allowed_origins='*')
@@ -91,9 +94,9 @@ def get_crop(crop):
 
 
 @app.route('/mescnn')
-def run_mescnn(path=None):
-    mescnn_function(path)
-    return 'MESCnn run complete!'
+# def run_mescnn(path=None):
+#     mescnn_function(path)
+#     return 'MESCnn run complete!'
 
 
 @app.route('/analyze', methods=['POST'])
