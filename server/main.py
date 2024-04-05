@@ -35,9 +35,11 @@ def process_img():
 
 @app.route('/')
 def home():
-    # Utilisez render_template pour servir votre fichier HTML
     return render_template('index.html')
 
+@app.route('/results')
+def results():
+    return render_template('results.html')
 
 @app.route('/mescnn')
 def run_mescnn(path=None):
