@@ -15,15 +15,30 @@
 
 <body>
     <div class="container mx-auto">
-        <div class="flex h-screen flex-row space-between">
+        <div class="flex h-screen w-full justify-around">
             <!-- Conteneur centré pour le premier élément -->
-            <div class="flex items-center" id="logContainer">
+            <div class="flex items-center w-1/2" id="logContainer">
                 <ul class="flex flex-col h-64 mx-h-64 overflow-hidden" id="log">
                     <!-- Les éléments de liste seront ajoutés ici par JavaScript -->
                 </ul>
             </div>
+            <div class="flex flex-row h-screen overflow-hidden w-1/2">
+                <div class="carousel flex flex-col mr-4 relative ease-linear hidden">
+                    <img id="img0" src="" alt="" class="h-1/4 aspect-square pt-4">
+                    <img id="img1" src="" alt="" class="h-1/4 aspect-square pt-4">
+                    <img id="img2" src="" alt="" class="h-1/4 aspect-square pt-4">
+                    <img id="img3" src="" alt="" class="h-1/4 aspect-square pt-4">
+                    <img id="img4" src="" alt="" class="h-1/4 aspect-square pt-4">
+                </div>
+                <div class="carousel flex flex-col mr-4 relative ease-linear hidden">
+                    <img id="img5" src="" alt="" class="h-1/4 aspect-square pt-4">
+                    <img id="img6" src="" alt="" class="h-1/4 aspect-square pt-4">
+                    <img id="img7" src="" alt="" class="h-1/4 aspect-square pt-4">
+                    <img id="img8" src="" alt="" class="h-1/4 aspect-square pt-4">
+                    <img id="img9" src="" alt="" class="h-1/4 aspect-square pt-4">
+                </div>
+            </div>
         </div>
-
     </div>
 </body>
 
@@ -35,34 +50,6 @@
         console.log("Connected");
         socket.emit('process_img');
     });
-
-    socket.on('message', (data) => {
-        console.log(data);
-    
-        var ul = document.getElementById("log");
-        var li = document.createElement("li");
-        li.appendChild(document.createTextNode(data));
-    
-        // Appliquer une translation initiale sur l'axe X
-        li.classList.add("transform", "-translate-y-full", "text-[#0b1d3e]", "text-4xl", "font-bold", "transition", "duration-500", "ease-in-out");
-        ul.insertBefore(li, ul.firstChild);
-    
-        // Animer la translation X pour la ramener à sa position initiale
-        setTimeout(() => {
-            li.classList.remove("-translate-y-full");
-            li.classList.add("translate-y-0");
-        }, 10);
-        
-        // Décaler les autres éléments pour laisser la place au nouveau
-        var otherLis = ul.getElementsByTagName("li");
-        for (var i = 1; i < otherLis.length; i++) {
-            otherLis[i].classList.remove("text-4xl", "font-bold");
-            otherLis[i].classList.add("text-xl");
-    
-            var opacity = Math.max(1 - i * 0.2, 0.1);
-            otherLis[i].style.opacity = opacity.toString();
-            otherLis[i].style.transform = "translateY(" + 20 + "px)";
-        }
-    });
 </script>
+<script type="module" src="{{ url_for('static', filename='js/waiting.js')}}"></script>
 </html>

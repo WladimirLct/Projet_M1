@@ -1,8 +1,9 @@
 import os
+import random
 import multiprocessing
 
-from flask import Flask, render_template, request
-from flask_socketio import SocketIO, send, emit, join_room, leave_room
+from flask import Flask, render_template, request, send_file
+from flask_socketio import SocketIO, join_room, leave_room
 
 from werkzeug.utils import secure_filename
 from run_wsi_tif import mescnn_function
@@ -37,6 +38,54 @@ def process_img():
 def home():
     # Utilisez render_template pour servir votre fichier HTML
     return render_template('index.html')
+
+
+@app.route('/tiles')
+def send_tiles():
+    tiles = os.listdir('./Data/Export/cascade_R_50_FPN_3x/Temp/tiler-output/Tiles/C2321120-1-A-PAS/')
+
+    random.shuffle(tiles)
+    tiles = tiles[:10]
+    
+    for i in range(len(tiles)):
+        tiles[i] = "/get_tile/" + tiles[i]
+    return {'result': tiles}
+
+@app.route('/get_tile/<tile>')
+def get_tile(tile):
+    return send_file('./Data/Export/cascade_R_50_FPN_3x/Temp/tiler-output/Tiles/C2321120-1-A-PAS/' + tile)
+
+
+@app.route('/masks')
+def send_masks():
+    masks = os.listdir('./Data/Export/cascade_R_50_FPN_3x/Temp/segment-output/Masks/C2321120-1-A-PAS/')
+
+    random.shuffle(masks)
+    masks = masks[:10]
+    
+    for i in range(len(masks)):
+        masks[i] = "/get_mask/" + masks[i]
+    return {'result': masks}
+
+@app.route('/get_mask/<mask>')
+def get_mask(mask):
+    return send_file('./Data/Export/cascade_R_50_FPN_3x/Temp/segment-output/Masks/C2321120-1-A-PAS/' + mask)
+
+
+@app.route('/crops')
+def send_crops():
+    crops = os.listdir('./Data/Export/cascade_R_50_FPN_3x/Temp/json2exp-output/Crop-256/C2321120-1-A-PAS/')
+
+    random.shuffle(crops)
+    crops = crops[:10]
+    
+    for i in range(len(crops)):
+        crops[i] = "/get_crop/" + crops[i]
+    return {'result': crops}
+
+@app.route('/get_crop/<crop>')
+def get_crop(crop):
+    return send_file('./Data/Export/cascade_R_50_FPN_3x/Temp/json2exp-output/Crop-256/C2321120-1-A-PAS/' + crop)
 
 
 @app.route('/mescnn')
