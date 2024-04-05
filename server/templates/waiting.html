@@ -5,63 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Processing image</title>
     <script src="https://cdn.tailwindcss.com" rel="stylesheet"></script>
+    <style>
+        /* Ajouter des transitions personnalisées pour la liste */
+        #log li {
+            transition: transform 0.5s ease-in-out;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container mx-auto">
-        <div class="flex h-screen">
-                <ul class="flex justify-center flex-col" id="log">
-                    <li class="text-[#0b1d3e] text-2xl font-bold" id="msg">
-
-                    </li>
+        <div class="flex h-screen flex-row space-between">
+            <!-- Conteneur centré pour le premier élément -->
+            <div class="flex items-center" id="logContainer">
+                <ul class="flex flex-col h-64 mx-h-64 overflow-hidden" id="log">
+                    <!-- Les éléments de liste seront ajoutés ici par JavaScript -->
                 </ul>
+            </div>
         </div>
-    
+
     </div>
 </body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js" integrity="sha512-luMnTJZ7oEchNDZAtQhgjomP1eZefnl82ruTH/3Oj/Yu5qYtwL7+dVRccACS/Snp1lFXq188XFipHKYE75IaQQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<!-- Create a socket using socketid -->
 <script>
     const socket = io();
 
     socket.on('connect', () => {
-        // Send the socketid to the server
         console.log("Connected");
         socket.emit('process_img');
     });
 
-    
     socket.on('message', (data) => {
         console.log(data);
     
-        // Créer un nouvel élément de liste pour le message entrant
         var ul = document.getElementById("log");
         var li = document.createElement("li");
         li.appendChild(document.createTextNode(data));
     
-        // Insérer le nouveau message en haut de la liste
+        // Appliquer une translation initiale sur l'axe X
+        li.classList.add("transform", "-translate-y-full", "text-[#0b1d3e]", "text-4xl", "font-bold", "transition", "duration-500", "ease-in-out");
         ul.insertBefore(li, ul.firstChild);
     
-        // Appliquer les styles au nouveau message
-        li.classList.add("text-[#0b1d3e]", "text-4xl", "font-bold");
-    
-        // Appliquer différents styles aux autres messages et ajuster l'opacité
+        // Animer la translation X pour la ramener à sa position initiale
+        setTimeout(() => {
+            li.classList.remove("-translate-y-full");
+            li.classList.add("translate-y-0");
+        }, 10);
+        
+        // Décaler les autres éléments pour laisser la place au nouveau
         var otherLis = ul.getElementsByTagName("li");
-        for (var i = 1; i < otherLis.length; i++) { // Commencer à 1 pour ignorer le premier élément
-            otherLis[i].classList.remove("text-4xl", "font-bold"); // Supprimer les styles spécifiques au premier élément
-            otherLis[i].classList.add("text-xl"); // Ajouter le style de taille de texte pour les autres éléments
+        for (var i = 1; i < otherLis.length; i++) {
+            otherLis[i].classList.remove("text-4xl", "font-bold");
+            otherLis[i].classList.add("text-xl");
     
-            // Calculer et appliquer une opacité qui diminue avec la position de l'élément dans la liste
-            var opacity = Math.max(1 - i * 0.2, 0.1); // Assure une opacité minimale de 0.1
+            var opacity = Math.max(1 - i * 0.2, 0.1);
             otherLis[i].style.opacity = opacity.toString();
+            otherLis[i].style.transform = "translateY(" + 20 + "px)";
         }
     });
-    
-    
-
-
-
-
 </script>
 </html>
