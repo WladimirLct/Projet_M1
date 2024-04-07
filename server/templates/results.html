@@ -115,51 +115,9 @@
         <div class="container mx-auto bg-blue-100">
             <div class="w-full">
                 <div class="my-images">
-                    <div class="overflow-y-auto grid grid-cols-2 gap-4 h-screen grid-flow-row">
+                    <div class="overflow-y-auto grid grid-cols-2 gap-4 h-screen grid-flow-row mt-6" id="images">
                         <!-- Images -->
-                        <div class="p-4">
-                            <div class="flex flex-col items-center">
-                                <img src="https://images.rtl.fr/~c/2000v2000/rtl/www/1449859-shrek-dans-shrek-4-il-etait-une-fin.jpg"
-                                    width="170">
-                                <p class="text-center">Texte sous l'image 2</p>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="flex flex-col items-center">
-                                <img src="https://images.rtl.fr/~c/2000v2000/rtl/www/1449859-shrek-dans-shrek-4-il-etait-une-fin.jpg"
-                                    width="170">
-                                <p class="text-center">Texte sous l'image 2</p>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="flex flex-col items-center">
-                                <img src="https://images.rtl.fr/~c/2000v2000/rtl/www/1449859-shrek-dans-shrek-4-il-etait-une-fin.jpg"
-                                    width="170">
-                                <p class="text-center">Texte sous l'image 2</p>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="flex flex-col items-center">
-                                <img src="https://images.rtl.fr/~c/2000v2000/rtl/www/1449859-shrek-dans-shrek-4-il-etait-une-fin.jpg"
-                                    width="170">
-                                <p class="text-center">Texte sous l'image 2</p>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="flex flex-col items-center">
-                                <img src="https://images.rtl.fr/~c/2000v2000/rtl/www/1449859-shrek-dans-shrek-4-il-etait-une-fin.jpg"
-                                    width="170">
-                                <p class="text-center">Texte sous l'image 2</p>
-                            </div>
-                        </div>
-
-                        <div class="p-4">
-                            <div class="flex flex-col items-center">
-                                <img src="https://images.rtl.fr/~c/2000v2000/rtl/www/1449859-shrek-dans-shrek-4-il-etait-une-fin.jpg"
-                                    width="170">
-                                <p class="text-center">Texte sous l'image 2</p>
-                            </div>
-                        </div>
+                        
                         <!-- Fin des images -->
                     </div>
                 </div>
@@ -168,6 +126,47 @@
         
     </div>
     <script type="module" src="{{ url_for('static', filename='js/utils.js')}}"></script>
+    <script>
+        // Fonction pour charger et traiter le fichier CSV
+        function chargerFichierCSV() {
+            fetch('../static/js/C2321120-1-A-PAS1.csv') // Utilisation de '../' pour remonter au niveau du dossier "static"
+                .then(response => response.text())
+                .then(data => {
+                    // Traitement du fichier CSV
+                    let lignes = data.split('\n');
+                    // Exclure la première ligne
+                    for (let i = 1; i < lignes.length; i++) {
+                        let colonnes = lignes[i].split(';');
+                        let cheminComplet = colonnes[0]; // Supposons que la première colonne contient le chemin de l'image
+                        let cheminRelatif = cheminComplet.split('server')[1]; // Récupération du chemin relatif
+
+                        // Créer une nouvelle div pour afficher l'image
+                        let nouvelleDiv = document.createElement('div');
+                        nouvelleDiv.classList.add('flex', 'flex-col', 'items-center', 'image-container');
+                        
+                        let nouvelleImage = document.createElement('img');
+                        nouvelleImage.src = cheminRelatif;
+                        nouvelleImage.width = "170";
+
+                        let nouveauParagraphe = document.createElement('p');
+                        nouveauParagraphe.classList.add('text-center');
+                        nouveauParagraphe.textContent = "Texte sous l'image " + (i + 1); // Comme l'index commence à 0, on ajoute 1
+
+                        nouvelleDiv.appendChild(nouvelleImage);
+                        nouvelleDiv.appendChild(nouveauParagraphe);
+
+                        // Ajouter la nouvelle div au div avec l'id "images"
+                        document.getElementById('images').appendChild(nouvelleDiv);
+                    }
+                })
+                .catch(error => {
+                    console.error('Une erreur s\'est produite lors du chargement du fichier CSV :', error);
+                });
+        }
+
+        // Appeler la fonction pour charger le fichier CSV
+        chargerFichierCSV();
+    </script>
 </body>
 
 </html>
