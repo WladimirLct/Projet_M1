@@ -6,7 +6,10 @@ from flask import Flask, render_template, request, send_file
 from flask_socketio import SocketIO, join_room, leave_room
 
 from werkzeug.utils import secure_filename
-from run_wsi_tif import mescnn_function
+# from run_wsi_tif import mescnn_function
+
+def mescnn_function(a,b):
+    pass
 
 app = Flask(__name__)
 socketio = SocketIO(app, debug=True, cors_allowed_origins='*')

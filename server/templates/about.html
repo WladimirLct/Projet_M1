@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>KidneyAI</title>
+        <script src="https://cdn.tailwindcss.com" rel="stylesheet"></script>
+    </head>
+    <body>
+        <div class="mx-auto max-w-3xl px-4">
+            <div class="flex justify-center">
+                <h1 class="text-3xl font-bold text-blue-500">Our project's team</h1>
+            </div>
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <div class = "flex flex-row">
+                    <img class="rounded-full w-60 h-60" src="http://cdn.wallpapersafari.com/96/43/eyZWnf.jpg" alt="image description">
+                    <img class="rounded-full w-60 h-60" src="http://cdn.wallpapersafari.com/96/43/eyZWnf.jpg" alt="image description">
+                    <img class="rounded-full w-60 h-60" src="http://cdn.wallpapersafari.com/96/43/eyZWnf.jpg" alt="image description">
+                    <img class="rounded-full w-60 h-60" src="http://cdn.wallpapersafari.com/96/43/eyZWnf.jpg" alt="image description">
+                    <img class="rounded-full w-60 h-60" src="http://cdn.wallpapersafari.com/96/43/eyZWnf.jpg" alt="image description">
+                    <img class="rounded-full w-60 h-60" src="http://cdn.wallpapersafari.com/96/43/eyZWnf.jpg" alt="image description">
+                </div>
+            </div>
+        
+            <h1 class="text-3xl font-bold text-blue-500">Introduction</h1>
+            <br>
+            <div class="text-base text-blue-700 justify-center">
+                <p>Depuis la dernière semaine, nous avons eu l'opportunité d'utiliser l’outil de segmentation fourni par le Dr Gibier. Cet outil est essentiel dans notre processus d'analyse, permettant de segmenter efficacement les glomérules à partir des images de coupes histologiques (WSI). Cette étape initiale est cruciale pour la préparation et le traitement de nos échantillons, facilitant ainsi les prochaines phases de notre projet.</p>
+                <p>En parallèle, nous avons mené un travail de recherche afin de dresser un état de l'art des techniques de classification existantes dans notre domaine spécifique. Cela nous a permis d'identifier les meilleures pratiques et les avancées les plus récentes dans le domaine.</p>
+                <p>La mise en application de ces recherches a constitué un volet important de notre projet. Nous avons expérimenté différents modèles de classification, en appliquant les connaissances théoriques acquises lors du cursus à notre ensemble de données. Ce processus nous a permis non seulement de vérifier l'applicabilité des méthodes existantes à notre contexte, mais également d'évaluer leur efficacité et leur pertinence.</p>
+                <p>Dans les sections suivantes de ce rapport, nous présenterons en détail les recherches que nous avons établi, ainsi que les résultats obtenus à travers nos expérimentations, et enfin nos objectifs pour la semaine à venir.</p>
+            </div>
+            <br>
+            <h2 class="text-lg font-semibold text-blue-700">I. Recherches</h2>
+            <h3 class="text-base font-medium text-blue-600">1. Les librairies (PyTorch, TensorFlow)</h3>
+            <div class="text-base text-blue-700 justify-center">
+                <p>Notre étude approfondie des librairies PyTorch et TensorFlow a impliqué l'analyse de la documentation officielle, d'articles de référence, et de travaux de recherche pertinents. Les publications telles que "PyTorch: An Imperative Style, High-Performance Deep Learning Library" et "TensorFlow: Large-Scale Machine Learning on Heterogeneous Distributed Systems"  ont été consultées pour obtenir des perspectives approfondies sur les fonctionnalités et les meilleures pratiques d'utilisation. Voici nos différentes conclusions sur ces outils:</p>
+                <li>TensorFlow est une bibliothèque open source développée par l’équipe Google Brain en 2015 pour les calculs numérique et l’apprentissage automatique, Tensorflow peut gérer une large gamme de tâches de machine learning, ce qui est important pour effectuer la classification et la segmentation dans notre projet, rendant ces processus plus rapides et plus simples. </li>
+                <li>Pytorch est une bibliothèque de Python open source de machine learning qui s’appuie sur Torch développé par Facebook's AI Research lab (FAIR) en 2018. Cette bibliothèque peut gérer une large gamme de tâches en machine learning. Ainsi nous pouvons l’utiliser pour la segmentation et la classification.</li>
+                <p>Le choix entre TensorFlow et PyTorch dépend souvent des préférences personnelles, du contexte du projet et des spécificités des tâches à accomplir. Les deux frameworks sont puissants et sont utilisés avec succès dans de nombreux domaines de l'apprentissage automatique et du deep learning. Il y a quelques subtilités qui les différencie :</p>
+                <li>TensorFlow utilise un graphe de calcul statique, nécessitant la définition complète du modèle avant l'exécution, au contraire de PyTorch adopte un graphe de calcul dynamique, permettant une construction à la volée, favorisant la flexibilité et la facilité de débogage. </li>
+                <li>PyTorch est souvent loué pour sa simplicité et son approche intuitive, tandis que TensorFlow, bien qu'ayant simplifié son API, est souvent préféré pour le déploiement à grande échelle en production.</li>
+            </div>
+        </div>
+        <script src="" async defer></script>
+    </body>
+</html>
