@@ -32,6 +32,7 @@ if __name__ == '__main__':
     images_list_dict = []
     wsi_list = []
 
+    
     with QuPathProject(path_to_qupath, mode='r') as qp:
         num_images = len(qp.images)
         print(f"opened project '{qp.name}' with {num_images} images")

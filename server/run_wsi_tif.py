@@ -1,17 +1,19 @@
 import os
 import logging
 import subprocess
+import pandas as pd
+import time
 
 from mescnn.definitions import ROOT_DIR
 from mescnn.classification.gutils.config import OxfordModelNameCNN
 from mescnn.detection.model.config import SegmentationModelName
 from mescnn.detection.qupath.config import PathMESCnn, PathWSI, get_test_wsis
 
-def mescnn_function(socketio, room_id):
+def mescnn_function(socketio, room_id, process_data):
 
     # Find files in the folder "current-file"
-    files = os.listdir('./current-file/')
-    path = './current-file/' + files[0]
+    files = os.listdir('./current-files/')
+    path = './current-files/' + files[0]
 
     wsis = get_test_wsis(path)
 
@@ -21,6 +23,9 @@ def mescnn_function(socketio, room_id):
     test_qu2json = True
     test_json2exp = True
     test_classify = True
+
+    #! Initialisation
+    start_time = time.time()
 
     wsi_tiff_dir = PathWSI.MESCnn_WSI
     detection_model = SegmentationModelName.CASCADE_R_50_FPN_3x
@@ -110,7 +115,65 @@ def mescnn_function(socketio, room_id):
     else:
         logging.info(f"Skipping run of {PathMESCnn.CLASSIFY}")
 
+    end_time = time.time()
+    processing_time = end_time - start_time
+
+    process_data.file_name = files[0]
+    process_data.time = processing_time
+
+    update_server_data(process_data)
+
     #! Fin
     socketio.emit('message', {"text": 'Score determined!', "step": 3}, room=room_id)
     socketio.sleep(2)
     socketio.emit('message', {"text": '', "step": 4}, room=room_id)
+
+
+def update_server_data(process_data):
+    base_path = "./Data/Export/cascade_R_50_FPN_3x/"
+
+    report_dir = "Report/M-efficientnetv2-m_E-efficientnetv2-m_S-densenet161_C-mobilenetv2/"
+    wsi_path = os.listdir(base_path + report_dir)
+    
+    # Remove the file with Oxford in it
+    wsi_path = [w for w in wsi_path if 'Oxford' not in w]
+    wsi_path = wsi_path[0]
+
+    #! Classification
+    
+    # Create a dataframe, first row is the header
+    csv_content = pd.read_csv(base_path + report_dir + "/" + wsi_path, sep=';', header=None)
+    df = csv_content.values.tolist()
+    df = pd.DataFrame(df[1:], columns=df[0])
+
+    process_data.classification_csv = df.copy()
+
+    # Calculate the histogram using the columns of the dataframe
+    histogram = df.iloc[:, 5:9].astype('float').sum().to_dict()
+
+    # Only keep the first character of the column name (M-bin -> M)
+    histogram = {k[0]: v for k, v in histogram.items()}
+    histogram['total'] = len(df)
+
+    process_data.crop_amount = len(df)
+
+    #! Oxford score
+
+    df = pd.read_csv(base_path + '/Report/M-efficientnetv2-m_E-efficientnetv2-m_S-densenet161_C-mobilenetv2/Oxford.csv', sep=';')
+    # Only keep the values if the WSI-ID is contained in the filename
+    df = df[df['WSI-ID'].str.contains(process_data.file_name.split('.')[0])]
+
+    # Only keep columns with "-score" in it
+    df = df[[c for c in df.columns if '-score' in c]]
+
+    # Only keep the second character of each value
+    df = df.map(lambda x: int(x[1]))
+
+    # Only keep the first character of the column name
+    df.columns = [c[0] for c in df.columns]
+
+    # Transform to dictionary
+    oxford = df.to_dict(orient='records')[0]
+
+    process_data.histogram = histogram
+    process_data.score = oxford
