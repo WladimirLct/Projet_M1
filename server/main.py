@@ -48,14 +48,22 @@ def process_img():
 
 @app.route('/results')
 def results():
-    select_crops()
-    return render_template('results.html',
-        score=process_data.score,
-        file_name=process_data.file_name, 
-        processing_time=process_data.time,
-        crop_amount=process_data.crop_amount,
-        selected_crops=process_data.selected_crops,
-    )
+    if (process_data.file_name != None):
+        select_crops()
+        return render_template('results.html',
+            score=process_data.score,
+            file_name=process_data.file_name, 
+            processing_time=process_data.time,
+            crop_amount=process_data.crop_amount,
+            selected_crops=process_data.selected_crops,
+            is_empty=False
+        )
+    else:
+        return render_template('results.html', is_empty=True)
+    
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 
 def select_crops():
@@ -102,6 +110,10 @@ def analyze():
     file = request.files['file']
     if file.filename == '':
         return 'No selected file', 400
+    
+    # If there is a process in progress, return an error
+    if process_data.in_progress:
+        return 'There is already a process in progress', 400
     
     if file:
         # Check if there is already a file in the folder

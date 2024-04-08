@@ -1,6 +1,6 @@
 # For the WSIs
-current-file/
-current-files/
+current-file/*.svs
+current-files/*.svs
 
 # For the crops
 Export/
