@@ -51,7 +51,7 @@
     <div class="flex flex-col w-4/6 bg-[#f1f5ff]">
         <!-- Models Info -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md" style="background-color: rgb(224, 242, 254);">
+            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md border-r-2 border-blue-500" style="background-color: rgb(224, 242, 254);">
                 <div class="flex items-center">
                     <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">M</h1>
                     <div class="flex flex-col">
@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div>
-            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md" style="background-color: rgb(224, 242, 254);">
+            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md border-r-2 border-blue-500" style="background-color: rgb(224, 242, 254);">
                 <div class="flex items-center">
                     <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">E</h1>
                     <div class="flex flex-col">
@@ -73,7 +73,7 @@
                     </div>
                 </div>
             </div>
-            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md" style="background-color: rgb(224, 242, 254);">
+            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md border-r-2 border-blue-500" style="background-color: rgb(224, 242, 254);">
                 <div class="flex items-center">
                     <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">S</h1>
                     <div class="flex flex-col">
@@ -84,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md" style="background-color: rgb(224, 242, 254);">
+            <div class="inline-block p-4 rounded-lg bg-blue-500 max-w-md border-r-2 border-blue-500" style="background-color: rgb(224, 242, 254);">
                 <div class="flex items-center">
                     <h1 class="text-blue-500 mr-5 font-serif text-5xl border-r-2 border-blue-500 pr-5">C</h1>
                     <div class="flex flex-col">
@@ -100,6 +100,7 @@
         <h1>Graphique des lésions</h1>
         <!-- Div pour afficher le graphique -->
         <div class="flex flex-row">
+            <div id="results"></div>
             <canvas id="GraphLesion" width="400" height="300"></canvas>
             <canvas id="GraphAccuracy" width="400" height="300"></canvas>
         </div>
@@ -116,9 +117,7 @@
             <div class="w-full">
                 <div class="my-images">
                     <div class="overflow-y-auto grid grid-cols-2 gap-4 h-screen grid-flow-row mt-6" id="images">
-                        <!-- Images -->
                         
-                        <!-- Fin des images -->
                     </div>
                 </div>
             </div>
@@ -126,47 +125,7 @@
         
     </div>
     <script type="module" src="{{ url_for('static', filename='js/utils.js')}}"></script>
-    <script>
-        // Fonction pour charger et traiter le fichier CSV
-        function chargerFichierCSV() {
-            fetch('../static/js/C2321120-1-A-PAS1.csv') // Utilisation de '../' pour remonter au niveau du dossier "static"
-                .then(response => response.text())
-                .then(data => {
-                    // Traitement du fichier CSV
-                    let lignes = data.split('\n');
-                    // Exclure la première ligne
-                    for (let i = 1; i < lignes.length; i++) {
-                        let colonnes = lignes[i].split(';');
-                        let cheminComplet = colonnes[0]; // Supposons que la première colonne contient le chemin de l'image
-                        let cheminRelatif = cheminComplet.split('server')[1]; // Récupération du chemin relatif
-
-                        // Créer une nouvelle div pour afficher l'image
-                        let nouvelleDiv = document.createElement('div');
-                        nouvelleDiv.classList.add('flex', 'flex-col', 'items-center', 'image-container');
-                        
-                        let nouvelleImage = document.createElement('img');
-                        nouvelleImage.src = cheminRelatif;
-                        nouvelleImage.width = "170";
-
-                        let nouveauParagraphe = document.createElement('p');
-                        nouveauParagraphe.classList.add('text-center');
-                        nouveauParagraphe.textContent = "Texte sous l'image " + (i + 1); // Comme l'index commence à 0, on ajoute 1
-
-                        nouvelleDiv.appendChild(nouvelleImage);
-                        nouvelleDiv.appendChild(nouveauParagraphe);
-
-                        // Ajouter la nouvelle div au div avec l'id "images"
-                        document.getElementById('images').appendChild(nouvelleDiv);
-                    }
-                })
-                .catch(error => {
-                    console.error('Une erreur s\'est produite lors du chargement du fichier CSV :', error);
-                });
-        }
-
-        // Appeler la fonction pour charger le fichier CSV
-        chargerFichierCSV();
-    </script>
+   
 </body>
 
 </html>
