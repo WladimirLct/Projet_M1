@@ -203,9 +203,8 @@ def download(dl_type):
         return send_file(report_dir + "/" + wsi_path)
     elif dl_type == 'crops':
         wsi_path = os.listdir(crops_dir)[0] + '/'
-        # Create a zip file in "current-file/"
-        os.system(f"zip -r ./current-file/crops.zip {crops_dir + wsi_path}")
-        return send_file('./current-file/crops.zip')
+        os.system(f"zip -r {files_path}crops.zip {crops_dir + wsi_path}")
+        return send_file(files_path + 'crops.zip')
     
 
 if __name__ == '__main__':

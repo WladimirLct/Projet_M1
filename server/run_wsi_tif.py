@@ -18,8 +18,8 @@ def mescnn_function(socketio, room_id, process_data):
     wsis = get_test_wsis(path)
 
     # Tests
-    test_tile = False
-    test_segment = False
+    test_tile = True
+    test_segment = True
     test_qu2json = True
     test_json2exp = True
     test_classify = True
