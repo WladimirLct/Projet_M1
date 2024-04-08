@@ -92,15 +92,7 @@ socket.on('message', (data) => {
                 }
             });
     } 
-    
-    else if (steps[data.step] == "score") {
-        fetch("/score")
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-            });
-    } 
-    
+
     else if (steps[data.step] == "redirect") {
         window.location.replace("/results");
     }
