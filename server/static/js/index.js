@@ -2,6 +2,7 @@ const socket = io(); //socketio connection to server//
 
 const loadingBarContainer = document.getElementById('loadingBarContainer');
 const loadingBar = document.getElementById('loadingBar');
+const analyze_btn = document.getElementById('analyze-btn');
 
 let form = document.getElementById('dropzone-form');
 
@@ -17,6 +18,8 @@ form.addEventListener('submit', function(event) {
     formData.append('file', fileField.files[0]);
 
     loadingBarContainer.classList.remove('hidden'); // Show loading bar container
+    loadingBar.style.transition = 'width 0.2s'; // Add transition effect
+    analyze_btn.classList.add('hidden'); // Hide analyze button
     loadingBar.style.width = '0%'; // Reset width
 
     let progress = 0;
@@ -27,7 +30,7 @@ form.addEventListener('submit', function(event) {
         if (progress >= 100) {
             clearInterval(interval);
         }
-    }, 200); // Adjust speed for a more gradual progress
+    }, 100); // Adjust speed for a more gradual progress
 
     fetch('/analyze', {
         method: 'POST',
