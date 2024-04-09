@@ -9,6 +9,7 @@ from werkzeug.utils import secure_filename
 from run_wsi_tif import mescnn_function
 
 
+
 app = Flask(__name__)
 socketio = SocketIO(app, debug=True, cors_allowed_origins='*')
 
@@ -31,7 +32,7 @@ process_data = ProcessInfo()
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index.html', history=get_history())
 
 currently_analyzing = False
 @socketio.on('process_img')
@@ -56,7 +57,9 @@ def results():
             processing_time=process_data.time,
             crop_amount=process_data.crop_amount,
             selected_crops=process_data.selected_crops,
-            is_empty=False
+            is_empty=False,
+            history = get_history()
+        
         )
     else:
         return render_template('results.html', is_empty=True)
