@@ -100,14 +100,16 @@
                             </div>
                             <span class="text-green-600 font-bold pl-4">M0E0S0C0</span>
                         </div>
-                        <div class="p-8 py-4 rounded-lg flex justify-between items-center">
-                            <div class="space-y-1">
-                                <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
-                                <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
-                                <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
+                        {% for wsi in history %}
+                            <div class="p-8 py-4 rounded-lg flex justify-between items-center">
+                                <div class="space-y-1">
+                                    <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
+                                    <span class="block text-sm text-gray-600">File Size: 2.3 MB</span>
+                                    <span class="block text-sm text-gray-600">Date: 2024-04-01</span>
+                                </div>
+                                <span class="text-red-600 font-bold pl-4">{{ wsi.score }}</span>
                             </div>
-                            <span class="text-red-600 font-bold pl-4">M1E1S1C1</span>
-                        </div>
+                        {% endfor %}
                         <div class="p-8 py-4 rounded-lg flex justify-between items-center">
                             <div class="space-y-1">
                                 <span class="block text-lg font-semibold text-gray-900">Patient ID: #1234</span>
