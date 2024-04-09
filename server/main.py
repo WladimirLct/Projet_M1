@@ -121,8 +121,8 @@ def analyze():
 
         # Remove the file(s) in the folder
         for f in files:
-            if (".zip" not in f):
-                os.remove(files_path + f)
+            # if (".zip" not in f):
+            os.remove(files_path + f)
 
         filename = secure_filename(file.filename)
         file.save(os.path.join(files_path, filename))
