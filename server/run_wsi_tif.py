@@ -15,13 +15,16 @@ def mescnn_function(socketio, room_id, process_data):
     files = os.listdir('./current-files/')
     path = './current-files/' + files[0]
 
-    wsis = get_test_wsis(path)
+    # Get the WSI and the type of the WSI
+    get_wsi_path = get_test_wsis(path)
+    wsis = get_wsi_path[0]
+    type_wsi = get_wsi_path[1]
 
     # Tests
-    test_tile = True
-    test_segment = True
-    test_qu2json = True
-    test_json2exp = True
+    test_tile = False
+    test_segment = False
+    test_qu2json = False
+    test_json2exp = False
     test_classify = True
 
     #! Initialisation
@@ -38,15 +41,20 @@ def mescnn_function(socketio, room_id, process_data):
     socketio.sleep(1)
 
     if test_tile:
+        print(wsis)
+        print(type_wsi)
         if wsis[0] is False:
             logging.info("No WSIs found for testing!")
             return
-        else:
+        elif type_wsi == "wsi":
             for wsi in wsis:
                 logging.info(f"{PathMESCnn.TILE} running on {wsi}...")
                 subprocess.run(["python", PathMESCnn.TILE,
                                 "--wsi", wsi,
                                 "--export", path_to_export])
+        else:
+            logging.info("img")
+            return
                 
     #! Tiling effectué
     socketio.emit('message', {"text": 'Tiling complete!', "step": 0}, room=room_id)
@@ -111,7 +119,9 @@ def mescnn_function(socketio, room_id, process_data):
                         "--netM", net_M, "--vitM", str(use_vit_M),
                         "--netE", net_E, "--vitE", str(use_vit_E),
                         "--netS", net_S, "--vitS", str(use_vit_S),
-                        "--netC", net_C, "--vitC", str(use_vit_C)])
+                        "--netC", net_C, "--vitC", str(use_vit_C),
+                        "--path_wsi", wsis[0]]),
+
     else:
         logging.info(f"Skipping run of {PathMESCnn.CLASSIFY}")
 

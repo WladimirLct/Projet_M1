@@ -38,7 +38,8 @@ class PathWSI:
 
 def get_test_wsis(path):
     # Liste des extensions de fichier valides
-    valid_extensions = ('.ndpi', '.svs', '.mrxs', '.tif', '.tiff', '.scn', '.ome.tiff', '.ome.tif')
+    valid_extensions_wsi = ('.ndpi', '.svs', '.mrxs', '.tif', '.tiff', '.scn', '.ome.tiff', '.ome.tif')
+    valid_extensions_img = ('.jpeg')
 
     if path:
         # Vérification que le chemin pointe vers un fichier existant
@@ -47,10 +48,12 @@ def get_test_wsis(path):
             _, ext = os.path.splitext(path)
 
             # Vérification que l'extension du fichier est valide
-            if ext in valid_extensions:
-                return [path]
+            if ext in valid_extensions_wsi:
+                return [[path], "wsi"]
+            elif ext in valid_extensions_img:
+                return [[path], "img"]
             else:
-                print("L'extension du fichier n'est pas valide.")
+                print("Le fichier n'est pas une image.")
                 return [False]
         else:
             print("Le fichier n'existe pas.")

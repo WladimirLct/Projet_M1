@@ -25,6 +25,7 @@ def oxfordify(val, score, c1_only=True):
             if val >= 0.25: return "C2"
             elif val > 0: return "C1"
             else: return "C0"
+            
 
 
 def textify(x, lesion):

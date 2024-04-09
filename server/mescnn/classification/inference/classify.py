@@ -3,6 +3,7 @@ import numpy as np
 import torch
 from PIL import Image
 import pandas as pd
+import datetime as dt
 
 from mescnn.classification.gutils.utils import get_proper_device, str2bool
 from mescnn.classification.inference.oxford import binarize, oxfordify
@@ -32,6 +33,7 @@ if __name__ == '__main__':
     parser.add_argument('--tverE', type=str, help='Training version for M lesion', default="V3")
     parser.add_argument('--tverS', type=str, help='Training version for M lesion', default="V3")
     parser.add_argument('--tverC', type=str, help='Training version for M lesion', default="V3")
+    parser.add_argument('--path_wsi', type=str, help='Path to WSI', default=None)
     args = parser.parse_args()
 
     use_vit_dict = {
@@ -78,7 +80,9 @@ if __name__ == '__main__':
         'M-ratio': [],
         'E-ratio': [],
         'S-ratio': [],
-        'C-ratio': []
+        'C-ratio': [],
+        'DateTime': [],
+        'wsi_size': []
     }
 
     output_file_score_csv = os.path.join(report_dir, "Oxford.csv")
@@ -191,6 +195,9 @@ if __name__ == '__main__':
                 wsi_dict['WSI-ID'].append(wsi_id)
             wsi_dict[target_score].append(target_oxford)
             wsi_dict[target_ratio].append(f"{target_sum} | {target_len}")
+            if target == 'C':
+                wsi_dict['DateTime'].append(dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                wsi_dict["wsi_size"].append(os.path.getsize(os.path.join(ROOT_DIR, args.path_wsi)))
 
         mesc_df.to_csv(output_file_csv, sep=';', index=False)
 
