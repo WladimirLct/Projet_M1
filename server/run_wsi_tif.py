@@ -10,16 +10,16 @@ from mescnn.detection.model.config import SegmentationModelName
 from mescnn.detection.qupath.config import PathMESCnn, PathWSI, get_test_wsis
 
 def mescnn_function(socketio, room_id, process_data):
-
     # Find files in the folder "current-file"
     files = os.listdir('./current-files/')
     path = './current-files/' + files[0]
+    file_name = ".".join(files[0].split(".")[:-1])
 
     wsis = get_test_wsis(path)
 
     # Tests
     test_tile = True
-    test_segment = True
+    test_segment = False
     test_qu2json = True
     test_json2exp = True
     test_classify = True
@@ -47,14 +47,23 @@ def mescnn_function(socketio, room_id, process_data):
                 subprocess.run(["python", PathMESCnn.TILE,
                                 "--wsi", wsi,
                                 "--export", path_to_export])
-                
-    #! Tiling effectué
-    socketio.emit('message', {"text": 'Tiling complete!', "step": 0}, room=room_id)
-    socketio.sleep(0.2)
+    
+
+    # Check that tiles exist
+    if not os.path.exists(os.path.join(path_to_export, 'Temp/tiler-output/Tiles/' + file_name)):
+        socketio.emit('message', {"text": 'Error while creating tiles!', "step": -2}, room=room_id)
+        socketio.sleep(5)
+        socketio.emit('message', {"text": '/errored', "step": 4}, room=room_id)
+        return
+    else :
+        #! Tiling effectué
+        socketio.emit('message', {"text": 'Tiling complete!', "step": 0}, room=room_id)
+        socketio.sleep(0.2)
+
 
     if test_segment:
         for wsi in wsis:
-            socketio.emit('message', {"text": 'Segmentation masks in progess...', "step": -1}, room=room_id)
+            socketio.emit('message', {"text": 'Segmentation masks in progress...', "step": -1}, room=room_id)
             logging.info(f"{PathMESCnn.SEGMENT} running on {wsi}...")
             subprocess.run(["python", PathMESCnn.SEGMENT,
                             "--wsi", wsi,
@@ -64,9 +73,18 @@ def mescnn_function(socketio, room_id, process_data):
     else:
         logging.info(f"Skipping run of {PathMESCnn.SEGMENT}!")
 
-    #! Masques de segmentation effectués
-    socketio.emit('message', {"text": 'Masks generated!', "step": 1}, room=room_id)
-    socketio.sleep(0.2)
+
+    # Check that masks exist
+    if not os.path.exists(os.path.join(path_to_export, 'Temp/segment-output/Masks/' + file_name)):
+        socketio.emit('message', {"text": 'Error while creating masks!', "step": -2}, room=room_id)
+        socketio.sleep(5)
+        socketio.emit('message', {"text": '/errored', "step": 4}, room=room_id)
+        return
+    else:
+        #! Masques de segmentation effectués
+        socketio.emit('message', {"text": 'Masks generated!', "step": 1}, room=room_id)
+        socketio.sleep(0.2)
+
 
     if test_qu2json:
         socketio.emit('message', {"text": 'Annotation conversion in progress...', "step": -1}, room=room_id)
@@ -78,9 +96,17 @@ def mescnn_function(socketio, room_id, process_data):
     else:
         logging.info(f"Skipping run of {PathMESCnn.QU2JSON}")
 
-    #! Conversion QuPath -> JSON effectuée
-    socketio.emit('message', {"text": 'Masks converted to JSON!', "step": -1}, room=room_id)
-    socketio.sleep(0.2)
+
+    if not os.path.exists(os.path.join(path_to_export, 'Temp/qu2json-output/rois.csv')):
+        socketio.emit('message', {"text": 'Error while creating JSON!', "step": -2}, room=room_id)
+        socketio.sleep(5)
+        socketio.emit('message', {"text": '/errored', "step": 4}, room=room_id)
+        return
+    else:
+        #! Conversion QuPath -> JSON effectuée
+        socketio.emit('message', {"text": 'Masks converted to JSON!', "step": -1}, room=room_id)
+        socketio.sleep(0.2)
+
 
     if test_json2exp:
         socketio.emit('message', {"text": 'Annotation export in progress...', "step": -1}, room=room_id)
@@ -91,9 +117,17 @@ def mescnn_function(socketio, room_id, process_data):
     else:
         logging.info(f"Skipping run of {PathMESCnn.JSON2EXP}")
 
-    #! Exportation des glomérules effectuée
-    socketio.emit('message', {"text": 'Crops generated!', "step": 2}, room=room_id)
-    socketio.sleep(0.2)
+
+    if not os.path.exists(os.path.join(path_to_export, 'Temp/json2exp-output/Crop/' + file_name)):
+        socketio.emit('message', {"text": 'Error while exporting JSON!', "step": -2}, room=room_id)
+        socketio.sleep(5)
+        socketio.emit('message', {"text": '/errored', "step": 4}, room=room_id)
+        return
+    else:
+        #! Exportation des glomérules effectuée
+        socketio.emit('message', {"text": 'Crops generated!', "step": 2}, room=room_id)
+        socketio.sleep(0.2)
+
 
     if test_classify:
         net_M = OxfordModelNameCNN.EfficientNet_V2_M
@@ -115,6 +149,14 @@ def mescnn_function(socketio, room_id, process_data):
     else:
         logging.info(f"Skipping run of {PathMESCnn.CLASSIFY}")
 
+
+    if not os.path.exists(os.path.join(path_to_export, f'Report/M-efficientnetv2-m_E-efficientnetv2-m_S-densenet161_C-mobilenetv2/{file_name}.csv')):
+        socketio.emit('message', {"text": 'Error while calculating Oxford score!', "step": -2}, room=room_id)
+        socketio.sleep(5)
+        socketio.emit('message', {"text": '/errored', "step": 4}, room=room_id)
+        return
+
+
     end_time = time.time()
     processing_time = end_time - start_time
 
@@ -126,7 +168,8 @@ def mescnn_function(socketio, room_id, process_data):
     #! Fin
     socketio.emit('message', {"text": 'Score determined!', "step": 3}, room=room_id)
     socketio.sleep(2)
-    socketio.emit('message', {"text": '', "step": 4}, room=room_id)
+    socketio.emit('message', {"text": '/results', "step": 4}, room=room_id)
+
 
 
 def update_server_data(process_data):

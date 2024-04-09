@@ -38,11 +38,11 @@ function start_carousels() {
 }
 
 
-let steps = ["tiles", "masks", "crops", "score", "redirect", false];
+let steps = ["tiles", "masks", "crops", "score", "redirect", false, false];
 
 socket.on('message', (data) => {
-    var ul = document.getElementById("log");
-    var li = document.createElement("li");
+    let ul = document.getElementById("log");
+    let li = document.createElement("li");
     li.appendChild(document.createTextNode(data.text));
 
     // Appliquer une translation initiale sur l'axe X
@@ -56,12 +56,12 @@ socket.on('message', (data) => {
     }, 10);
 
     // Décaler les autres éléments pour laisser la place au nouveau
-    var otherLis = ul.getElementsByTagName("li");
-    for (var i = 1; i < otherLis.length; i++) {
+    let otherLis = ul.getElementsByTagName("li");
+    for (let i = 1; i < otherLis.length; i++) {
         otherLis[i].classList.remove("text-4xl", "font-bold");
         otherLis[i].classList.add("text-xl");
 
-        var opacity = Math.max(1 - i * 0.2, 0.1);
+        let opacity = Math.max(1 - i * 0.2, 0.1);
         otherLis[i].style.opacity = opacity.toString();
         otherLis[i].style.transform = "translateY(" + 20 + "px)";
     }
@@ -80,7 +80,7 @@ socket.on('message', (data) => {
         }, 100);
     }
 
-    if (steps[data.step] != "score" && steps[data.step] != "redirect"  && steps[data.step]) {
+    if (steps[data.step] && steps[data.step] != "score" && steps[data.step] != "redirect" ) {
         fetch("/" + steps[data.step])
             .then(response => response.json())
             .then(data => {
@@ -92,8 +92,10 @@ socket.on('message', (data) => {
                 }
             });
     } 
-
     else if (steps[data.step] == "redirect") {
-        window.location.replace("/results");
+        window.location.replace(data.text);
+    }
+    else if (data.step == -2) {
+        li.classList.add("text-teal-500");
     }
 });

@@ -31,7 +31,11 @@ process_data = ProcessInfo()
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index.html', errored=False)
+
+@app.route('/errored')
+def errored():
+    return render_template('index.html', errored=True)
 
 currently_analyzing = False
 @socketio.on('process_img')
