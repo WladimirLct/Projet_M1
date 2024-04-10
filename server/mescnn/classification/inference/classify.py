@@ -34,6 +34,7 @@ if __name__ == '__main__':
     parser.add_argument('--tverS', type=str, help='Training version for M lesion', default="V3")
     parser.add_argument('--tverC', type=str, help='Training version for M lesion', default="V3")
     parser.add_argument('--path_wsi', type=str, help='Path to WSI', default=None)
+    parser.add_argument('--img', type=str2bool, help='Use image', default=False)
     args = parser.parse_args()
 
     use_vit_dict = {
@@ -62,12 +63,21 @@ if __name__ == '__main__':
     export_dir = args.export_dir
 
     mesc_log_dir = get_logs_path(root_path)
-    crop_dir = os.path.join(export_dir, "Temp", "json2exp-output", "Crop-256")
     # report_dir = os.path.join(export_dir, "Report")
     report_dir = os.path.join(export_dir, "Report", f"M-{args.netM}_E-{args.netE}_S-{args.netS}_C-{args.netC}")
     os.makedirs(report_dir, exist_ok=True)
+    
 
-    wsi_ids = os.listdir(crop_dir)
+    if args.img:
+        crop_dir = ROOT_DIR
+        wsi_ids = ["current-files"]
+        name_img_ext = args.path_wsi.split('/')[2]
+        name_img = name_img_ext.split('.')[0]
+        
+    else :
+        crop_dir = os.path.join(export_dir, "Temp", "json2exp-output", "Crop-256")
+        wsi_ids = os.listdir(crop_dir)
+
     logs_path = get_logs_path(ROOT_DIR)
     subdir = "test-res"
 
@@ -81,14 +91,19 @@ if __name__ == '__main__':
         'E-ratio': [],
         'S-ratio': [],
         'C-ratio': [],
-        'DateTime': [],
-        'wsi_size': []
+        'Date': [],
+        'Size': []
     }
 
     output_file_score_csv = os.path.join(report_dir, "Oxford.csv")
+    file_exists = os.path.exists(output_file_score_csv)
+    
 
     for wsi_id in wsi_ids:
-        output_file_csv = os.path.join(report_dir, f"{wsi_id}.csv")
+        if args.img:
+            output_file_csv = os.path.join(report_dir, f"{name_img}.csv")
+        else : 
+            output_file_csv = os.path.join(report_dir, f"{wsi_id}.csv")
         prediction_dir = os.path.join(crop_dir, wsi_id)
 
         mesc_dict = {
@@ -192,14 +207,18 @@ if __name__ == '__main__':
             target_oxford = oxfordify(target_mean, target)
 
             if target == 'M':
-                wsi_dict['WSI-ID'].append(wsi_id)
+                wsi_dict['WSI-ID'].append(name_img)
             wsi_dict[target_score].append(target_oxford)
             wsi_dict[target_ratio].append(f"{target_sum} | {target_len}")
             if target == 'C':
-                wsi_dict['DateTime'].append(dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-                wsi_dict["wsi_size"].append(os.path.getsize(os.path.join(ROOT_DIR, args.path_wsi)))
+                wsi_dict['Date'].append(dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                wsi_dict["Size"].append(os.path.getsize(os.path.join(ROOT_DIR, args.path_wsi)))
 
         mesc_df.to_csv(output_file_csv, sep=';', index=False)
 
     wsi_df = pd.DataFrame(data=wsi_dict)
-    wsi_df.to_csv(output_file_score_csv, sep=';', index=False)
+    
+    if file_exists:
+        wsi_df.to_csv(output_file_score_csv, sep=';', index=False, mode='a', header=False)
+    else:
+        wsi_df.to_csv(output_file_score_csv, sep=';', index=False)

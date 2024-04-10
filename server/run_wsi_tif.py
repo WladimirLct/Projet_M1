@@ -21,10 +21,10 @@ def mescnn_function(socketio, room_id, process_data):
     type_wsi = get_wsi_path[1]
 
     # Tests
-    test_tile = False
-    test_segment = False
-    test_qu2json = False
-    test_json2exp = False
+    test_tile = True
+    test_segment = True
+    test_qu2json = True
+    test_json2exp = True
     test_classify = True
 
     #! Initialisation
@@ -53,8 +53,9 @@ def mescnn_function(socketio, room_id, process_data):
                                 "--wsi", wsi,
                                 "--export", path_to_export])
         else:
-            logging.info("img")
-            return
+            test_segment = False
+            test_qu2json = False
+            test_json2exp = False
                 
     #! Tiling effectué
     socketio.emit('message', {"text": 'Tiling complete!', "step": 0}, room=room_id)
@@ -102,6 +103,7 @@ def mescnn_function(socketio, room_id, process_data):
     #! Exportation des glomérules effectuée
     socketio.emit('message', {"text": 'Crops generated!', "step": 2}, room=room_id)
     socketio.sleep(0.2)
+    
 
     if test_classify:
         net_M = OxfordModelNameCNN.EfficientNet_V2_M
@@ -109,6 +111,11 @@ def mescnn_function(socketio, room_id, process_data):
         net_S = OxfordModelNameCNN.DenseNet161
         net_C = OxfordModelNameCNN.MobileNet_V2
         use_vit = False
+        
+        if type_wsi == "img":
+            img = True
+        else:
+            img = False
 
         use_vit_M = use_vit_E = use_vit_S = use_vit_C = use_vit
         socketio.emit('message', {"text": 'Calculating Oxford score', "step": -1}, room=room_id)
@@ -120,7 +127,8 @@ def mescnn_function(socketio, room_id, process_data):
                         "--netE", net_E, "--vitE", str(use_vit_E),
                         "--netS", net_S, "--vitS", str(use_vit_S),
                         "--netC", net_C, "--vitC", str(use_vit_C),
-                        "--path_wsi", wsis[0]]),
+                        "--path_wsi", wsis[0],
+                        "--img", str(img)]),
 
     else:
         logging.info(f"Skipping run of {PathMESCnn.CLASSIFY}")
