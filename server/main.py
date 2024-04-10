@@ -31,7 +31,11 @@ process_data = ProcessInfo()
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index.html', errored=False)
+
+@app.route('/errored')
+def errored():
+    return render_template('index.html', errored=True)
 
 currently_analyzing = False
 @socketio.on('process_img')
@@ -121,8 +125,8 @@ def analyze():
 
         # Remove the file(s) in the folder
         for f in files:
-            if (".zip" not in f):
-                os.remove(files_path + f)
+            # if (".zip" not in f):
+            os.remove(files_path + f)
 
         filename = secure_filename(file.filename)
         file.save(os.path.join(files_path, filename))
