@@ -33,7 +33,7 @@ if __name__ == '__main__':
     parser.add_argument('--tverE', type=str, help='Training version for M lesion', default="V3")
     parser.add_argument('--tverS', type=str, help='Training version for M lesion', default="V3")
     parser.add_argument('--tverC', type=str, help='Training version for M lesion', default="V3")
-    parser.add_argument('--path-wsi', type=str, help='Path to WSI', default=None)
+    parser.add_argument('--path_wsi', type=str, help='Path to WSI', default=None)
     parser.add_argument('--img', type=str2bool, help='Use image', default=False)
     args = parser.parse_args()
 

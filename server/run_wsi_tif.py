@@ -127,7 +127,7 @@ def mescnn_function(socketio, room_id, process_data):
                         "--netE", net_E, "--vitE", str(use_vit_E),
                         "--netS", net_S, "--vitS", str(use_vit_S),
                         "--netC", net_C, "--vitC", str(use_vit_C),
-                        "--path-wsi", wsis[0],
+                        "--path_wsi", wsis[0],
                         "--img", str(img)]),
 
     else:
