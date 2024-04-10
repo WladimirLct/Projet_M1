@@ -52,6 +52,23 @@
         }
 
         
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-template-rows: repeat(2, 100px);
+            gap: 10px; /* Espacement entre les carrés */
+        }
+
+        .grid-item {
+            background-color: #3490dc;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            border-radius: 8px;
+        }
+    </style>
     </style>        
 
 </head>
@@ -116,7 +133,30 @@
         </div>
     </nav>
 
-    <img src="/get_full_crop/{{ img.filename }}" class="w-11/12 aspect-square pt-4 rounded" alt="">
+    <div class="flex flex-row">
+        
+    <div class="flex items-center h-screen">
+        
+            <img src="{{ url_for('static', filename='img/crop256/image1.jpeg')}}" style="width: 500px; height:auto" class="rounded-full" alt="">
+        
+    </div>
+
+    <div class="flex flex-row">
+        <h1 class="text-4xl font-bold pb-2">The glomeruli seems in good</h1>
+        <h1 class="text-4xl font-bold text-[#8C6A98]">health</h1>
+        
+    </div>
+    <div class="grid-container">
+        <div class="grid-item">1</div>
+        <div class="grid-item">2</div>
+        <div class="grid-item">3</div>
+        <div class="grid-item">4</div>
+        <div class="grid-item">5</div>
+        <div class="grid-item">6</div>
+        <div class="grid-item">7</div>
+        <div class="grid-item">8</div>
+    </div>
+</div>
 
 <script type="module" src="{{ url_for('static', filename='js/results.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js" integrity="sha512-luMnTJZ7oEchNDZAtQhgjomP1eZefnl82ruTH/3Oj/Yu5qYtwL7+dVRccACS/Snp1lFXq188XFipHKYE75IaQQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
