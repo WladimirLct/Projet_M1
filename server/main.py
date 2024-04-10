@@ -6,9 +6,10 @@ from flask import Flask, render_template, request, send_file
 from flask_socketio import SocketIO, join_room, leave_room
 
 from werkzeug.utils import secure_filename
-from run_wsi_tif import mescnn_function
+# from run_wsi_tif import mescnn_function
 
-
+def mescnn_function(socketio, sid, process_data):
+    return 0
 
 app = Flask(__name__)
 socketio = SocketIO(app, debug=True, cors_allowed_origins='*')
@@ -47,23 +48,35 @@ def process_img():
     currently_analyzing = False
 
 
+# @app.route('/results')
+# def results():
+#     if (process_data.file_name != None):
+#         select_crops()
+#         return render_template('results.html',
+#             score=process_data.score,
+#             file_name=process_data.file_name, 
+#             processing_time=process_data.time,
+#             crop_amount=process_data.crop_amount,
+#             selected_crops=process_data.selected_crops,
+#             is_empty=False,
+#             history = get_history()
+#         )
+#     else:
+#         return render_template('results.html', is_empty=True, history=get_history())
+
 @app.route('/results')
-def results():
+def resultsGlomeruli():
     if (process_data.file_name != None):
         select_crops()
-        return render_template('results.html',
-            score=process_data.score,
+        return render_template('resultsGlomeruli.html',
             file_name=process_data.file_name, 
-            processing_time=process_data.time,
-            crop_amount=process_data.crop_amount,
-            selected_crops=process_data.selected_crops,
             is_empty=False,
             history = get_history()
-        
         )
     else:
-        return render_template('results.html', is_empty=True)
-    
+        return render_template('resultsGlomeruli.html', is_empty=True, history=get_history())
+ 
+ 
 @app.route('/about')
 def about():
     return render_template('about.html')

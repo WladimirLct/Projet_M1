@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample HTML Page</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Document</title>
     <script src="https://cdn.tailwindcss.com" rel="stylesheet"></script>
     <style>
         @keyframes slideDown{
@@ -54,9 +52,10 @@
         }
 
         
-    </style> 
-    
+    </style>        
+
 </head>
+
 <body class="flex flex-col h-dvh">
     <nav class="top-0 bg-white border-gray-200 w-[100%] shadow-sm">
         <div class="container sticky z-50 mx-auto">
@@ -116,94 +115,13 @@
         </div>
         </div>
     </nav>
-    
-    {% if not is_empty %}
-        <!-- Results section -->
-        <div class="container mx-auto flex flex-row flex-wrap h-5/6 text-xl">
-            <div class="flex flex-col justify-between w-1/2 border-r-4">
-                <!-- Score -->
-                <div class="p-8 h-1/2">
-                    <h1 class="text-4xl font-bold pb-4">Score</h1>
-                    <p>After extracting and analyzing {{ crop_amount }} glomeruli, the final Oxford score for <span class="font-bold">{{ file_name }}</span> is :</p>
-                    <div class="text-2xl flex w-2/3 mx-auto justify-around text-center font-bold p-4">
-                        <div class="duration-200 hover:scale-105 w-1/4 flex flex-col p-2 border-r-4 border-dotted border-teal-500">
-                            <div class="{%if score.M%}text-teal-500{%endif%} pb-2">
-                                {{ score.M }}
-                            </div>
-                            <div class="text-base text-teal-950 opacity-40">
-                                M
-                            </div>
-                        </div>
-                        <div class="duration-200 hover:scale-105 w-1/4 flex flex-col p-2 border-r-4 border-dotted border-teal-500">
-                            <div class="{%if score.E%}text-teal-500{%endif%} pb-2">
-                                {{ score.E }}
-                            </div>
-                            <div class="text-base text-teal-950 opacity-40">
-                                E
-                            </div>
-                        </div>
-                        <div class="duration-200 hover:scale-105 w-1/4 flex flex-col p-2 border-r-4 border-dotted border-teal-500">
-                            <div class="{%if score.S%}text-teal-500{%endif%} pb-2">
-                                {{ score.S }}
-                            </div>
-                            <div class="text-base text-teal-950 opacity-40">
-                                S
-                            </div>
-                        </div>
-                        <div class="duration-200 hover:scale-105 flex flex-col p-2 w-1/4">
-                            <div class="{%if score.C%}text-teal-500{%endif%} pb-2">
-                                {{ score.C }}
-                            </div>
-                            <div class="text-base text-teal-950 opacity-40">
-                                C
-                            </div>
-                        </div>
-                    </div>
-                    <p>The processing of the image took {{ '%0.2f'% processing_time }} seconds.</p>
-                </div>
-                <!-- Detail -->
-                <div class="flex flex-col justify-between p-8 h-1/2">
-                    <h1 class="text-4xl font-bold pb-4">Detail</h1>
-                    <canvas id="histogram" style="width: 100%; height: 100%;" class="pr-4"></canvas>
-                </div>
-            </div>
 
-            <!-- Insight -->
-            <div class="flex flex-col justify-between w-1/2 p-8">
-                <div>
-                    <h1 class="text-4xl font-bold pb-4">Insight</h1>
-                    <p>Some extracted glomeruli from the WSI with anomalies :</p>
-                    <div class="flex flex-wrap justify-between gap-4">
-                        {% for img in selected_crops %}
-                            <div class="flex flex-col justify-center w-1/4 hover:scale-105 duration-200">
-                                <img src="/get_full_crop/{{ img.filename }}" class="w-11/12 aspect-square pt-4 rounded" alt="">
-                                <p class="text-base pt-1 w-full text-center">{{ img.detected }} was detected</p>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
+    <img src="/get_full_crop/{{ img.filename }}" class="w-11/12 aspect-square pt-4 rounded" alt="">
 
-                <div class="flex justify-between">
-                    <a href="/download/crops" download="Crops.zip" class="duration-200 bg-teal-500 hover:bg-teal-700 text-white font-bold py-4 px-8 rounded">
-                        Download crops
-                    </a>
-
-                    <a href="/download/report" download="Report.csv" class="duration-200 bg-transparent hover:bg-teal-500 text-teal-700 font-semibold hover:text-white py-4 px-8 border-4 border-teal-500 hover:border-transparent rounded">
-                        Download report
-                    </a>
-                </div>
-            </div>
-        </div>
-    {% else %}
-        <div class="container mx-auto flex flex-col justify-center items-center h-5/6">
-            <h1 class="text-4xl font-bold pb-4">No results found</h1>
-            <p class="text-xl text-teal-500">Please upload a WSI file to get the results.</p>
-        </div>
-    {% endif %}
-</body>
 <script type="module" src="{{ url_for('static', filename='js/results.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js" integrity="sha512-luMnTJZ7oEchNDZAtQhgjomP1eZefnl82ruTH/3Oj/Yu5qYtwL7+dVRccACS/Snp1lFXq188XFipHKYE75IaQQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="module" src="{{ url_for('static', filename='js/index.js')}}"></script>
 <script type="module" src="{{ url_for('static', filename='js/nav.js')}}"></script>
 <script type="module" src="{{ url_for('static', filename='js/home.js')}}"></script>
+</body>
 </html>

@@ -89,7 +89,27 @@
                     <!-- Previous Reports Section -->
                     <h2 class="text-xl font-semibold text-teal-500 text-center mb-6 mt-5">Report history</h2>
                     
-                    
+                    <!-- Scrollable Container for Previous Reports -->
+                    <div class="space-y-4 overflow-y-auto max-h-[calc(100vh-13rem)] h-dvh w-full">
+                        {% if history == False %}
+                            <p class="p-14 text-center text-gray-600">No previous reports</p>
+                        {% else%}
+                        <!-- Example of a Repeat Report-->
+                        {% for wsi in history %}
+                        <div class="p-6 m-2 flex justify-between items-center border-b-2 {% if loop.first %}border-b-2 border-gray-950{% endif %}">
+                            <div class="space-y-1">
+                                <span class="block text-lg font-semibold text-gray-900">WSI: #{{ wsi.name }}</span>
+                                <span class="block text-sm text-gray-600">File Size: {{ wsi.filesize }}</span>
+                                <span class="block text-sm text-gray-600">Date: {{ wsi.date }}</span>
+                            </div>
+                            {% if loop.first %}
+                                <span class="text-green-600 font-bold pl-4">M0E0S0C0</span>
+                            {% else %}
+                                <span class="text-red-600 font-bold pl-4">{{ wsi.score }}</span>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    {% endif %}
                     
                     
                         
@@ -97,7 +117,7 @@
                 </div>
             </div>
         </div>
-    </div>
+        </div>
     </nav>
 
     <div class="container h-full mx-auto grow overflow-auto">
