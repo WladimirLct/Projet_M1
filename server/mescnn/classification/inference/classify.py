@@ -33,7 +33,7 @@ if __name__ == '__main__':
     parser.add_argument('--tverE', type=str, help='Training version for M lesion', default="V3")
     parser.add_argument('--tverS', type=str, help='Training version for M lesion', default="V3")
     parser.add_argument('--tverC', type=str, help='Training version for M lesion', default="V3")
-    parser.add_argument('--path_wsi', type=str, help='Path to WSI', default=None)
+    parser.add_argument('--path-wsi', type=str, help='Path to WSI', default=None)
     parser.add_argument('--img', type=str2bool, help='Use image', default=False)
     args = parser.parse_args()
 
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     report_dir = os.path.join(export_dir, "Report", f"M-{args.netM}_E-{args.netE}_S-{args.netS}_C-{args.netC}")
     os.makedirs(report_dir, exist_ok=True)
     
-
+    print(f'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA : {args.img}')
     if args.img:
         crop_dir = ROOT_DIR
         wsi_ids = ["current-files"]
@@ -196,29 +196,31 @@ if __name__ == '__main__':
 
         mesc_df = pd.DataFrame(data=mesc_dict)
 
-        for target in "MESC":
-            target_bin = f"{target}-bin"
-            target_score = f"{target}-score"
-            target_ratio = f"{target}-ratio"
+        if args.img == False : 
+            for target in "MESC":
+                target_bin = f"{target}-bin"
+                target_score = f"{target}-score"
+                target_ratio = f"{target}-ratio"
 
-            target_mean = np.mean(mesc_dict[target_bin])
-            target_sum = np.sum(mesc_dict[target_bin])
-            target_len = len(mesc_dict[target_bin])
-            target_oxford = oxfordify(target_mean, target)
+                target_mean = np.mean(mesc_dict[target_bin])
+                target_sum = np.sum(mesc_dict[target_bin])
+                target_len = len(mesc_dict[target_bin])
+                target_oxford = oxfordify(target_mean, target)
 
-            if target == 'M':
-                wsi_dict['WSI-ID'].append(name_img)
-            wsi_dict[target_score].append(target_oxford)
-            wsi_dict[target_ratio].append(f"{target_sum} | {target_len}")
-            if target == 'C':
-                wsi_dict['Date'].append(dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-                wsi_dict["Size"].append(os.path.getsize(os.path.join(ROOT_DIR, args.path_wsi)))
+                if target == 'M':
+                    wsi_dict['WSI-ID'].append(wsi_id)
+                wsi_dict[target_score].append(target_oxford)
+                wsi_dict[target_ratio].append(f"{target_sum} | {target_len}")
+                if target == 'C':
+                    wsi_dict['Date'].append(dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                    wsi_dict["Size"].append(os.path.getsize(os.path.join(ROOT_DIR, args.path_wsi)))
 
         mesc_df.to_csv(output_file_csv, sep=';', index=False)
 
-    wsi_df = pd.DataFrame(data=wsi_dict)
-    
-    if file_exists:
-        wsi_df.to_csv(output_file_score_csv, sep=';', index=False, mode='a', header=False)
-    else:
-        wsi_df.to_csv(output_file_score_csv, sep=';', index=False)
+    if args.img == False :
+        wsi_df = pd.DataFrame(data=wsi_dict)
+        
+        if file_exists:
+            wsi_df.to_csv(output_file_score_csv, sep=';', index=False, mode='a', header=False)
+        else:
+            wsi_df.to_csv(output_file_score_csv, sep=';', index=False)
