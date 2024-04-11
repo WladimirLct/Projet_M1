@@ -205,6 +205,13 @@ def get_full_crop(crop):
     return send_file(full_crops_dir + wsi_path + crop)
 
 
+img_dir = './current-files/'
+@app.route('/get_img')
+def get_img():
+    img = os.listdir(img_dir)[0]
+    return send_file(img_dir + img)
+
+
 report_dir = "./Data/Export/cascade_R_50_FPN_3x/Report/M-efficientnetv2-m_E-efficientnetv2-m_S-densenet161_C-mobilenetv2"
 @app.route('/download/<dl_type>')
 def download(dl_type):

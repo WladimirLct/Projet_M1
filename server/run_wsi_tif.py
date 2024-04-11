@@ -18,7 +18,7 @@ def mescnn_function(socketio, room_id, process_data):
     # Get the WSI and the type of the WSI
     get_wsi_path = get_test_wsis(path)
     wsis = get_wsi_path[0]
-    type_wsi = get_wsi_path[1]
+    file_type = get_wsi_path[1]
 
     # Tests
     test_tile = True
@@ -42,11 +42,11 @@ def mescnn_function(socketio, room_id, process_data):
 
     if test_tile:
         print(wsis)
-        print(type_wsi)
+        print(file_type)
         if wsis[0] is False:
             logging.info("No WSIs found for testing!")
             return
-        elif type_wsi == "wsi":
+        elif file_type == "wsi":
             for wsi in wsis:
                 logging.info(f"{PathMESCnn.TILE} running on {wsi}...")
                 subprocess.run(["python", PathMESCnn.TILE,
@@ -58,7 +58,7 @@ def mescnn_function(socketio, room_id, process_data):
             test_json2exp = False
                 
     #! Tiling effectué
-    if type_wsi == "wsi":
+    if file_type == "wsi":
         socketio.emit('message', {"text": 'Tiling complete!', "step": 0}, room=room_id)
         socketio.sleep(0.2)
 
@@ -75,7 +75,7 @@ def mescnn_function(socketio, room_id, process_data):
         logging.info(f"Skipping run of {PathMESCnn.SEGMENT}!")
 
     #! Masques de segmentation effectués
-    if type_wsi == "wsi":
+    if file_type == "wsi":
         socketio.emit('message', {"text": 'Masks generated!', "step": 1}, room=room_id)
         socketio.sleep(0.2)
 
@@ -90,7 +90,7 @@ def mescnn_function(socketio, room_id, process_data):
         logging.info(f"Skipping run of {PathMESCnn.QU2JSON}")
 
     #! Conversion QuPath -> JSON effectuée
-    if type_wsi == "wsi":
+    if file_type == "wsi":
         socketio.emit('message', {"text": 'Masks converted to JSON!', "step": -1}, room=room_id)
         socketio.sleep(0.2)
 
@@ -104,7 +104,7 @@ def mescnn_function(socketio, room_id, process_data):
         logging.info(f"Skipping run of {PathMESCnn.JSON2EXP}")
 
     #! Exportation des glomérules effectuée
-    if type_wsi == "wsi":
+    if file_type == "wsi":
         socketio.emit('message', {"text": 'Crops generated!', "step": 2}, room=room_id)
         socketio.sleep(0.2)
     
@@ -116,13 +116,13 @@ def mescnn_function(socketio, room_id, process_data):
         net_C = OxfordModelNameCNN.MobileNet_V2
         use_vit = False
         
-        if type_wsi == "img":
+        if file_type == "img":
             img = True
         else:
             img = False
 
         use_vit_M = use_vit_E = use_vit_S = use_vit_C = use_vit
-        if type_wsi == "wsi":
+        if file_type == "wsi":
             socketio.emit('message', {"text": 'Calculating Oxford score', "step": -1}, room=room_id)
         else :
             socketio.emit('message', {"text": 'Calculating score for image', "step": -1}, room=room_id)
@@ -145,7 +145,7 @@ def mescnn_function(socketio, room_id, process_data):
 
     process_data.file_name = files[0]
     process_data.time = processing_time
-    process_data.type = type_wsi
+    process_data.type = file_type
 
     update_server_data(process_data)
 
@@ -206,4 +206,25 @@ def update_server_data(process_data):
 
         process_data.histogram = histogram
         process_data.score = oxford
+        
+    else :
+        
+        #! Image score
+        
+        name_img = process_data.file_name.split('.')[0]
+        df = pd.read_csv(base_path + '/Report/M-efficientnetv2-m_E-efficientnetv2-m_S-densenet161_C-mobilenetv2/' + name_img + '.csv', sep=';')
+        
+        #Only keep columns with "-bin" in it
+        df = df[[c for c in df.columns if '-bin' in c]]
+        
+        # Only keep the first character of the column name
+        df.columns = [c[0] for c in df.columns]
+        
+        # Transform to dictionary
+        score = df.to_dict(orient='records')[0]
+        process_data.score = score
+        
+        
+        
+        
         

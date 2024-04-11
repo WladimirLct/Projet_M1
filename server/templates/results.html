@@ -7,6 +7,74 @@
     <title>Sample HTML Page</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tailwindcss.com" rel="stylesheet"></script>
+    <style>
+        @keyframes slideDown {
+            from {
+                transform: translateY(-36px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .analyze-btn-visible {
+            animation: slideDown 0.5s ease forwards;
+        }
+
+        @keyframes slideLeft {
+            from {
+                transform: translateX(500px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .slide-left {
+            animation: slideLeft 0.5s ease forwards;
+        }
+
+        @keyframes slideRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(500px);
+                opacity: 0;
+            }
+        }
+
+        .slide-right {
+            animation: slideRight 0.5s ease forwards;
+        }
+
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-template-rows: repeat(2, 100px);
+            gap: 10px;
+            /* Espacement entre les carrés */
+        }
+
+        .grid-item {
+            background-color: #3490dc;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 
 <body class="h-dvh place-content-center">
@@ -19,7 +87,15 @@
                         <a class="text-gray-950 font-bold hover:text-gray-500 cursor-pointer" href="/">Home</a>
                     </li>
                     <li>
-                        <a class="text-teal-500 font-bold hover:text-teal-300 cursor-pointer" href="/results">Results</a>
+                        {% if not is_empty %}
+                            {% if type == "wsi"%}
+                                <a class="text-teal-500 font-bold hover:text-teal-300 cursor-pointer" href="/results">Results</a>
+                            {% else %}
+                                <a class="text-purple-300 font-bold hover:text-purple-200 cursor-pointer" href="/results">Results</a>
+                            {% endif %}
+                        {% else %}
+                            <a class="text-teal-500 font-bold hover:text-teal-300 cursor-pointer" href="/results">Results</a>
+                        {% endif %}
                     </li>
                     <li>
                         <a class="text-gray-950 font-bold hover:text-gray-500 cursor-pointer" href="/about">About</a>
@@ -116,9 +192,50 @@
         </div>
     
         {% else%}
-        <div class="container mx-auto flex flex-col justify-center items-center h-5/6">
-            <h1 class="text-4xl font-bold pb-4">No results found</h1>
-            <p class="text-xl text-teal-500">Le resultat d'une image</p>
+        <div class="container mx-auto h-4/5 grow">
+            <div class="flex h-full w-full justify-around">
+    
+    
+                <div class="flex justify-center w-1/2 flex-col items-center bg-white">
+                    <div class="bg-indigo-950 overflow-hidden rounded-full p-8">
+                    <img src="/get_img" style="width: 500px; height:auto ; border-radius:'50%';mix-blend-mode : screen"
+                         alt="">
+                    </div>
+                    <p class="font-italic">{{file_name}}</p>
+    
+    
+                </div>
+    
+                <div class="flex justify-center w-1/2 flex-col">
+                    <!-- Titre -->
+                    <div class="flex flex-row">
+                        <h1 class="text-4xl font-bold pb-2">
+                            The glomeruli seems in
+                            <span class="text-[#8C6A98]">
+                                {%if score.M or score.E or score.S or score.C %} bad 
+                                {% else %}  good 
+                                {% endif %}
+                            </span>
+                            health
+                        </h1>
+                    </div>
+    
+                    <!-- Conteneur des éléments de la grille -->
+                    <div class="grid-container mt-8">
+                        <div class="grid-item bg-[#BB99FF] font-bold">M</div>
+                        <div class="grid-item bg-[#BB99FF] font-bold">E</div>
+                        <div class="grid-item bg-[#BB99FF] font-bold">S</div>
+                        <div class="grid-item bg-[#BB99FF] font-bold">C</div>
+                        <div class="grid-item bg-[#ECE3FF] text-black font-bold {%if score.M%} hover:text-white hover:bg-[#BB99FF] {%endif%}">{{score.M}}</div>
+                        <div class="grid-item bg-[#ECE3FF] text-black font-bold {%if score.E%} hover:text-white hover:bg-[#BB99FF] {%endif%}">{{score.E}}</div>
+                        <div class="grid-item bg-[#ECE3FF] text-black font-bold {%if score.S%} hover:text-white hover:bg-[#BB99FF] {%endif%}">{{score.S}}</div>
+                        <div class="grid-item bg-[#ECE3FF] text-black font-bold {%if score.C%} hover:text-white hover:bg-[#BB99FF] {%endif%}">{{score.C}}</div>
+                    </div>
+                    <div class="flex flex row mt-8 w-3/4">
+                        For information, M stands for mesangial hypercellularity ( Increased numbers of mesangial cells per glomerulus ), E stands for endocapillary hypercellularity (the presence of cells within capillary lumina, not by the matrix), S stands for segmental sclerosis ( scar tissue in the filtering unit of the kidney ), C stands for active crescents (two or more layers of proliferating cells in Bowman's space). 
+                    </div>
+                </div>
+            </div>
         </div>
         {% endif %}
     {% else %}
@@ -128,5 +245,6 @@
         </div>
     {% endif %}
 </body>
+<script type="module" src="{{ url_for('static', filename='js/nav.js')}}"></script>
 <script type="module" src="{{ url_for('static', filename='js/results.js')}}"></script>
 </html>
