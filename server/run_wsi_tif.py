@@ -58,8 +58,9 @@ def mescnn_function(socketio, room_id, process_data):
             test_json2exp = False
                 
     #! Tiling effectué
-    socketio.emit('message', {"text": 'Tiling complete!', "step": 0}, room=room_id)
-    socketio.sleep(0.2)
+    if type_wsi == "wsi":
+        socketio.emit('message', {"text": 'Tiling complete!', "step": 0}, room=room_id)
+        socketio.sleep(0.2)
 
     if test_segment:
         for wsi in wsis:
@@ -74,8 +75,9 @@ def mescnn_function(socketio, room_id, process_data):
         logging.info(f"Skipping run of {PathMESCnn.SEGMENT}!")
 
     #! Masques de segmentation effectués
-    socketio.emit('message', {"text": 'Masks generated!', "step": 1}, room=room_id)
-    socketio.sleep(0.2)
+    if type_wsi == "wsi":
+        socketio.emit('message', {"text": 'Masks generated!', "step": 1}, room=room_id)
+        socketio.sleep(0.2)
 
     if test_qu2json:
         socketio.emit('message', {"text": 'Annotation conversion in progress...', "step": -1}, room=room_id)
@@ -88,8 +90,9 @@ def mescnn_function(socketio, room_id, process_data):
         logging.info(f"Skipping run of {PathMESCnn.QU2JSON}")
 
     #! Conversion QuPath -> JSON effectuée
-    socketio.emit('message', {"text": 'Masks converted to JSON!', "step": -1}, room=room_id)
-    socketio.sleep(0.2)
+    if type_wsi == "wsi":
+        socketio.emit('message', {"text": 'Masks converted to JSON!', "step": -1}, room=room_id)
+        socketio.sleep(0.2)
 
     if test_json2exp:
         socketio.emit('message', {"text": 'Annotation export in progress...', "step": -1}, room=room_id)
@@ -101,8 +104,9 @@ def mescnn_function(socketio, room_id, process_data):
         logging.info(f"Skipping run of {PathMESCnn.JSON2EXP}")
 
     #! Exportation des glomérules effectuée
-    socketio.emit('message', {"text": 'Crops generated!', "step": 2}, room=room_id)
-    socketio.sleep(0.2)
+    if type_wsi == "wsi":
+        socketio.emit('message', {"text": 'Crops generated!', "step": 2}, room=room_id)
+        socketio.sleep(0.2)
     
 
     if test_classify:
@@ -118,7 +122,10 @@ def mescnn_function(socketio, room_id, process_data):
             img = False
 
         use_vit_M = use_vit_E = use_vit_S = use_vit_C = use_vit
-        socketio.emit('message', {"text": 'Calculating Oxford score', "step": -1}, room=room_id)
+        if type_wsi == "wsi":
+            socketio.emit('message', {"text": 'Calculating Oxford score', "step": -1}, room=room_id)
+        else :
+            socketio.emit('message', {"text": 'Calculating score for image', "step": -1}, room=room_id)
         logging.info(f"Running {PathMESCnn.CLASSIFY} with {net_M}, {net_E}, {net_S}, {net_C}")
         subprocess.run(["python", PathMESCnn.CLASSIFY,
                         "--root-path", ROOT_DIR,
@@ -138,6 +145,7 @@ def mescnn_function(socketio, room_id, process_data):
 
     process_data.file_name = files[0]
     process_data.time = processing_time
+    process_data.type = type_wsi
 
     update_server_data(process_data)
 
@@ -148,6 +156,7 @@ def mescnn_function(socketio, room_id, process_data):
 
 
 def update_server_data(process_data):
+    
     base_path = "./Data/Export/cascade_R_50_FPN_3x/"
 
     report_dir = "Report/M-efficientnetv2-m_E-efficientnetv2-m_S-densenet161_C-mobilenetv2/"
@@ -177,21 +186,24 @@ def update_server_data(process_data):
 
     #! Oxford score
 
-    df = pd.read_csv(base_path + '/Report/M-efficientnetv2-m_E-efficientnetv2-m_S-densenet161_C-mobilenetv2/Oxford.csv', sep=';')
-    # Only keep the values if the WSI-ID is contained in the filename
-    df = df[df['WSI-ID'].str.contains(process_data.file_name.split('.')[0])]
+    if process_data.type == "wsi":
+        
+        df = pd.read_csv(base_path + '/Report/M-efficientnetv2-m_E-efficientnetv2-m_S-densenet161_C-mobilenetv2/Oxford.csv', sep=';')
+        # Only keep the values if the WSI-ID is contained in the filename
+        df = df[df['WSI-ID'].str.contains(process_data.file_name.split('.')[0])]
 
-    # Only keep columns with "-score" in it
-    df = df[[c for c in df.columns if '-score' in c]]
+        # Only keep columns with "-score" in it
+        df = df[[c for c in df.columns if '-score' in c]]
 
-    # Only keep the second character of each value
-    df = df.map(lambda x: int(x[1]))
+        # Only keep the second character of each value
+        df = df.map(lambda x: int(x[1]))
 
-    # Only keep the first character of the column name
-    df.columns = [c[0] for c in df.columns]
+        # Only keep the first character of the column name
+        df.columns = [c[0] for c in df.columns]
 
-    # Transform to dictionary
-    oxford = df.to_dict(orient='records')[0]
+        # Transform to dictionary
+        oxford = df.to_dict(orient='records')[0]
 
-    process_data.histogram = histogram
-    process_data.score = oxford
+        process_data.histogram = histogram
+        process_data.score = oxford
+        

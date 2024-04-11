@@ -25,6 +25,7 @@ class ProcessInfo:
     selected_crops = []
     histogram = {}
     score = {}
+    type = None
 
 process_data = ProcessInfo()
 
@@ -56,7 +57,8 @@ def results():
             processing_time=process_data.time,
             crop_amount=process_data.crop_amount,
             selected_crops=process_data.selected_crops,
-            is_empty=False
+            is_empty=False,
+            type=process_data.type
         )
     else:
         return render_template('results.html', is_empty=True)
