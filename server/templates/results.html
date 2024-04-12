@@ -226,10 +226,22 @@
                         <div class="grid-item bg-[#BB99FF] font-bold">E</div>
                         <div class="grid-item bg-[#BB99FF] font-bold">S</div>
                         <div class="grid-item bg-[#BB99FF] font-bold">C</div>
-                        <div class="grid-item bg-[#ECE3FF] text-black font-bold {%if score.M%} hover:text-white hover:bg-[#BB99FF] {%endif%}">{{score.M}}</div>
-                        <div class="grid-item bg-[#ECE3FF] text-black font-bold {%if score.E%} hover:text-white hover:bg-[#BB99FF] {%endif%}">{{score.E}}</div>
-                        <div class="grid-item bg-[#ECE3FF] text-black font-bold {%if score.S%} hover:text-white hover:bg-[#BB99FF] {%endif%}">{{score.S}}</div>
-                        <div class="grid-item bg-[#ECE3FF] text-black font-bold {%if score.C%} hover:text-white hover:bg-[#BB99FF] {%endif%}">{{score.C}}</div>
+                        <div class="grid-item bg-[#ECE3FF] text-black font-bold group">
+                            <span class="group-hover:hidden">{{score.M}}</span>
+                            <span class="hidden group-hover:inline">{{prob.M}}</span>
+                        </div>
+                        <div class="grid-item bg-[#ECE3FF] text-black font-bold group">
+                            <span class="group-hover:hidden">{{score.E}}</span>
+                            <span class="hidden group-hover:inline">{{prob.E}}</span>
+                        </div>
+                        <div class="grid-item bg-[#ECE3FF] text-black font-bold group">
+                            <span class="group-hover:hidden">{{score.S}}</span>
+                            <span class="hidden group-hover:inline">{{prob.S}}</span>
+                        </div>
+                        <div class="grid-item bg-[#ECE3FF] text-black font-bold group">
+                            <span class="group-hover:hidden">{{score.C}}</span>
+                            <span class="hidden group-hover:inline">{{prob.C}}</span>
+                        </div>
                     </div>
                     <div class="flex flex row mt-8 w-3/4">
                         For information, M stands for mesangial hypercellularity ( Increased numbers of mesangial cells per glomerulus ), E stands for endocapillary hypercellularity (the presence of cells within capillary lumina, not by the matrix), S stands for segmental sclerosis ( scar tissue in the filtering unit of the kidney ), C stands for active crescents (two or more layers of proliferating cells in Bowman's space). 

@@ -1,7 +1,7 @@
 from huggingface_hub import hf_hub_download
 
 
-def download_classifier(net_name, target, train_version):
+def download_classifier(net_name, target, train_version, net_type = "cnn"):
     return hf_hub_download(
         repo_id="MESCnn/MESCnn",
         filename=f"classification/logs/cnn/holdout/{net_name}_{target}_{train_version}.pth",

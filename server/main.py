@@ -25,6 +25,7 @@ class ProcessInfo:
     selected_crops = []
     histogram = {}
     score = {}
+    prob = {}
     type = None
 
 process_data = ProcessInfo()
@@ -58,6 +59,7 @@ def results():
             crop_amount=process_data.crop_amount,
             selected_crops=process_data.selected_crops,
             is_empty=False,
+            prob = process_data.prob,
             type=process_data.type
         )
     else:

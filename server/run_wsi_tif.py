@@ -214,12 +214,16 @@ def update_server_data(process_data):
         name_img = process_data.file_name.split('.')[0]
         df = pd.read_csv(base_path + '/Report/M-efficientnetv2-m_E-efficientnetv2-m_S-densenet161_C-mobilenetv2/' + name_img + '.csv', sep=';')
         
+        dfp = df.copy()
+        dfp = dfp[[c for c in dfp.columns if '-prob' in c]]
+        dfp.columns = [c[0] for c in dfp.columns]
+        prob = dfp.to_dict(orient='records')[0]
+        process_data.prob = prob
+        
         #Only keep columns with "-bin" in it
         df = df[[c for c in df.columns if '-bin' in c]]
-        
         # Only keep the first character of the column name
         df.columns = [c[0] for c in df.columns]
-        
         # Transform to dictionary
         score = df.to_dict(orient='records')[0]
         process_data.score = score

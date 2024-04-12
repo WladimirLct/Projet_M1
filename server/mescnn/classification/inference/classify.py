@@ -67,7 +67,6 @@ if __name__ == '__main__':
     report_dir = os.path.join(export_dir, "Report", f"M-{args.netM}_E-{args.netE}_S-{args.netS}_C-{args.netC}")
     os.makedirs(report_dir, exist_ok=True)
     
-    print(f'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA : {args.img}')
     if args.img:
         crop_dir = ROOT_DIR
         wsi_ids = ["current-files"]
@@ -142,7 +141,7 @@ if __name__ == '__main__':
             net_path = os.path.join(net_fold, 'holdout', f'{net_name}_{target}_{train_version}.pth')
             if not os.path.exists(net_path):
                 print(f"Path: {net_path} not found!")
-                model_path = download_classifier(net_name, target, train_version)
+                model_path = download_classifier(net_name, target, train_version, net_type)
                 print(f"Downloaded: {model_path}")
             else:
                 print(f"Path: {net_path} found!")
