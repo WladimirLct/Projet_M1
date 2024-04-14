@@ -1,9 +1,9 @@
 # For the WSIs
-server/current-file/*.svs
-server/current-files/*.svs
+current-file/*.svs
+current-files/*.svs
 
 # For the crops
-# Export/
+Export/
 
 # For the models
 *.pth
