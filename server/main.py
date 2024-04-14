@@ -8,7 +8,6 @@ from flask_socketio import SocketIO, join_room, leave_room
 from werkzeug.utils import secure_filename
 from run_wsi_tif import mescnn_function
 
-
 app = Flask(__name__)
 socketio = SocketIO(app, debug=True, cors_allowed_origins='*')
 
@@ -31,7 +30,7 @@ process_data = ProcessInfo()
 
 @app.route('/')
 def home():
-    return render_template('index.html', errored=False)
+    return render_template('index.html', history=get_history(), errored=False)
 
 @app.route('/errored')
 def errored():
@@ -60,11 +59,25 @@ def results():
             processing_time=process_data.time,
             crop_amount=process_data.crop_amount,
             selected_crops=process_data.selected_crops,
-            is_empty=False
+            is_empty=False,
+            history = get_history()
         )
     else:
-        return render_template('results.html', is_empty=True)
-    
+        return render_template('results.html', is_empty=True, history=get_history())
+
+# @app.route('/results')
+# def resultsGlomeruli():
+#     if (process_data.file_name != None):
+#         select_crops()
+#         return render_template('resultsGlomeruli.html',
+#             file_name=process_data.file_name, 
+#             is_empty=False,
+#             history = get_history()
+#         )
+#     else:
+#         return render_template('resultsGlomeruli.html', is_empty=True, history=get_history())
+ 
+ 
 @app.route('/about')
 def about():
     return render_template('about.html')

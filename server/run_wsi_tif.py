@@ -19,7 +19,7 @@ def mescnn_function(socketio, room_id, process_data):
 
     # Tests
     test_tile = True
-    test_segment = False
+    test_segment = True
     test_qu2json = True
     test_json2exp = True
     test_classify = True
