@@ -7,6 +7,9 @@ import time
 import pickle
 import subprocess
 
+import skimage.filters
+import skimage.morphology
+
 from detectron2.engine import DefaultPredictor
 
 print("Loading local libraries...")
@@ -19,6 +22,35 @@ from mescnn.detection.qupath.tiling import dir_name_from_wsi
 from mescnn.detection.qupath.download import download_detector
 print("Local libraries loaded!")
 
+def get_tissue_mask_hsv_cv2(thumbnail, white_threshold):
+    # Convert BGR to HSV
+    hsv = cv2.cvtColor(thumbnail, cv2.COLOR_BGR2HSV)
+    H, S, V = cv2.split(hsv)
+
+    # Filter out white pixels
+    V_mask = V < white_threshold
+
+    # Applying Otsu's threshold to saturation
+    S_filtered = S[V_mask]
+    if S_filtered.size > 0:  # Ensure there is at least one element to apply threshold
+        S_threshold = skimage.filters.threshold_otsu(S_filtered)
+        S_mask = S > S_threshold
+    else:
+        S_mask = np.zeros_like(S, dtype=bool)
+
+    # Applying Otsu's threshold to hue
+    H_filtered = H[V_mask]
+    if H_filtered.size > 0:
+        H_threshold = skimage.filters.threshold_otsu(H_filtered)
+        H_mask = H > H_threshold
+    else:
+        H_mask = np.zeros_like(H, dtype=bool)
+
+    # Combine masks
+    mask = np.logical_and(np.logical_and(H_mask, S_mask), V_mask)
+    mask = skimage.morphology.binary_dilation(mask)
+
+    return mask
 
 if __name__ == '__main__':
     import argparse
@@ -28,6 +60,8 @@ if __name__ == '__main__':
     parser.add_argument('-q', '--qupath', type=str, help='path/to/qupath', required=True)
     parser.add_argument('-m', '--model', type=str, help='Model to use for inference', default=DEFAULT_SEGMENTATION_MODEL)
     parser.add_argument('-c', '--train-config', type=str, help='I=Internal/E=External/A=All', default="external")
+    parser.add_argument('-t', '--threshold', type=int, help='White threshold to check pixels', default=210)
+    parser.add_argument('-p', '--px-threshold', type=int, help='Amount of pixel threshold to skip white tiles', default=350)
     parser.add_argument('--undersampling', type=int, help='Undersampling factor of tiles', default=4)
 
     args = parser.parse_args()
@@ -42,6 +76,8 @@ if __name__ == '__main__':
     config_dir = set_config(cfg, train_config)
 
     undersampling = args.undersampling
+    white_threshold = args.threshold
+    px_threshold = args.px_threshold
 
     model_folder = os.path.join(ROOT_DIR, 'mescnn', 'detection', 'logs', model_name, config_dir)
     logs_dir = os.path.join(model_folder, 'output')
@@ -79,6 +115,7 @@ if __name__ == '__main__':
     offset_wsi = []
 
     counts = 0
+
     for dd, d in enumerate(tqdm.tqdm(dataset_dicts)):
         filename = d["file_name"]
         base_name = os.path.basename(filename)
@@ -87,6 +124,12 @@ if __name__ == '__main__':
         logging.info(f"Basename: {base_name}, x_off: {x1_off}, y_off: {y1_off}")
 
         im = cv2.imread(filename)
+        # Check if the tile has tissue in it
+        bool_tissue_mask = get_tissue_mask_hsv_cv2(im, white_threshold)
+        if bool_tissue_mask.sum() < px_threshold:
+            logging.info(f"No tissue detected in {filename}!")
+            continue
+
         start_time = time.time()
         outputs = predictor(im)
         classes = outputs["instances"].get("pred_classes").cpu().numpy()
@@ -117,6 +160,7 @@ if __name__ == '__main__':
                 offset_wsi.append((x1_off, y1_off))
                 counts = counts + 1
 
+    print(f"Total tiles kept: {counts}")
     print(f"Before NMS: {len(bboxes_wsi)}")
     idxs = nms(bboxes_wsi, scores_wsi, threshold_iou=0.4, threshold_iom=0.4, return_idxs=True)
     print(f"After  NMS: {len(idxs)}")

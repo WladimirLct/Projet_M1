@@ -143,6 +143,7 @@ def analyze():
 
         # Remove the folder "./Data/Export/Temp" and all its contents
         os.system("rm -r ./Data/Export/Temp")
+        os.system("rm -r ./Data/Export/QuPathProject")
         os.makedirs('./Data/Export/Temp')
 
         filename = secure_filename(file.filename)
@@ -238,8 +239,8 @@ def download(dl_type):
         return send_file(temp_dir + "/" + wsi_path)
     elif dl_type == 'crops':
         wsi_path = os.listdir(crops_dir)[0] + '/'
-        os.system(f"zip -rtemp_dir + 'crops.zip {crops_dir + wsi_path}")
-        return send_file(temp_dir + 'crops.zip')
+        os.system(f"zip -r {temp_dir}/crops.zip {crops_dir + wsi_path}")
+        return send_file(temp_dir + '/crops.zip')
     
 
 if __name__ == '__main__':
