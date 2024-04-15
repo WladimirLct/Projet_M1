@@ -10,6 +10,9 @@ from mescnn.detection.model.config import SegmentationModelName
 from mescnn.detection.qupath.config import PathMESCnn, PathWSI, get_wsis
 
 def mescnn_function(socketio, room_id, process_data):
+    white_threshold = "205"
+    px_threshold = "1000"
+
     # Find files in the folder "current-file"
     files = os.listdir('./current-files/')
     path = './current-files/' + files[0]
@@ -78,7 +81,9 @@ def mescnn_function(socketio, room_id, process_data):
                             "--wsi", wsi,
                             "--export", path_to_export,
                             "--qupath", qupath_segm_dir,
-                            "--model", detection_model])
+                            "--model", detection_model,
+                            "--threshold", white_threshold,
+                            "--px-threshold", px_threshold,])
     else:
         logging.info(f"Skipping run of {PathMESCnn.SEGMENT}!")
 
