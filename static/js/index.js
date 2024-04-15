@@ -27,10 +27,10 @@ form.addEventListener('submit', function(event) {
         progress += 1; // Increment progress more slowly
         loadingBar.style.width = `${progress}%`;
 
-        if (progress >= 100) {
+        if (progress >= 85) {
             clearInterval(interval);
         }
-    }, 100); // Adjust speed for a more gradual progress
+    }, 150); // Adjust speed for a more gradual progress
 
     fetch('/analyze', {
         method: 'POST',
