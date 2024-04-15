@@ -1,9 +1,9 @@
 import os
 import logging
 import subprocess
-import pandas as pd
 import time
 
+from utils import update_server_data
 from mescnn.definitions import ROOT_DIR
 from mescnn.classification.gutils.config import OxfordModelNameCNN
 from mescnn.detection.model.config import SegmentationModelName
@@ -163,7 +163,7 @@ def mescnn_function(socketio, room_id, process_data):
 
         use_vit_M = use_vit_E = use_vit_S = use_vit_C = use_vit
         if file_type == "wsi":
-            socketio.emit('me4ssage', {"text": 'Calculating Oxford score...', "step": -1}, room=room_id)
+            socketio.emit('message', {"text": 'Calculating Oxford score...', "step": -1}, room=room_id)
         else :
             socketio.emit('message', {"text": 'Classifying image...', "step": -1}, room=room_id)
         socketio.sleep(0.2)
@@ -190,7 +190,7 @@ def mescnn_function(socketio, room_id, process_data):
         process_data.time = processing_time
         process_data.type = file_type
 
-        update_server_data(process_data)
+        update_server_data(process_data, process_data.file_name, process_data.type)
 
         #! Fin
         if file_type == "wsi":
@@ -206,70 +206,3 @@ def mescnn_function(socketio, room_id, process_data):
         socketio.sleep(5)
         socketio.emit('message', {"text": '/errored', "step": 4}, room=room_id)
         return
-
-
-
-def update_server_data(process_data):
-    base_path = "./Data/Export/"
-    report_dir = "Report/"
-    temp_dir = "Temp/"
-
-    wsi_path = os.listdir(base_path + temp_dir)
-
-    wsi_path = [w for w in wsi_path if '.csv' in w]
-    wsi_path = wsi_path[0]
-
-    #! Classification
-    csv_content = pd.read_csv(base_path + temp_dir + wsi_path, sep=';', header=None)
-    df = csv_content.values.tolist()
-    df = pd.DataFrame(df[1:], columns=df[0])
-
-    process_data.classification_csv = df.copy()
-
-    if process_data.type == "img" :
-        name_img = process_data.file_name.split('.')[0]
-        df = pd.read_csv(base_path + temp_dir + name_img + '.csv', sep=';')
-        
-        dfp = df.copy()
-        dfp = dfp[[c for c in dfp.columns if '-prob' in c]]
-        dfp.columns = [c[0] for c in dfp.columns]
-        prob = dfp.to_dict(orient='records')[0]
-        process_data.prob = prob
-        
-        #Only keep columns with "-bin" in it
-        df = df[[c for c in df.columns if '-bin' in c]]
-        # Only keep the first character of the column name
-        df.columns = [c[0] for c in df.columns]
-        # Transform to dictionary
-        score = df.to_dict(orient='records')[0]
-        process_data.score = score
-
-    else :
-        #! Process WSI results
-        # Calculate the histogram using the columns of the dataframe
-        histogram = df.iloc[:, 5:9].astype('float').sum().to_dict()
-
-        # Only keep the first character of the column name (M-bin -> M)
-        histogram = {k[0]: v for k, v in histogram.items()}
-        histogram['total'] = len(df)
-
-        process_data.crop_amount = len(df)
-
-        df = pd.read_csv(base_path + report_dir + '/Oxford.csv', sep=';')
-        # Only keep the values if the WSI-ID is contained in the filename
-        df = df[df['WSI-ID'].str.contains(process_data.file_name.split('.')[0])]
-
-        # Only keep columns with "-score" in it
-        df = df[[c for c in df.columns if '-score' in c]]
-
-        # Only keep the second character of each value
-        df = df.map(lambda x: int(x[1]))
-
-        # Only keep the first character of the column name
-        df.columns = [c[0] for c in df.columns]
-
-        # Transform to dictionary
-        oxford = df.to_dict(orient='records')[0]
-
-        process_data.histogram = histogram
-        process_data.score = oxford

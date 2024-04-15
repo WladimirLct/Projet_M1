@@ -11,8 +11,8 @@
 </head>
 
 <body class="flex flex-col h-dvh">
-    <nav class="top-0 bg-white border-gray-200 w-[100%] shadow-sm">
-        <div class="container sticky z-50 mx-auto">
+    <nav class="z-50 top-0 bg-white border-gray-200 w-[100%] shadow-sm">
+        <div class="container sticky mx-auto">
             <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto py-12">
                 <ul class="flex items-center space-x-8">
                     <li>
@@ -135,12 +135,16 @@
                         </div>
                     </div>
 
+                    <a href="/results/0" class="my-4 text-center duration-200 bg-transparent hover:bg-teal-500 text-teal-700 font-semibold hover:text-white py-4 px-8 border-4 border-teal-500 hover:border-transparent rounded">
+                        Show each glomerulus' classification
+                    </a>
+                    
                     <div class="flex justify-between">
-                        <a href="/download/crops" download="Crops.zip" class="duration-200 bg-teal-500 hover:bg-teal-700 text-white font-bold py-4 px-8 rounded">
+                        <a href="/download/crops" download="Crops.zip" class="text-center duration-200 bg-teal-500 hover:bg-teal-700 text-white font-bold py-4 px-8 rounded">
                             Download crops
                         </a>
 
-                        <a href="/download/report" download="Report.csv" class="duration-200 bg-transparent hover:bg-teal-500 text-teal-700 font-semibold hover:text-white py-4 px-8 border-4 border-teal-500 hover:border-transparent rounded">
+                        <a href="/download/report" download="Report.csv" class="text-center duration-200 bg-transparent hover:bg-teal-500 text-teal-700 font-semibold hover:text-white py-4 px-8 border-4 border-teal-500 hover:border-transparent rounded">
                             Download report
                         </a>
                     </div>
@@ -150,13 +154,29 @@
         {% else%}
             <div class="container mx-auto h-4/5 grow">
                 <div class="flex h-full w-full justify-around">
-        
-        
                     <div class="flex justify-center w-1/2 flex-col items-center bg-white">
+                        {% if is_glomerulus %}
+                            <div class="flex justify-around w-full">
+                                <a href="/results/{{ glomerulus_index - 1 }}" class="text-2xl font-bold">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3.5" stroke="#1e1b4b" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                                    </svg>
+                                  </a>
+                                <a href="/results/{{ glomerulus_index + 1 }}" class="text-2xl font-bold">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3.5" stroke="#1e1b4b" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                                    </svg>
+                                </a>
+                            </div>
+                        {% endif %}
                         <div class="bg-indigo-950 overflow-hidden rounded-full p-8 mb-4">
-                            <img src="/get_img" class="w-[500px] rounded-full mix-blend-screen" alt="">
+                            {% if is_glomerulus %}
+                                <img src="/get_crop/{{ file_name }}" class="w-[500px] rounded-full mix-blend-screen" alt="">
+                            {% else %}
+                                <img src="/get_crop" class="w-[500px] rounded-full mix-blend-screen" alt="">
+                            {% endif %}
                         </div>
-                        <p class="font-italic">{{file_name}}</p>
+                        <p class="font-italic">{{ file_name }}</p>
         
                     </div>
         
@@ -164,10 +184,10 @@
                         <!-- Titre -->
                         <div class="flex flex-row">
                             <h1 class="text-4xl font-bold pb-2">
-                                The glomeruli seems in
+                                This glomerulus seems in
                                 <span class="text-[#8C6A98]">
-                                    {%if score.M or score.E or score.S or score.C %} bad 
-                                    {% else %}  good 
+                                    {%if score.M or score.E or score.S or score.C %} poor
+                                    {% else %} good 
                                     {% endif %}
                                 </span>
                                 health
@@ -198,7 +218,7 @@
                             </div>
                         </div>
                         <div class="flex flex row mt-8 w-3/4">
-                            For information, M stands for mesangial hypercellularity ( Increased numbers of mesangial cells per glomerulus ), E stands for endocapillary hypercellularity (the presence of cells within capillary lumina, not by the matrix), S stands for segmental sclerosis ( scar tissue in the filtering unit of the kidney ), C stands for active crescents (two or more layers of proliferating cells in Bowman's space). 
+                            In this context, "M" signifies mesangial hypercellularity, which denotes an elevated count of mesangial cells per glomerulus. "E" stands for endocapillary hypercellularity, indicating the presence of cells within capillary lumina rather than the matrix. "S" represents segmental sclerosis, denoting the formation of scar tissue in the kidney's filtering unit. Lastly, "C" denotes active crescents, characterized by two or more layers of proliferating cells in Bowman's space.
                         </div>
                     </div>
                 </div>

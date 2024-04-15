@@ -16,11 +16,11 @@ app._static_folder = os.path.abspath("./static/")
 
 
 report_dir = "./Data/Export/Report"
-temp_dir = "./Data/Export/Temp"
-tiles_dir = temp_dir + '/tiler-output/Tiles/'
-masks_dir = temp_dir + '/segment-output/Masks/'
-crops_dir = temp_dir + '/json2exp-output/Crop-256/'
-full_crops_dir = temp_dir + '/json2exp-output/Original/'
+temp_dir = "./Data/Export/Temp/"
+tiles_dir = temp_dir + 'tiler-output/Tiles/'
+masks_dir = temp_dir + 'segment-output/Masks/'
+crops_dir = temp_dir + 'json2exp-output/Crop-256/'
+full_crops_dir = temp_dir + 'json2exp-output/Original/'
 
 
 class ProcessInfo:
@@ -42,9 +42,11 @@ process_data = ProcessInfo()
 def home():
     return render_template('index.html', history=get_history(), errored=False)
 
+
 @app.route('/errored')
 def errored():
     return render_template('index.html', errored=True)
+
 
 currently_analyzing = False
 @socketio.on('process_img')
@@ -58,11 +60,10 @@ def process_img():
     mescnn_function(socketio, request.sid, process_data)
     currently_analyzing = False
 
-
 @app.route('/results')
 def results():
     if (process_data.file_name != None):
-        select_crops()
+        select_crops(process_data)
         return render_template('results.html',
             score=process_data.score,
             file_name=process_data.file_name, 
@@ -76,42 +77,30 @@ def results():
         )
     else:
         return render_template('results.html', is_empty=True, history=get_history())
+    
+@app.route('/results/<crop_index>')
+def show_crop_detail(crop_index=0):
+    crop_index = int(crop_index)
+    if (process_data.file_name != None):
+        prob, score = get_img_prob_score(temp_dir, process_data.file_name, crop_index)
+        crop_name = crop_file_name(crop_index)
+        return render_template('results.html',
+            prob = prob,
+            score=score,
+            file_name=crop_name,
+            glomerulus_index=crop_index,
+            is_glomerulus=True,
+            is_empty=False,
+            type="img",
+            history=get_history(),
+        )
+    else:
+        return render_template('results.html', is_empty=True, history=get_history())
  
  
 @app.route('/about')
 def about():
     return render_template('about.html')
-
-
-def select_crops():
-    csv = process_data.classification_csv
-    # Convert M-bin, E-bin, S-bin and C-bin to integers
-    csv['M-bin'] = csv['M-bin'].astype('int'); csv['E-bin'] = csv['E-bin'].astype('int');
-    csv['S-bin'] = csv['S-bin'].astype('int'); csv['C-bin'] = csv['C-bin'].astype('int');
-    
-    # Keep only crops that have any of their M-bin, E-bin, S-bin or C-bin = 1
-    selected_crops = csv[(csv['M-bin'] == 1) | (csv['E-bin'] == 1) | (csv['S-bin'] == 1) | (csv['C-bin'] == 1)]
-
-    # Shuffle the dataframe
-    selected_crops = selected_crops.sample(frac=1)
-    selected_crops = selected_crops.head(6)
-
-    # Only keep the filename and what bins are 1
-    selected_crops = selected_crops[['filename', 'M-bin', 'E-bin', 'S-bin', 'C-bin']]
-
-    # Only keep the final part of the filename
-    selected_crops['filename'] = selected_crops['filename'].map(lambda x: x.split('/')[-1])
-
-    # If the file has M-bin, set it's column "detected" to "M" etc
-    selected_crops['detected'] = selected_crops.apply(detect_crop, axis=1)
-
-    # Only keep the filename and detected columns
-    selected_crops = selected_crops[['filename', 'detected']]
-    
-    # Convert the dataframe to a list of dictionaries
-    selected_crops = selected_crops.to_dict(orient='records')
-    process_data.selected_crops = selected_crops
-
 
 @app.route('/hist')
 def hist():
@@ -209,6 +198,12 @@ def send_crops():
     return {'result': crops}
 
 
+@app.route('/get_crop')
+def get_img():
+    img_path = os.listdir(files_path)[0]
+    return send_file(files_path + img_path)
+
+
 @app.route('/get_crop/<crop>')
 def get_crop(crop):
     wsi_path = os.listdir(crops_dir)[0] + '/'
@@ -221,12 +216,6 @@ def get_full_crop(crop):
     return send_file(full_crops_dir + wsi_path + crop)
 
 
-img_dir = './current-files/'
-@app.route('/get_img')
-def get_img():
-    img = os.listdir(img_dir)[0]
-    return send_file(img_dir + img)
-
 
 @app.route('/download/<dl_type>')
 def download(dl_type):
@@ -236,11 +225,11 @@ def download(dl_type):
         # Remove the file with Oxford in it
         wsi_path = [w for w in wsi_path if '.csv' in w]
         wsi_path = wsi_path[0]
-        return send_file(temp_dir + "/" + wsi_path)
+        return send_file(temp_dir + wsi_path)
     elif dl_type == 'crops':
         wsi_path = os.listdir(crops_dir)[0] + '/'
-        os.system(f"zip -r {temp_dir}/crops.zip {crops_dir + wsi_path}")
-        return send_file(temp_dir + '/crops.zip')
+        os.system(f"zip -r {temp_dir}crops.zip {crops_dir + wsi_path}")
+        return send_file(temp_dir + 'crops.zip')
     
 
 if __name__ == '__main__':
