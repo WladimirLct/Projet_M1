@@ -20,6 +20,8 @@ def get_history():
             name = row[0]  # First column
             score = ''.join(map(str, row[1:5]))  # Concatenate values from second to fourth column
             history.append({'name': name, 'score': score, 'date': row[9], 'filesize': int(row[10]/1_000_000)})
+            
+        history.reverse()
         return history
     
     except FileNotFoundError:
