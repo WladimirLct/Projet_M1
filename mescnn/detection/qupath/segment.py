@@ -115,8 +115,6 @@ if __name__ == '__main__':
     offset_wsi = []
 
     counts = 0
-    white_tiles = []
-    picked_tiles = []
 
     for dd, d in enumerate(tqdm.tqdm(dataset_dicts)):
         filename = d["file_name"]
@@ -129,10 +127,8 @@ if __name__ == '__main__':
         # Check if the tile has tissue in it
         bool_tissue_mask = get_tissue_mask_hsv_cv2(im, white_threshold)
         if bool_tissue_mask.sum() < px_threshold:
-            white_tiles.append(filename)
             logging.info(f"No tissue detected in {filename}!")
             continue
-        picked_tiles.append(filename)
 
         start_time = time.time()
         outputs = predictor(im)
@@ -165,14 +161,6 @@ if __name__ == '__main__':
                 counts = counts + 1
 
     print(f"Total tiles kept: {counts}")
-    # Dump white tiles into a csv file, same for picked tiles
-    with open(os.path.join(detection_dir, 'white_tiles.csv'), 'w') as f:
-        for item in white_tiles:
-            f.write("%s\n" % item)
-    with open(os.path.join(detection_dir, 'picked_tiles.csv'), 'w') as f:
-        for item in picked_tiles:
-            f.write("%s\n" % item)
-        
     print(f"Before NMS: {len(bboxes_wsi)}")
     idxs = nms(bboxes_wsi, scores_wsi, threshold_iou=0.4, threshold_iom=0.4, return_idxs=True)
     print(f"After  NMS: {len(idxs)}")
