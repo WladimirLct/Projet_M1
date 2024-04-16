@@ -159,7 +159,7 @@ if __name__ == '__main__':
                 
             if not os.path.exists(net_path):
                 print(f"Path: {net_path} not found!")
-                model_path = download_classifier(net_name, target, train_version, net_type)
+                model_path = download_classifier(net_name, target, train_version, net_type, use_our_models[target])
                 print(f"Downloaded: {model_path}")
             else:
                 print(f"Path: {net_path} found!")
