@@ -14,6 +14,7 @@
     animation: slideDown 0.5s ease forwards;
 }
 
+
 @keyframes slideLeft {
     from {
         transform: translateX(500px);
