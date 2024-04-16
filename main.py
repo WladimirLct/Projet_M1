@@ -159,9 +159,9 @@ def analyze():
         
 
         # Remove the folder "./Data/Export/Temp" and all its contents
-        # os.system("rm -r ./Data/Export/Temp")
-        # os.system("rm -r ./Data/Export/QuPathProject")
-        # os.makedirs('./Data/Export/Temp')
+        os.system("rm -r ./Data/Export/Temp")
+        os.system("rm -r ./Data/Export/QuPathProject")
+        os.makedirs('./Data/Export/Temp')
 
         filename = secure_filename(file.filename)
         file.save(os.path.join(files_path, filename))

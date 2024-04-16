@@ -35,7 +35,12 @@ if __name__ == '__main__':
     parser.add_argument('--tverC', type=str, help='Training version for M lesion', default="V3")
     parser.add_argument('--path_wsi', type=str, help='Path to WSI', default=None)
     parser.add_argument('--img', type=str2bool, help='Use image', default=False)
+    parser.add_argument('--filterM', type=str2bool, help='Use our model ', default=False)
+    parser.add_argument('--filterE', type=str2bool, help='Use our model ', default=False)
+    parser.add_argument('--filterS', type=str2bool, help='Use our model ', default=False)
+    parser.add_argument('--filterC', type=str2bool, help='Use our model ', default=False)
     args = parser.parse_args()
+
 
     use_vit_dict = {
         "M": args.vitM,
@@ -57,6 +62,15 @@ if __name__ == '__main__':
         "S": args.tverS,
         "C": args.tverC,
     }
+    
+    use_our_models = {
+        "M" : args.filterM,
+        "E" : args.filterE,
+        "S" : args.filterS,
+        "C" : args.filterC,
+    }
+    
+    print(use_our_models)
 
     criterion_pr = "min"
     root_path = args.root_path
@@ -138,10 +152,11 @@ if __name__ == '__main__':
             net_name = net_name_dict[target]
             train_version = tver_dict[target]
 
-            if net_name == 'efficientnetv2-m_E_V3_fine_tuned' or 'densenet161_S_V3_fine_tuned' or 'mobilenetv2_C_V3_fine_tuned':    
-                net_path = os.path.join(net_fold, 'holdout', f'{net_name}.pth')
+            if use_our_models[target] : 
+                net_path = os.path.join(net_fold, 'holdout', f'{net_name}_{target}_{train_version}_fine_tuned.pth')
             else : 
                 net_path = os.path.join(net_fold, 'holdout', f'{net_name}_{target}_{train_version}.pth')
+                
             if not os.path.exists(net_path):
                 print(f"Path: {net_path} not found!")
                 model_path = download_classifier(net_name, target, train_version, net_type)

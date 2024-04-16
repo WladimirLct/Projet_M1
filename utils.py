@@ -138,7 +138,8 @@ def update_server_data(process_data, file_name, data_type):
         df = pd.read_csv(base_path + report_dir + '/Oxford.csv', sep=';')
         # Only keep the values if the WSI-ID is contained in the filename
         df = df[df['WSI-ID'].str.contains(file_name.split('.')[0])]
-
+        # Only keep the last row
+        df = df.tail(1)
         # Only keep columns with "-score" in it
         df = df[[c for c in df.columns if '-score' in c]]
 
