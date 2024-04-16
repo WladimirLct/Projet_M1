@@ -1,6 +1,9 @@
 import os
 import random
+import json 
+
 from utils import *
+
 
 from flask import Flask, render_template, request, send_file
 from flask_socketio import SocketIO, join_room, leave_room
@@ -22,6 +25,20 @@ masks_dir = temp_dir + 'segment-output/Masks/'
 crops_dir = temp_dir + 'json2exp-output/Crop-256/'
 full_crops_dir = temp_dir + 'json2exp-output/Original/'
 
+class FilterData:
+    def __init__(self):
+        self.M_filter = False
+        self.E_filter = False
+        self.S_filter = False
+        self.C_filter = False
+
+    def update_from_json(self, json_data):
+        self.M_filter = json_data.get("M_filter", False)
+        self.E_filter = json_data.get("E_filter", False)
+        self.S_filter = json_data.get("S_filter", False)
+        self.C_filter = json_data.get("C_filter", False)
+
+filter_data = FilterData()
 
 class ProcessInfo:
     in_progress = False
@@ -57,7 +74,7 @@ def process_img():
         return
     
     currently_analyzing = True
-    mescnn_function(socketio, request.sid, process_data)
+    mescnn_function(socketio, request.sid, process_data, filter_data)
     currently_analyzing = False
 
 @app.route('/results')
@@ -116,7 +133,17 @@ def analyze():
     file = request.files['file']
     if file.filename == '':
         return 'No selected file', 400
-    
+
+    # Extract filter data
+    filter_data_json = request.form.get('filter')
+    if filter_data_json:
+        try:
+            filter_data_json = json.loads(filter_data_json)
+            filter_data.update_from_json(filter_data_json)
+        except json.JSONDecodeError:
+            return 'Invalid JSON data', 400
+   
+        
     # If there is a process in progress, return an error
     if process_data.in_progress:
         return 'There is already a process in progress', 400
@@ -129,11 +156,12 @@ def analyze():
         for f in files:
             # if (".zip" not in f):
             os.remove(files_path + f)
+        
 
         # Remove the folder "./Data/Export/Temp" and all its contents
-        os.system("rm -r ./Data/Export/Temp")
-        os.system("rm -r ./Data/Export/QuPathProject")
-        os.makedirs('./Data/Export/Temp')
+        # os.system("rm -r ./Data/Export/Temp")
+        # os.system("rm -r ./Data/Export/QuPathProject")
+        # os.makedirs('./Data/Export/Temp')
 
         filename = secure_filename(file.filename)
         file.save(os.path.join(files_path, filename))

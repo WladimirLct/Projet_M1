@@ -12,6 +12,9 @@ class OxfordModelNameCNN:
     MobileNet_V2 = "mobilenetv2"
     SqueezeNet1_0 = "squeezenet"
     Inception_V3 = "inceptionv3"
+    OurE = "efficientnetv2-m_E_V3_fine_tuned"
+    OurS = "densenet161_S_V3_fine_tuned"
+    OurC = "mobilenetv2_C_V3_fine_tuned"
 
 
 class OxfordModelNameViT:

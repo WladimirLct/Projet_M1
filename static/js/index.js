@@ -6,6 +6,11 @@ const analyze_btn = document.getElementById('analyze-btn');
 
 let form = document.getElementById('dropzone-form');
 
+let M_filter = document.getElementById('M');
+let E_filter = document.getElementById('E');
+let S_filter = document.getElementById('S');
+let C_filter = document.getElementById('C');
+
 form.addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -15,7 +20,17 @@ form.addEventListener('submit', function(event) {
     let formData = new FormData();
     let fileField = document.querySelector('input[type="file"]');
 
+    let filterData = {
+        "M_filter" : M_filter.checked,
+        "E_filter" : E_filter.checked,
+        "S_filter" : S_filter.checked,
+        "C_filter" : C_filter.checked
+    }
+
     formData.append('file', fileField.files[0]);
+    formData.append('filter', JSON.stringify(filterData))
+
+    
 
     loadingBarContainer.classList.remove('hidden'); // Show loading bar container
     loadingBar.style.transition = 'width 0.2s'; // Add transition effect

@@ -138,7 +138,10 @@ if __name__ == '__main__':
             net_name = net_name_dict[target]
             train_version = tver_dict[target]
 
-            net_path = os.path.join(net_fold, 'holdout', f'{net_name}_{target}_{train_version}.pth')
+            if net_name == 'efficientnetv2-m_E_V3_fine_tuned' or 'densenet161_S_V3_fine_tuned' or 'mobilenetv2_C_V3_fine_tuned':    
+                net_path = os.path.join(net_fold, 'holdout', f'{net_name}.pth')
+            else : 
+                net_path = os.path.join(net_fold, 'holdout', f'{net_name}_{target}_{train_version}.pth')
             if not os.path.exists(net_path):
                 print(f"Path: {net_path} not found!")
                 model_path = download_classifier(net_name, target, train_version, net_type)

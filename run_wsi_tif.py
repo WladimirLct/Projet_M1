@@ -9,7 +9,9 @@ from mescnn.classification.gutils.config import OxfordModelNameCNN
 from mescnn.detection.model.config import SegmentationModelName
 from mescnn.detection.qupath.config import PathMESCnn, PathWSI, get_wsis
 
-def mescnn_function(socketio, room_id, process_data):
+def mescnn_function(socketio, room_id, process_data, filter):
+    
+   
     white_threshold = "205"
     px_threshold = "1000"
 
@@ -150,10 +152,15 @@ def mescnn_function(socketio, room_id, process_data):
 
 
     if test_classify:
+        
+       
         net_M = OxfordModelNameCNN.EfficientNet_V2_M
         net_E = OxfordModelNameCNN.EfficientNet_V2_M
         net_S = OxfordModelNameCNN.DenseNet161
         net_C = OxfordModelNameCNN.MobileNet_V2
+        
+        
+        
         use_vit = False
         
         if file_type == "img":
@@ -176,7 +183,8 @@ def mescnn_function(socketio, room_id, process_data):
                         "--netS", net_S, "--vitS", str(use_vit_S),
                         "--netC", net_C, "--vitC", str(use_vit_C),
                         "--path_wsi", wsis[0],
-                        "--img", str(img)]),
+                        "--img", str(img)
+                        ]),
 
     else:
         logging.info(f"Skipping run of {PathMESCnn.CLASSIFY}")
