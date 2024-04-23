@@ -1,7 +1,9 @@
 
 # Fionn AI Project
 
-This README contains the instructions required for configuring and operating the Fionn AI platform. Fionn AI is designed for WSI (Whole Slide Image) Oxford scoring, featuring a user-friendly and intuitive interface. The platform aims to substantially reduce the diagnosis time for IgA Nephropathy by enabling doctors with minimal AI and machine learning experience to utilize advanced diagnostic tools. Key functionalities include scoring of entire slide images and classification of individual glomeruli. Additionally, doctors can access a history of analyzed WSIs and view detailed results on the platform.
+This README contains the instructions required for configuring and operating the Fionn AI platform. 
+Fionn AI is designed for WSI (Whole Slide Image) **Oxford scoring**, featuring a **user-friendly and intuitive interface**. The platform aims to substantially reduce the diagnosis time for IgA Nephropathy by enabling doctors with minimal AI and machine learning experience to utilize advanced diagnostic tools.
+Key functionalities include **scoring of entire slide images** and **classification of individual glomeruli**. Additionally, doctors can access a history of analyzed WSIs and view detailed results on the platform.
 
 ## System Requirements and Dependencies
 
