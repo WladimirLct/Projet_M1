@@ -1,0 +1,2 @@
+qupath_dir="path/to/your/qupath/installation"
+MOCK_BACKEND=false

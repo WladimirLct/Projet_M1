@@ -8,9 +8,6 @@ Export/
 # For the models
 *.pth
 
-# For the paquo file
-*.toml
-
 # Byte-compiled / optimized / DLL files
 */__pycache__/
 *.pyc
